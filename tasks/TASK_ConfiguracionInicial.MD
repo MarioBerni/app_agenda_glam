@@ -26,8 +26,6 @@ Este archivo detalla los pasos necesarios para configurar la estructura base, de
         - [X] Crear `lib/core/network` (Para configuración base de red, si se usará más adelante)
     - [X] Crear `lib/features` (Contendrá los módulos de funcionalidades)
         - *Inicialmente vacío*
-    - [X] Crear `test/core` (Para pruebas unitarias/widget de `lib/core`)
-    - [X] Crear `test/features` (Para pruebas unitarias/widget de `lib/features`)
 
 4.  **Gestión de Dependencias (`pubspec.yaml`):**
     - [X] Añadir dependencias principales:
@@ -35,12 +33,13 @@ Este archivo detalla los pasos necesarios para configurar la estructura base, de
         - [X] `freezed_annotation` (Para modelos y estados inmutables)
         - [X] `get_it` (Para Inyección de Dependencias)
         - [X] `equatable` (Para comparación de objetos, útil con BLoC/estados)
-        - [ ] (Opcional) Añadir `go_router` o similar para navegación avanzada.
+        - [X] `go_router` (Para navegación avanzada y declarativa)
+        - [X] `flutter_svg` (Para manejo de imágenes vectoriales e iconos)
+        - [X] `intl` (Para formateo de fechas y horas, esencial para una app de agendamiento)
+        - [X] `cached_network_image` (Para carga eficiente de imágenes con caché)
     - [X] Añadir dependencias de desarrollo (`dev_dependencies`):
         - [X] `build_runner` (Para generación de código)
         - [X] `freezed` (Generador para `freezed_annotation`)
-        - [X] `bloc_test` (Para probar BLoCs/Cubits)
-        - [X] `mocktail` o `mockito` (Para mocking en pruebas)
         - [X] `flutter_lints` (o linter preferido) para análisis estático.
     - [X] Ejecutar `flutter pub get` para descargar las dependencias.
 
@@ -55,6 +54,9 @@ Este archivo detalla los pasos necesarios para configurar la estructura base, de
     - [X] Crear y usar un widget `App` raíz (ej. `MaterialApp` o `CupertinoApp`).
     - [X] Aplicar el `ThemeData` definido.
     - [X] Configurar el sistema de rutas inicial (si se usa `go_router` o similar).
+    - [X] Configurar BlocObserver para depuración en modo desarrollo.
+    - [X] Implementar estructura básica de navegación con go_router.
+    - [X] Añadir pantalla inicial o splash screen básico.
 
 7.  **Definición del Tema (`AppTheme`):**
     - [X] Crear `lib/core/theme/app_theme.dart`.
@@ -62,6 +64,8 @@ Este archivo detalla los pasos necesarios para configurar la estructura base, de
     - [X] Definir la tipografía (fuentes, tamaños, pesos).
     - [X] Crear el `ThemeData` (modo oscuro) con los colores y tipografía.
     - [X] Definir estilos específicos para widgets comunes (AppBar, Button, Card, TextField, etc.).
+    - [X] Implementar el tema proporcionado con todas las configuraciones detalladas (colores con opacidad, estilos de componentes, etc.).
+    - [X] Añadir archivo separado para constantes de tema (`lib/core/theme/app_theme_constants.dart`).
 
 8.  **Configuración de Inyección de Dependencias (`GetIt`):**
     - [X] Crear `lib/core/di/injection_container.dart` (o `service_locator.dart`).
@@ -74,8 +78,25 @@ Este archivo detalla los pasos necesarios para configurar la estructura base, de
     - [X] (Opcional) Añadir reglas personalizadas.
 
 10. **Commit Final de Configuración:**
-    - [ ] Añadir todos los cambios (`git add .`).
-    - [ ] Realizar un commit (`git commit -m "feat: configure project base structure, dependencies, theme, DI, and linter"`).
-    - [ ] Subir cambios al repositorio remoto (`git push`).
+    - [X] Verificar que toda la estructura de carpetas sigue las directrices de Clean Architecture.
+    - [X] Asegurar que el archivo `.gitignore` incluye todos los archivos generados relevantes.
+    - [X] Añadir todos los cambios (`git add .`).
+    - [X] Realizar un commit (`git commit -m "feat: configure project base structure, dependencies, theme, DI, and linter"`).
+    - [X] Subir cambios al repositorio remoto (`git push`).
+
+11. **Configuración de Assets y Recursos:**
+    - [X] Crear carpeta `assets/` en la raíz del proyecto.
+    - [X] Crear subcarpetas para organizar los recursos:
+        - [X] `assets/images/` (Para imágenes bitmap)
+        - [X] `assets/icons/` (Para iconos SVG)
+        - [X] `assets/fonts/` (Para tipografías personalizadas si se requieren)
+    - [X] Configurar `pubspec.yaml` para incluir las carpetas de assets:
+        ```yaml
+        flutter:
+          assets:
+            - assets/images/
+            - assets/icons/
+        ```
+    - [X] Preparar estructura para recursos visuales (se añadirán en etapas posteriores).
 
 **Resultado Esperado:**

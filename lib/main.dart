@@ -1,10 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_agenda_glam/core/di/service_locator.dart';
-import 'package:app_agenda_glam/core/theme/app_theme.dart'; 
+import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/theme/app_theme.dart';
+
+/// Observer personalizado para debugging de BLoCs/Cubits
+class AppBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    debugPrint('${bloc.runtimeType} $change');
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    super.onError(bloc, error, stackTrace);
+    debugPrint('${bloc.runtimeType} $error $stackTrace');
+  }
+}
 
 void main() async { 
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Configurar el BlocObserver para depuración
+  Bloc.observer = AppBlocObserver();
+  
+  // Inicializar las dependencias con GetIt
   await initializeDependencies();
 
   runApp(const MyApp());
@@ -15,18 +36,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Agenda Glam',
-      theme: AppTheme.darkTheme, 
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   useMaterial3: true,
-      // ),
-      home: const Scaffold(
-        body: Center(
-          child: Text('Bienvenido a Agenda Glam'),
-        ),
-      ),
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.appTheme,
+      routerConfig: AppRouter.router,
     );
   }
 }

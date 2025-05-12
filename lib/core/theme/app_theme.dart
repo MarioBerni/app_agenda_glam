@@ -1,76 +1,208 @@
 import 'package:flutter/material.dart';
+import 'app_theme_constants.dart';
 
 class AppTheme {
-  // Define colores base para el tema oscuro
-  static const Color _primaryColorDark = Color(0xFFBB86FC); // Un púrpura suave como acento
-  static const Color _secondaryColorDark = Color(0xFF03DAC6); // Un teal como secundario
-  static const Color _backgroundColorDark = Color(0xFF121212); // Negro casi puro para fondo
-  static const Color _surfaceColorDark = Color(0xFF1E1E1E); // Un gris oscuro para superficies
-  static const Color _errorColorDark = Color(0xFFCF6679);
-  static const Color _onPrimaryColorDark = Colors.black;
-  static const Color _onSecondaryColorDark = Colors.black;
-  static const Color _onBackgroundColorDark = Colors.white;
-  static const Color _onSurfaceColorDark = Colors.white;
-  static const Color _onErrorColorDark = Colors.black;
-
-  static final ThemeData darkTheme = ThemeData(
+  /// El tema principal de la aplicación (tema oscuro elegante y masculino)
+  static final ThemeData appTheme = ThemeData(
     brightness: Brightness.dark,
-    primaryColor: _primaryColorDark,
+    primaryColor: kPrimaryColor,
+    scaffoldBackgroundColor: kBackgroundColor,
     colorScheme: const ColorScheme.dark(
-      primary: _primaryColorDark,
-      secondary: _secondaryColorDark,
-      background: _backgroundColorDark,
-      surface: _surfaceColorDark,
-      error: _errorColorDark,
-      onPrimary: _onPrimaryColorDark,
-      onSecondary: _onSecondaryColorDark,
-      onBackground: _onBackgroundColorDark,
-      onSurface: _onSurfaceColorDark,
-      onError: _onErrorColorDark,
-      // primaryVariant y secondaryVariant no están directamente en ColorScheme,
-      // se usan implícitamente o se definen en otros lugares si es necesario.
+      primary: kPrimaryColor,
+      secondary: kAccentColor,
+      surface: kSurfaceColor,
     ),
-    scaffoldBackgroundColor: _backgroundColorDark,
     appBarTheme: const AppBarTheme(
-      color: _surfaceColorDark, // Fondo de AppBar
-      elevation: 0,
-      iconTheme: IconThemeData(color: _onSurfaceColorDark),
+      backgroundColor: kPrimaryColor,
+      elevation: 2, // Ligera elevación para dar profundidad
+      shadowColor: Colors.black45, // Sombra sutil
+      iconTheme: IconThemeData(color: kOnPrimaryColor),
       titleTextStyle: TextStyle(
-        color: _onSurfaceColorDark,
+        color: kOnPrimaryColor,
         fontSize: 20.0,
         fontWeight: FontWeight.bold,
+        letterSpacing: 0.5, // Espaciado de letras para elegancia
       ),
+      centerTitle: true, // Centrar título por defecto
     ),
     textTheme: const TextTheme(
-      // Define estilos de texto si es necesario
-      // Por ejemplo, para asegurar buena legibilidad
-      bodyLarge: TextStyle(color: _onBackgroundColorDark),
-      bodyMedium: TextStyle(color: _onSurfaceColorDark),
-      titleLarge: TextStyle(fontWeight: FontWeight.bold),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: _primaryColorDark,
-        foregroundColor: _onPrimaryColorDark,
+      // Títulos
+      displayLarge: TextStyle(
+        color: kTextColor,
+        fontWeight: FontWeight.w300,
+        letterSpacing: 0.5,
+      ),
+      displayMedium: TextStyle(
+        color: kTextColor,
+        fontWeight: FontWeight.w300,
+        letterSpacing: 0.5,
+      ),
+      displaySmall: TextStyle(
+        color: kTextColor,
+        fontWeight: FontWeight.w400,
+        letterSpacing: 0.5,
+      ),
+
+      // Encabezados
+      headlineLarge: TextStyle(
+        color: kTextColor,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0.5,
+      ),
+      headlineMedium: TextStyle(
+        color: kTextColor,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.25,
+      ),
+      headlineSmall: TextStyle(
+        color: kTextColor,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.25,
+      ),
+
+      // Cuerpo de texto
+      bodyLarge: TextStyle(color: kTextColor, letterSpacing: 0.15),
+      bodyMedium: TextStyle(color: kSecondaryTextColor, letterSpacing: 0.15),
+      bodySmall: TextStyle(color: kSecondaryTextColor, letterSpacing: 0.1),
+
+      // Etiquetas y botones
+      labelLarge: TextStyle(
+        color: kAccentColor,
+        fontWeight: FontWeight.bold,
+        letterSpacing: 0.5,
+      ),
+      labelMedium: TextStyle(
+        color: kAccentColor,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.5,
+      ),
+      labelSmall: TextStyle(
+        color: kSecondaryTextColor,
+        fontWeight: FontWeight.w500,
+        letterSpacing: 0.5,
       ),
     ),
+
+    // Botones elevados (principales)
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: kAccentColor,
+        foregroundColor: kOnAccentColor,
+        elevation: 3, // Mayor elevación para destacar
+        shadowColor: kAccentColorWithOpacity, // Sombra del color de acento
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+        textStyle: const TextStyle(
+          fontWeight: FontWeight.bold,
+          letterSpacing: 0.5,
+        ),
+      ),
+    ),
+
+    // Botones de texto (secundarios)
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: kAccentColor,
+        textStyle: const TextStyle(
+          fontWeight: FontWeight.w500,
+          letterSpacing: 0.5,
+        ),
+      ),
+    ),
+
+    // Botones con contorno
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: OutlinedButton.styleFrom(
+        foregroundColor: kAccentColor,
+        side: const BorderSide(color: kAccentColor, width: 1.5),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      ),
+    ),
+
+    // Campos de texto
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: _surfaceColorDark,
+      fillColor: kSurfaceColor,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide.none,
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: const BorderSide(color: _primaryColorDark),
+        borderSide: const BorderSide(color: kAccentColor, width: 2.0),
       ),
-      labelStyle: TextStyle(color: _onSurfaceColorDark.withOpacity(0.7)),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: const BorderSide(color: kErrorColor),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: const BorderSide(color: kErrorColor, width: 2.0),
+      ),
+      labelStyle: const TextStyle(color: kSecondaryTextColor),
+      hintStyle: TextStyle(color: kSecondaryTextColorWithOpacity),
+      prefixIconColor: kSecondaryTextColor,
+      suffixIconColor: kSecondaryTextColor,
     ),
-    useMaterial3: true,
-    // Puedes añadir más personalizaciones aquí (CardTheme, BottomNavigationBarTheme, etc.)
-  );
 
-  // Podrías definir un lightTheme aquí también si fuera necesario
-  // static final ThemeData lightTheme = ThemeData(...);
+    // Tarjetas
+    cardTheme: CardTheme(
+      elevation: 4,
+      shadowColor: kBlackWithOpacity,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      color: kSurfaceColor,
+      clipBehavior:
+          Clip.antiAlias, // Para imágenes y contenido que podría desbordar
+    ),
+
+    // Diálogos
+    dialogTheme: DialogTheme(
+      backgroundColor: kSurfaceColor,
+      elevation: 8,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+    ),
+
+    // Chips
+    chipTheme: ChipThemeData(
+      backgroundColor: kSurfaceColor,
+      disabledColor: kSurfaceColorWithOpacity,
+      selectedColor: kAccentColorLightBg,
+      secondarySelectedColor: kAccentColor,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      labelStyle: const TextStyle(color: kTextColor),
+      secondaryLabelStyle: const TextStyle(color: kOnAccentColor),
+      brightness: Brightness.dark,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16.0),
+        side: const BorderSide(color: kAccentColor),
+      ),
+    ),
+
+    // Iconos
+    iconTheme: const IconThemeData(color: kSecondaryTextColor, size: 24),
+
+    // Divisores
+    dividerTheme: const DividerThemeData(
+      color: Color(0xFF2D3A4A), // Un poco más claro que el color de superficie
+      thickness: 1,
+      space: 24,
+    ),
+
+    // SnackBar
+    snackBarTheme: SnackBarThemeData(
+      backgroundColor: kSurfaceColor,
+      contentTextStyle: const TextStyle(color: kTextColor),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+      behavior: SnackBarBehavior.floating,
+      actionTextColor: kAccentColor,
+    ),
+    
+    useMaterial3: true,
+  );
 }

@@ -41,7 +41,6 @@ Agenda Glam se desarrollará siguiendo los principios de la **Arquitectura Limpi
     *   **Firebase Storage** para imágenes de perfil, logos de negocios, y potencialmente fotos de trabajos. Se gestionará la privacidad según corresponda.
     *   **Cloud Functions for Firebase** para lógica de backend que no deba residir en el cliente (ej. notificaciones complejas, cálculos intensivos). Se recomienda un uso inicial moderado.
 *   **Gestión de Estado (Flutter):** BLoC (Business Logic Component) / Cubit.
-*   **Pruebas:** Framework de pruebas de Flutter (para unitarias, widgets e integración).
 *   **Control de Versiones:** Git (con una plataforma como GitHub, GitLab o Bitbucket).
 *   **Contenerización (Opcional):** Docker, para estandarizar entornos de desarrollo/CI o para futuros microservicios.
 *   **Seguridad:** Se utilizarán las reglas de seguridad de Firestore y las configuraciones de Firebase Authentication para asegurar la correcta segregación y acceso a los datos (cuando se implemente el backend).
@@ -56,7 +55,6 @@ Estos son los principios generales que guían el uso eficiente y eficaz de las h
 
 *   Utilice archivos markdown para administrar el proyecto (`README.MD`, `PLANNING.MD` (este archivo), y archivos `TASK_nombre_tarea.MD` específicos para cada tarea o funcionalidad mayor).
 *   Mantenga los archivos de código fuente por debajo de las **300 líneas**. Divídalos en módulos o componentes más pequeños cuando sea necesario.
-*   Prueba pronto y con frecuencia. Toda función o widget nuevo debe incluir pruebas.
 *   Escribe documentos y comentarios sobre la marcha. No retrases la documentación.
 
 ### 2.2. 🧠 Planificación y Gestión de Tareas
@@ -104,11 +102,7 @@ Estas directrices se aplicarán al desarrollo de Agenda Glam para asegurar la ca
 *   **Uso Criterioso de Paquetes:** Evaluar cuidadosamente la necesidad y calidad de paquetes externos antes de añadirlos. Preferir paquetes bien mantenidos y populares de pub.dev.
 *   **Inyección de Dependencias:** Utilizar un mecanismo de inyección de dependencias (como `get_it` o `provider`) para desacoplar componentes y facilitar las pruebas.
 
-#### 🧪 Pruebas y Confiabilidad
 
-*   **Cobertura de Pruebas:** Escribir pruebas unitarias para la lógica de negocio (Dominio) y los componentes de datos, y pruebas de widgets para la UI (Presentación).
-*   **Pruebas Significativas:** Enfocarse en probar el comportamiento esperado, casos límite y manejo de errores.
-*   **Organización:** Mantener la estructura de la carpeta `test/` reflejando la de `lib/`.
 
 #### ✅ Finalización de Tareas
 
@@ -138,14 +132,7 @@ Estas directrices se aplicarán al desarrollo de Agenda Glam para asegurar la ca
 
 Por el momento, el desarrollo se centrará exclusivamente en el **frontend**. Se priorizará el diseño de la interfaz de usuario (frontend) para cada módulo o flujo principal. Una vez que el diseño de un módulo esté claro, esto facilitará la definición precisa de los modelos de datos que necesitará el frontend. Los datos para las pruebas del frontend se ingresarán manualmente en el código (hardcodeados) o se mockearán según sea necesario. La integración con Firebase y la definición de la estructura de la base de datos se realizarán en una fase posterior, una vez que el frontend de los módulos clave esté bien definido.
 
-### 2.5. ✅ Prueba Después de Cada Función
 
-Escriba pruebas de widgets después de cada componente UI que implemente para Agenda Glam, o hágalo usted mismo. Las pruebas unitarias para lógica de UI (si la hubiera separada) también son importantes.
-
-**Mejores prácticas para realizar pruebas en Flutter (enfocadas en frontend inicialmente):**
-*   Crea las pruebas en un directorio `test/`.
-*   Para pruebas de widgets, utiliza `flutter_test` para verificar que la UI se renderiza correctamente y responde a interacciones.
-*   Utiliza datos mock o hardcodeados consistentes con los usados en el desarrollo del widget.
 
 ### 2.6. 🐳 Uso de Docker (Opcional)
 

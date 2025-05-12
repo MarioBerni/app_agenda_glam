@@ -6,7 +6,6 @@
 - **Límite de 300 Líneas:** Recuerda la regla de no exceder las 300 líneas. Sugiere refactorización si es necesario.
 - **Gestión de Estado (BLoC/Cubit):** Aplica los patrones de BLoC/Cubit de forma consistente.
 - **Inmutabilidad (`freezed`):** Recomienda y utiliza `freezed` para modelos de datos y estados donde sea apropiado.
-- **Pruebas:** Recuerda generar/actualizar las pruebas unitarias o de widgets correspondientes en la carpeta `test/`.
 
 ## Reglas Siempre Activas en este Workspace
 <!-- windsurf: activation_mode="always_active" -->
