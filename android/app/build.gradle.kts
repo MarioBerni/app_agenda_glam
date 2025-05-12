@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.app_agenda_glam"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = "27.0.12077973"  // Actualizado para compatibilidad con los plugins
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

@@ -1,3 +1,7 @@
+import 'package:app_agenda_glam/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:app_agenda_glam/features/auth/presentation/pages/login_page.dart';
+import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.dart';
+import 'package:app_agenda_glam/features/auth/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -6,8 +10,10 @@ import 'package:go_router/go_router.dart';
 class AppRouter {
   static const String home = '/';
   static const String splash = '/splash';
+  static const String welcome = '/welcome';
   static const String login = '/login';
   static const String register = '/register';
+  static const String forgotPassword = '/forgot-password';
   
   /// Configuración del router con go_router
   static final GoRouter router = GoRouter(
@@ -20,7 +26,31 @@ class AppRouter {
         builder: (context, state) => const SplashScreen(),
       ),
       
-      // Pantalla de inicio (placeholder por ahora)
+      // Pantalla de bienvenida/selector (login/registro)
+      GoRoute(
+        path: welcome,
+        builder: (context, state) => const WelcomePage(),
+      ),
+      
+      // Pantalla de login
+      GoRoute(
+        path: login,
+        builder: (context, state) => const LoginPage(),
+      ),
+      
+      // Pantalla de registro
+      GoRoute(
+        path: register,
+        builder: (context, state) => const RegisterPage(),
+      ),
+      
+      // Pantalla de recuperación de contraseña
+      GoRoute(
+        path: forgotPassword,
+        builder: (context, state) => const ForgotPasswordPage(),
+      ),
+      
+      // Pantalla de inicio (Home)
       GoRoute(
         path: home,
         builder: (context, state) => const HomeScreen(),
@@ -41,9 +71,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Navegar a la pantalla principal después de 2 segundos
+    // Navegar a la pantalla de bienvenida después de 2 segundos
     Future.delayed(const Duration(seconds: 2), () {
-      context.go(AppRouter.home);
+      context.go(AppRouter.welcome);
     });
   }
 

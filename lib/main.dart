@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_agenda_glam/core/di/service_locator.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme.dart';
+import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 
 /// Observer personalizado para debugging de BLoCs/Cubits
 class AppBlocObserver extends BlocObserver {
@@ -36,11 +37,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Agenda Glam',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.appTheme,
-      routerConfig: AppRouter.router,
+    return BlocProvider<AuthCubit>(
+      // Utilizamos GetIt para obtener una instancia de AuthCubit
+      create: (_) => sl<AuthCubit>(),
+      child: MaterialApp.router(
+        title: 'Agenda Glam',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.appTheme,
+        routerConfig: AppRouter.router,
+      ),
     );
   }
 }
