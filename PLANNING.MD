@@ -154,7 +154,20 @@ Se buscará un estilo y diseño general **minimalista, elegante y con un enfoque
 ### 3.1. Concepto Visual General 🎨
 
 *   **Tema:** Oscuro (Dark Theme) predominante.
-*   **Paleta Principal:** Azul marino profundo (primario), Dorado/Ámbar (acento), complementados con tonos de gris azulado oscuro para superficies y blanco/gris claro para textos.
+*   **Paleta Principal:** 
+    * **Azules (Primarios):** 
+      * Royal Blue Traditional (kPrimaryColor: #00296B) - Color principal para AppBar
+      * Marian Blue (kPrimaryColorLight: #003F88) - Variación clara
+      * Polynesian Blue (kPrimaryColorDark: #00509D) - Variación oscura
+      * Dark Royal Blue (kBackgroundColor: #001B4D) - Fondo de pantallas
+      * Dark Marian Blue (kSurfaceColor: #002C76) - Superficies/Cards
+    * **Dorados (Acentos):**
+      * Mikado Yellow (kAccentColor: #FDC500) - Color de acento principal
+      * Gold (kAccentColorAlt: #FFD500) - Acento alternativo
+    * **Complementos:**
+      * Blanco (kTextColor: #FFFFFF) - Texto principal
+      * Gris azulado (kSecondaryTextColor: #B0BAC5) - Texto secundario
+      * Rojo oscuro (kErrorColor: #CF6679) - Errores
 *   **Sensación:** Profesional, moderna y sofisticada.
 
 ### 3.2. Tipografía ✒️
@@ -173,31 +186,36 @@ El `ThemeData` se definirá en un archivo dedicado (ej. `lib/core/theme/app_them
 ```dart
 import 'package:flutter/material.dart';
 
-// Paleta de colores base (Valores exactos en el archivo de tema)
-const Color _primaryColor = Color(0xFF0A1128);      // Azul marino
-const Color _accentColor = Color(0xFFFFC107);       // Dorado/Ámbar
-const Color _backgroundColor = Color(0xFF050A14);   // Fondo oscuro
-const Color _surfaceColor = Color(0xFF1E2A3B);      // Superficies oscuras
-const Color _textColor = Color(0xFFFFFFFF);         // Texto principal
-const Color _secondaryTextColor = Color(0xFFB0B8C1); // Texto secundario
-const Color _errorColor = Color(0xFFCF6679);        // Error
+// Paleta de colores base (Valores actualizados correspondientes a app_theme_constants.dart)
+const Color kPrimaryColor = Color(0xFF00296B);         // Royal Blue Traditional (AppBar)
+const Color kPrimaryColorLight = Color(0xFF003F88);    // Marian Blue
+const Color kPrimaryColorDark = Color(0xFF00509D);     // Polynesian Blue
+const Color kAccentColor = Color(0xFFFDC500);         // Mikado Yellow (Acento/Botones)
+const Color kAccentColorAlt = Color(0xFFFFD500);      // Gold (Acento alternativo)
+const Color kBackgroundColor = Color(0xFF001B4D);      // Dark Royal Blue (Fondo)
+const Color kSurfaceColor = Color(0xFF002C76);         // Dark Marian Blue (Superficies/Cards)
+const Color kTextColor = Color(0xFFFFFFFF);            // Blanco (Texto principal)
+const Color kSecondaryTextColor = Color(0xFFB0BAC5);   // Gris azulado (Texto secundario)
+const Color kErrorColor = Color(0xFFCF6679);           // Rojo error oscuro
+const Color kOnPrimaryColor = kTextColor;              // Texto sobre primario
+const Color kOnAccentColor = Colors.black;             // Texto sobre acento
 
-/// ThemeData conceptual para Agenda Glam (Implementación detallada aparte).
+/// ThemeData conceptual para Agenda Glam (Implementación detallada en app_theme.dart).
 final ThemeData appTheme = ThemeData(
   brightness: Brightness.dark,
-  primaryColor: _primaryColor,
-  scaffoldBackgroundColor: _backgroundColor,
+  primaryColor: kPrimaryColor,
+  scaffoldBackgroundColor: kBackgroundColor,
   colorScheme: const ColorScheme.dark(
-    primary: _primaryColor,
-    secondary: _accentColor,
-    surface: _surfaceColor,
-    background: _backgroundColor,
-    error: _errorColor,
-    onPrimary: _textColor,
-    onSecondary: Colors.black, // Texto sobre acento
-    onSurface: _textColor,
-    onBackground: _textColor,
-    onError: _textColor,
+    primary: kPrimaryColor,
+    secondary: kAccentColor,
+    surface: kSurfaceColor,
+    background: kBackgroundColor,
+    error: kErrorColor,
+    onPrimary: kTextColor,
+    onSecondary: kOnAccentColor,
+    onSurface: kTextColor,
+    onBackground: kTextColor,
+    onError: kTextColor,
   ),
   // ... Definiciones resumidas o placeholders para textTheme, buttonThemes, etc.
   // La configuración completa estará en el archivo de tema dedicado.

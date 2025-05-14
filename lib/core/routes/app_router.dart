@@ -4,6 +4,7 @@ import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.d
 import 'package:app_agenda_glam/features/auth/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 /// Define las rutas de la aplicación utilizando go_router
 /// Implementa la navegación basada en rutas para toda la app
@@ -67,14 +68,36 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+  // Controlador para animación del botón
+  late AnimationController _buttonAnimController;
+  bool _showButton = false;
+
   @override
   void initState() {
     super.initState();
-    // Navegar a la pantalla de bienvenida después de 2 segundos
+    
+    // Inicializar controlador de animación
+    _buttonAnimController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 800),
+    );
+    
+    // Mostrar el botón después de 2 segundos para dar tiempo a que se aprecien las animaciones
     Future.delayed(const Duration(seconds: 2), () {
-      context.go(AppRouter.welcome);
+      if (mounted) {
+        setState(() {
+          _showButton = true;
+        });
+        _buttonAnimController.forward();
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _buttonAnimController.dispose();
+    super.dispose();
   }
 
   @override
@@ -92,7 +115,10 @@ class _SplashScreenState extends State<SplashScreen> {
               Icons.schedule,
               size: 80,
               color: theme.colorScheme.secondary,
-            ),
+            ).animate()
+              .fade(duration: const Duration(milliseconds: 800))
+              .scale(delay: const Duration(milliseconds: 300)),
+              
             const SizedBox(height: 24),
             Text(
               'Agenda Glam',
@@ -100,11 +126,37 @@ class _SplashScreenState extends State<SplashScreen> {
                 color: theme.colorScheme.secondary,
                 fontWeight: FontWeight.bold,
               ),
-            ),
+            ).animate()
+              .fade(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 400))
+              .slideY(begin: 0.2, end: 0, delay: const Duration(milliseconds: 400)),
+              
             const SizedBox(height: 16),
             Text(
               'Tu agenda de belleza masculina',
               style: theme.textTheme.bodyLarge,
+            ).animate()
+              .fade(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 700))
+              .slideY(begin: 0.2, end: 0, delay: const Duration(milliseconds: 700)),
+              
+            const SizedBox(height: 60),
+            // Botón con animación de aparición
+            AnimatedOpacity(
+              opacity: _showButton ? 1.0 : 0.0,
+              duration: const Duration(milliseconds: 600),
+              child: AnimatedScale(
+                scale: _showButton ? 1.0 : 0.8,
+                duration: const Duration(milliseconds: 600),
+                curve: Curves.elasticOut,
+                child: ElevatedButton(
+                  onPressed: () => context.go(AppRouter.welcome),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: theme.colorScheme.secondary,
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  ),
+                  child: const Text('Comenzar', style: TextStyle(fontSize: 18)),
+                ),
+              ),
             ),
           ],
         ),

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
-// Paleta de colores para Agenda Glam (Elegante Oscura)
-const Color kPrimaryColor = Color(0xFF0A1128);    // Azul marino profundo (AppBar)
-const Color kAccentColor = Color(0xFFFFC107);     // Dorado/Ámbar (Acento/Botones)
-const Color kBackgroundColor = Color(0xFF050A14);  // Negro azulado muy oscuro (Fondo)
-const Color kSurfaceColor = Color(0xFF1E2A3B);     // Gris azulado oscuro (Superficies/Cards)
+// Paleta de colores para Agenda Glam (Azul y Dorado)
+const Color kPrimaryColor = Color(0xFF00296B);    // Royal Blue Traditional (AppBar)
+const Color kPrimaryColorLight = Color(0xFF003F88);  // Marian Blue
+const Color kPrimaryColorDark = Color(0xFF00509D);   // Polynesian Blue
+const Color kAccentColor = Color(0xFFFDC500);     // Mikado Yellow (Acento/Botones)
+const Color kAccentColorAlt = Color(0xFFFFD500);  // Gold (Acento alternativo)
+const Color kBackgroundColor = Color(0xFF001B4D);  // Versión más oscura de Royal Blue (Fondo)
+const Color kSurfaceColor = Color(0xFF002C76);     // Versión más oscura de Marian Blue (Superficies/Cards)
 const Color kTextColor = Color(0xFFFFFFFF);        // Blanco (Texto principal)
-const Color kSecondaryTextColor = Color(0xFFB0B8C1); // Gris plateado (Texto secundario)
+const Color kSecondaryTextColor = Color(0xFFB0BAC5); // Gris azulado (Texto secundario)
 const Color kErrorColor = Color(0xFFCF6679);       // Rojo error oscuro
 const Color kOnPrimaryColor = kTextColor;          // Texto sobre primario
 const Color kOnAccentColor = Colors.black;         // Texto sobre acento (negro sobre dorado)

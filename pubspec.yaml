@@ -38,10 +38,15 @@ dependencies:
   equatable: ^2.0.3
   
   # Navegación
-  go_router: ^10.0.0
+  go_router: ^6.5.9  # Versión compatible con go_router_plus
+  go_router_plus: ^4.1.1  # Última versión disponible
+
+  # UI y Animaciones
+  flutter_animate: ^4.2.0  # Biblioteca para animaciones fluidas
+  flutter_svg: ^2.0.7
+  video_player: ^2.7.2  # Reproducción de videos
   
   # UI y recursos
-  flutter_svg: ^2.0.7
   cached_network_image: ^3.2.3
   
   # Utilidades
@@ -85,6 +90,7 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
+    - assets/videos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
