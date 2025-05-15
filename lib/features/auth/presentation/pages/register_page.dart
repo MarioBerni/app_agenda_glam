@@ -1,15 +1,22 @@
 import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/features/auth/domain/validators/register_validator.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_logo.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_password_field.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_text_field.dart';
+import 'package:app_agenda_glam/features/auth/presentation/controllers/register_controller.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/register_content.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/register_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// Página de registro de nuevos usuarios
+/// Página de registro de nuevos usuarios con flujo por pasos
+/// 
+/// Esta página implementa un proceso de registro dividido en dos pasos:
+/// 1. Información personal (nombre y email)
+/// 2. Configuración de contraseña (contraseña y confirmación)
+/// 
+/// La arquitectura está modularizada utilizando componentes independientes
+/// para cada sección, facilitando el mantenimiento y las pruebas unitarias.
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -17,45 +24,136 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderStateMixin {
+  // Controladores de texto
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   
+  // Estado del registro
+  int _currentStep = 1;
+  final int _totalSteps = 2;
+  bool _isLoading = false;
+  
+  // Controladores
+  late final AnimationController _animController;
+  late final RegisterController _registerController;
+  
+  // Errores de validación
   String? _nameError;
   String? _emailError;
   String? _passwordError;
   String? _confirmPasswordError;
-  bool _isLoading = false;
+  
+  // Estado de validación en tiempo real
+  bool _isNameValid = false;
+  bool _isEmailValid = false;
+  bool _isPasswordValid = false;
+  bool _doPasswordsMatch = false;
+  
+  // Criterios de contraseña
+  final Map<String, bool> _passwordCriteria = {
+    'length': false,      // Al menos 6 caracteres
+    'uppercase': false,   // Al menos una mayúscula
+    'number': false,      // Al menos un número
+  };
 
   @override
+  void initState() {
+    super.initState();
+    
+    // Inicializar controlador de animación
+    _animController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    
+    // Inicializar controlador de registro
+    _registerController = RegisterController(
+      animationController: _animController,
+      onFieldError: _showFieldError,
+    );
+    
+    // Escuchar cambios en los campos para validación en tiempo real
+    _nameController.addListener(_validateNameRealtime);
+    _emailController.addListener(_validateEmailRealtime);
+    _passwordController.addListener(_validatePasswordRealtime);
+    _confirmPasswordController.addListener(_validateConfirmPasswordRealtime);
+  }
+  
+  @override
   void dispose() {
+    // Eliminar listeners
+    _nameController.removeListener(_validateNameRealtime);
+    _emailController.removeListener(_validateEmailRealtime);
+    _passwordController.removeListener(_validatePasswordRealtime);
+    _confirmPasswordController.removeListener(_validateConfirmPasswordRealtime);
+    
+    // Dispose de controllers
     _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _animController.dispose();
+    _registerController.dispose();
     super.dispose();
   }
 
-  void _register() {
-    // Validación básica
-    setState(() {
-      _nameError = _validateName(_nameController.text);
-      _emailError = _validateEmail(_emailController.text);
-      _passwordError = _validatePassword(_passwordController.text);
-      _confirmPasswordError = _validateConfirmPassword(
-        _passwordController.text,
-        _confirmPasswordController.text,
-      );
-    });
+  /// Navegar al siguiente paso del registro
+  void _nextStep() async {
+    await _registerController.nextStep(
+      _currentStep, 
+      () => setState(() => _currentStep++),
+      () => [
+        // Validar campos del paso actual
+        _validateCurrentStepFields(),
+      ].expand((element) => element).toList(),
+    );
+  }
+  
+  /// Validar campos según el paso actual del formulario
+  List<String?> _validateCurrentStepFields() {
+    if (_currentStep == 1) {
+      setState(() {
+        _nameError = RegisterValidator.validateName(_nameController.text);
+        _emailError = RegisterValidator.validateEmail(_emailController.text);
+      });
+      return [_nameError, _emailError];
+    } else {
+      setState(() {
+        _passwordError = RegisterValidator.validatePassword(
+          _passwordController.text, 
+          _passwordCriteria,
+        );
+        _confirmPasswordError = RegisterValidator.validateConfirmPassword(
+          _passwordController.text,
+          _confirmPasswordController.text,
+        );
+      });
+      return [_passwordError, _confirmPasswordError];
+    }
+  }
+  
+  /// Navegar al paso anterior o volver a la pantalla de bienvenida
+  void _previousStep() async {
+    await _registerController.previousStep(
+      _currentStep,
+      () => setState(() => _currentStep--),
+      () => context.go(AppRouter.welcome),
+    );
+  }
+  
+  /// Mostrar efecto visual para campos con error
+  void _showFieldError(String field) {
+    // Esta función se puede ampliar para mostrar efectos visuales
+    // específicos para diferentes campos con error
+  }
 
-    if (_nameError == null && 
-        _emailError == null && 
-        _passwordError == null && 
-        _confirmPasswordError == null) {
-      // Si todo está validado, intentar registro
+  /// Enviar datos de registro al backend (mock)
+  void _register() {
+    if (_validateCurrentStepFields().every((error) => error == null)) {
       context.read<AuthCubit>().register(
         name: _nameController.text,
         email: _emailController.text,
@@ -65,197 +163,94 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  String? _validateName(String value) {
-    if (value.isEmpty) {
-      return 'El nombre es requerido';
+  /// Métodos de validación en tiempo real
+  void _validateNameRealtime() {
+    final isValid = RegisterValidator.validateName(_nameController.text) == null;
+    if (_isNameValid != isValid) {
+      setState(() => _isNameValid = isValid);
     }
-    
-    return null;
   }
-
-  String? _validateEmail(String value) {
-    if (value.isEmpty) {
-      return 'El email es requerido';
+  
+  void _validateEmailRealtime() {
+    final isValid = RegisterValidator.validateEmail(_emailController.text) == null;
+    if (_isEmailValid != isValid) {
+      setState(() => _isEmailValid = isValid);
     }
-    
-    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!emailRegex.hasMatch(value)) {
-      return 'Ingresa un email válido';
-    }
-    
-    return null;
   }
-
-  String? _validatePassword(String value) {
-    if (value.isEmpty) {
-      return 'La contraseña es requerida';
+  
+  void _validatePasswordRealtime() {
+    final isValid = RegisterValidator.validatePassword(
+      _passwordController.text, 
+      _passwordCriteria,
+    ) == null;
+    
+    if (_isPasswordValid != isValid) {
+      setState(() => _isPasswordValid = isValid);
     }
     
-    if (value.length < 6) {
-      return 'La contraseña debe tener al menos 6 caracteres';
-    }
-    
-    return null;
+    // También verificar coincidencia cuando cambia la contraseña
+    _validateConfirmPasswordRealtime();
   }
-
-  String? _validateConfirmPassword(String password, String confirmPassword) {
-    if (confirmPassword.isEmpty) {
-      return 'Confirma tu contraseña';
-    }
+  
+  void _validateConfirmPasswordRealtime() {
+    final doMatch = _passwordController.text.isNotEmpty && 
+                   _passwordController.text == _confirmPasswordController.text;
     
-    if (password != confirmPassword) {
-      return 'Las contraseñas no coinciden';
+    if (_doPasswordsMatch != doMatch) {
+      setState(() => _doPasswordsMatch = doMatch);
     }
-    
-    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Scaffold(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          switch (state.status) {
-            case AuthStatus.loading:
-              setState(() => _isLoading = true);
-              break;
-            case AuthStatus.authenticated:
-              setState(() => _isLoading = false);
-              // Navegar a la pantalla principal cuando esté registrado
-              context.go(AppRouter.home);
-              break;
-            case AuthStatus.error:
-              setState(() => _isLoading = false);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMessage ?? 'Error desconocido')),
-              );
-              break;
-            default:
-              setState(() => _isLoading = false);
-              break;
-          }
-        },
-        builder: (context, state) {
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Logo reducido
-                      const Center(
-                        child: GlamLogo(
-                          size: 60,
-                          showTagline: false,
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      // Título
-                      Text(
-                        'Crea tu cuenta',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.onBackground,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Regístrate para comenzar',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          color: theme.colorScheme.onBackground.withOpacity(0.8),
-                        ),
-                      ),
-                      const SizedBox(height: 32),
-                      // Campo de nombre
-                      GlamTextField(
-                        label: 'Nombre completo',
-                        hintText: 'Juan Pérez',
-                        controller: _nameController,
-                        errorText: _nameError,
-                        keyboardType: TextInputType.name,
-                        prefixIcon: Icon(
-                          Icons.person_outline,
-                          color: theme.colorScheme.onSurface.withOpacity(0.6),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      // Campo de email
-                      GlamTextField(
-                        label: 'Email',
-                        hintText: 'example@mail.com',
-                        controller: _emailController,
-                        errorText: _emailError,
-                        keyboardType: TextInputType.emailAddress,
-                        prefixIcon: Icon(
-                          Icons.email_outlined,
-                          color: theme.colorScheme.onSurface.withOpacity(0.6),
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      // Campo de contraseña
-                      GlamPasswordField(
-                        label: 'Contraseña',
-                        hintText: '••••••••',
-                        controller: _passwordController,
-                        errorText: _passwordError,
-                      ),
-                      const SizedBox(height: 24),
-                      // Campo de confirmar contraseña
-                      GlamPasswordField(
-                        label: 'Confirmar contraseña',
-                        hintText: '••••••••',
-                        controller: _confirmPasswordController,
-                        errorText: _confirmPasswordError,
-                        onEditingComplete: _register,
-                      ),
-                      const SizedBox(height: 32),
-                      // Botón de registro
-                      GlamButton(
-                        text: 'Registrarse',
-                        onPressed: _isLoading ? null : _register,
-                        isLoading: _isLoading,
-                      ),
-                      const SizedBox(height: 24),
-                      // Enlace a login
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '¿Ya tienes una cuenta?',
-                            style: theme.textTheme.bodyMedium?.copyWith(
-                              color: theme.colorScheme.onBackground.withOpacity(0.8),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () => context.go(AppRouter.login),
-                            child: Text(
-                              'Inicia sesión',
-                              style: theme.textTheme.bodyMedium?.copyWith(
-                                color: theme.colorScheme.secondary,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        switch (state.status) {
+          case AuthStatus.loading:
+            setState(() => _isLoading = true);
+            break;
+          case AuthStatus.authenticated:
+            setState(() => _isLoading = false);
+            context.go(AppRouter.home);
+            break;
+          case AuthStatus.error:
+            setState(() => _isLoading = false);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage ?? 'Error desconocido')),
+            );
+            break;
+          default:
+            setState(() => _isLoading = false);
+            break;
+        }
+      },
+      builder: (context, state) {
+        return RegisterScaffold(
+          onBackPressed: _previousStep,
+          child: Form(
+            key: _formKey,
+            child: RegisterContent(
+              currentStep: _currentStep,
+              totalSteps: _totalSteps,
+              nameController: _nameController,
+              emailController: _emailController,
+              passwordController: _passwordController,
+              confirmPasswordController: _confirmPasswordController,
+              nameError: _nameError,
+              emailError: _emailError,
+              passwordError: _passwordError,
+              confirmPasswordError: _confirmPasswordError,
+              isNameValid: _isNameValid,
+              isEmailValid: _isEmailValid,
+              passwordCriteria: _passwordCriteria,
+              doPasswordsMatch: _doPasswordsMatch,
+              isLoading: _isLoading,
+              onNextStep: _nextStep,
+              onRegister: _register,
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }

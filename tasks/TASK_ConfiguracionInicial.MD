@@ -1,6 +1,10 @@
 # Tarea: Configuración Inicial del Proyecto
 
-Este archivo detalla los pasos necesarios para configurar la estructura base, dependencias y configuraciones iniciales del proyecto Flutter "Agenda Glam".
+## Referencias
+- **ARCHITECTURE.MD:** Sección 4 (Organización del Código y Estructura), Sección 5 (Pila Tecnológica Principal)
+- **Estado:** Completada
+
+Este archivo detalla los pasos necesarios para configurar la estructura base, dependencias y configuraciones iniciales del proyecto Flutter "Agenda Glam". Esta tarea establece los fundamentos descritos en el [PLANNING.MD](../PLANNING.MD).
 
 ## Pasos:
 

@@ -1,9 +1,11 @@
-import 'package:app_agenda_glam/features/auth/presentation/pages/forgot_password_page.dart';
+import 'package:app_agenda_glam/core/routes/app_page_transitions.dart';
+import 'package:app_agenda_glam/features/auth/presentation/pages/recovery_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/login_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:go_router_plus/go_router_plus.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Define las rutas de la aplicación utilizando go_router
@@ -14,9 +16,9 @@ class AppRouter {
   static const String welcome = '/welcome';
   static const String login = '/login';
   static const String register = '/register';
-  static const String forgotPassword = '/forgot-password';
+  static const String recovery = '/recovery';
   
-  /// Configuración del router con go_router
+  /// Configuración del router con go_router y transiciones personalizadas
   static final GoRouter router = GoRouter(
     initialLocation: splash,
     debugLogDiagnostics: true,
@@ -24,37 +26,67 @@ class AppRouter {
       // Pantalla de splash
       GoRoute(
         path: splash,
-        builder: (context, state) => const SplashScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const SplashScreen(),
+          transitionType: TransitionType.fade,
+        ),
       ),
       
       // Pantalla de bienvenida/selector (login/registro)
       GoRoute(
         path: welcome,
-        builder: (context, state) => const WelcomePage(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const WelcomePage(),
+          transitionType: TransitionType.defaultTransition,
+        ),
       ),
       
       // Pantalla de login
       GoRoute(
         path: login,
-        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const LoginPage(),
+          transitionType: TransitionType.authForward,
+        ),
       ),
       
       // Pantalla de registro
       GoRoute(
         path: register,
-        builder: (context, state) => const RegisterPage(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const RegisterPage(),
+          transitionType: TransitionType.authForward,
+        ),
       ),
       
       // Pantalla de recuperación de contraseña
       GoRoute(
-        path: forgotPassword,
-        builder: (context, state) => const ForgotPasswordPage(),
+        path: recovery,
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const RecoveryPage(),
+          transitionType: TransitionType.authForward,
+        ),
       ),
       
       // Pantalla de inicio (Home)
       GoRoute(
         path: home,
-        builder: (context, state) => const HomeScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const HomeScreen(),
+          transitionType: TransitionType.fade,
+        ),
       ),
     ],
   );

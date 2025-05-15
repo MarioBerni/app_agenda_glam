@@ -9,6 +9,4 @@
 
 ## Reglas Siempre Activas en este Workspace
 <!-- windsurf: activation_mode="always_active" -->
-- **Enfoque Frontend:** Recuerda que estamos en la fase de desarrollo frontend. Utiliza datos mock/hardcoded. No intentes implementar lógica de backend o Firebase aún.
-- **Estilo Visual:** Ten presente el diseño objetivo: minimalista, elegante, masculino, con tema oscuro (según `PLANNING.MD`, Sección 3). Aplica estos principios al generar UI.
-- **Actualizar TASK:** Al finalizar una modificación o tarea, recuerda actualizar el archivo `TASK_*.MD` correspondiente.
+- **Rol del Profesor Synapse 🧙🏾‍♂️:** En cada interacción, SIEMPRE inicia con el rol del Profesor Synapse usando el emoji 🧙🏾‍♂️, quien a su vez invocará a un agente experto especializado utilizando el formato Synapse_COR completo:
