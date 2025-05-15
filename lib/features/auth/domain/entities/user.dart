@@ -18,12 +18,8 @@ class User extends Equatable {
   });
 
   /// Usuario vacío/no autenticado
-  factory User.empty() => const User(
-        id: '',
-        name: '',
-        email: '',
-        isAuthenticated: false,
-      );
+  factory User.empty() =>
+      const User(id: '', name: '', email: '', isAuthenticated: false);
 
   @override
   List<Object?> get props => [id, name, email, profileImage, isAuthenticated];

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// Página de inicio de sesión usando el sistema visual unificado
+/// PÃ¡gina de inicio de sesiÃ³n usando el sistema visual unificado
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -23,27 +23,27 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   // Variables de estado
   String? _emailError;
   String? _passwordError;
   bool _isLoading = false;
   bool _rememberMe = false;
-  
-  // Criterios para la fortaleza de contraseña
+
+  // Criterios para la fortaleza de contraseÃ±a
   final Map<String, bool> _passwordCriteria = {
-    'length': false,      // Al menos 6 caracteres
-    'uppercase': false,   // Al menos una mayúscula
-    'number': false,      // Al menos un número
+    'length': false, // Al menos 6 caracteres
+    'uppercase': false, // Al menos una mayÃºscula
+    'number': false, // Al menos un nÃºmero
   };
 
   @override
   void initState() {
     super.initState();
-    // Escuchar cambios en el campo de contraseña para evaluar criterios
+    // Escuchar cambios en el campo de contraseÃ±a para evaluar criterios
     _passwordController.addListener(_updatePasswordStrength);
   }
-  
+
   @override
   void dispose() {
     _passwordController.removeListener(_updatePasswordStrength);
@@ -51,11 +51,11 @@ class _LoginPageState extends State<LoginPage> {
     _passwordController.dispose();
     super.dispose();
   }
-  
-  /// Actualiza la evaluación de fortaleza de la contraseña en tiempo real
+
+  /// Actualiza la evaluaciÃ³n de fortaleza de la contraseÃ±a en tiempo real
   void _updatePasswordStrength() {
     final String password = _passwordController.text;
-    
+
     setState(() {
       // Evaluar criterios
       _passwordCriteria['length'] = password.length >= 6;
@@ -64,16 +64,16 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  /// Intenta iniciar sesión con las credenciales proporcionadas
+  /// Intenta iniciar sesiÃ³n con las credenciales proporcionadas
   void _login() {
-    // Validación básica
+    // ValidaciÃ³n bÃ¡sica
     setState(() {
       _emailError = _validateEmail(_emailController.text);
       _passwordError = _validatePassword(_passwordController.text);
     });
 
     if (_emailError == null && _passwordError == null) {
-      // Si todo está validado, intentar login
+      // Si todo estÃ¡ validado, intentar login
       context.read<AuthCubit>().login(
         _emailController.text,
         _passwordController.text,
@@ -86,21 +86,21 @@ class _LoginPageState extends State<LoginPage> {
     if (value.isEmpty) {
       return 'El email es requerido';
     }
-    
+
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Ingresa un email válido';
+      return 'Ingresa un email vÃ¡lido';
     }
-    
+
     return null;
   }
 
-  /// Valida que la contraseña no esté vacía
+  /// Valida que la contraseÃ±a no estÃ© vacÃ­a
   String? _validatePassword(String value) {
     if (value.isEmpty) {
-      return 'La contraseña es requerida';
+      return 'La contraseÃ±a es requerida';
     }
-    
+
     return null;
   }
 
@@ -116,13 +116,15 @@ class _LoginPageState extends State<LoginPage> {
             break;
           case AuthStatus.authenticated:
             setState(() => _isLoading = false);
-            // Navegar a la pantalla principal cuando esté autenticado
+            // Navegar a la pantalla principal cuando estÃ© autenticado
             context.go(AppRouter.home);
             break;
           case AuthStatus.error:
             setState(() => _isLoading = false);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? 'Error desconocido')),
+              SnackBar(
+                content: Text(state.errorMessage ?? 'Error desconocido'),
+              ),
             );
             break;
           default:
@@ -132,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       builder: (context, state) {
         return GlamScaffold(
-          title: 'Iniciar Sesión',
+          title: 'Iniciar SesiÃ³n',
           subtitle: 'Bienvenido de nuevo',
           showBackButton: true,
           onBackPressed: () => context.go(AppRouter.welcome),
@@ -143,18 +145,15 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Logo con animación
+                  // Logo con animaciÃ³n
                   Center(
                     child: GlamAnimations.applyLogoEffect(
-                      const GlamLogo(
-                        size: 70,
-                        showTagline: false,
-                      ),
+                      const GlamLogo(size: 70, showTagline: false),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 32),
-                  
+
                   // Campo de email
                   GlamAnimations.applyEntryEffect(
                     GlamTextField(
@@ -167,14 +166,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     slideDistance: 0.12,
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
-                  // Campo de contraseña
+
+                  // Campo de contraseÃ±a
                   GlamAnimations.applyEntryEffect(
                     GlamPasswordField(
-                      label: 'Contraseña',
-                      hintText: '••••••••',
+                      label: 'ContraseÃ±a',
+                      hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
                       controller: _passwordController,
                       errorText: _passwordError,
                       onFieldSubmitted: (_) => _login(),
@@ -184,35 +183,39 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     slideDistance: 0.15,
                   ),
-                  
+
                   const SizedBox(height: 12),
-                  
-                  // Opción "Recordarme" con interruptor estilizado
+
+                  // OpciÃ³n "Recordarme" con interruptor estilizado
                   GlamAnimations.applyEntryEffect(
                     Row(
                       children: [
                         Switch(
                           value: _rememberMe,
-                          onChanged: (value) => setState(() => _rememberMe = value),
+                          onChanged:
+                              (value) => setState(() => _rememberMe = value),
                           activeColor: kAccentColor,
-                          activeTrackColor: kAccentColor.withOpacity(0.4),
+                          activeTrackColor: kAccentColor.withValues(alpha: 0.4),
                           inactiveThumbColor: Colors.white,
-                          inactiveTrackColor: Colors.white.withOpacity(0.3),
+                          inactiveTrackColor: Colors.white.withValues(
+                            alpha: 0.3,
+                          ),
                         ),
-                        Text('Recordarme',
+                        Text(
+                          'Recordarme',
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                           ),
                         ),
                         const Spacer(),
-                        // Enlace a recuperar contraseña
+                        // Enlace a recuperar contraseÃ±a
                         TextButton(
                           onPressed: () {
-                            // Navegar a la página de recuperación de contraseña
+                            // Navegar a la pÃ¡gina de recuperaciÃ³n de contraseÃ±a
                             context.go(AppRouter.recovery);
                           },
                           child: Text(
-                            '¿Olvidaste tu contraseña?',
+                            'Â¿Olvidaste tu contraseÃ±a?',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: kAccentColor,
                               fontWeight: FontWeight.w500,
@@ -223,32 +226,32 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     slideDistance: 0.18,
                   ),
-                  
+
                   const SizedBox(height: 32),
-                  
-                  // Botón de login con animación
+
+                  // BotÃ³n de login con animaciÃ³n
                   GlamAnimations.applyEntryEffect(
                     GlamButton(
-                      text: 'Iniciar Sesión',
+                      text: 'Iniciar SesiÃ³n',
                       onPressed: _isLoading ? null : _login,
                       isLoading: _isLoading,
                     ),
                     slideDistance: 0.22,
                   ),
-                  
+
                   const SizedBox(height: 24),
-                  
+
                   // Separador elegante
                   GlamAnimations.applyEntryEffect(
                     GlamTextDivider(
-                      text: 'O inicia sesión con',
+                      text: 'O inicia sesiÃ³n con',
                       textStyle: theme.textTheme.bodySmall?.copyWith(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withValues(alpha: 0.7),
                       ),
                     ),
                     slideDistance: 0.25,
                   ),
-                  
+
                   // Botones de redes sociales
                   const SizedBox(height: 24),
                   GlamAnimations.applyEntryEffect(
@@ -268,7 +271,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     slideDistance: 0.28,
                   ),
-                  
+
                   // Enlace a registro
                   const SizedBox(height: 32),
                   GlamAnimations.applyEntryEffect(
@@ -276,15 +279,15 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '¿No tienes una cuenta?',
+                          'Â¿No tienes una cuenta?',
                           style: theme.textTheme.bodyMedium?.copyWith(
-                            color: Colors.white.withOpacity(0.8),
+                            color: Colors.white.withValues(alpha: 0.8),
                           ),
                         ),
                         TextButton(
                           onPressed: () => context.go(AppRouter.register),
                           child: Text(
-                            'Regístrate',
+                            'RegÃ­strate',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: kAccentColor,
                               fontWeight: FontWeight.w500,
@@ -303,8 +306,8 @@ class _LoginPageState extends State<LoginPage> {
       },
     );
   }
-  
-  /// Construye un botón de inicio de sesión con redes sociales
+
+  /// Construye un botÃ³n de inicio de sesiÃ³n con redes sociales
   Widget _socialButton({
     required IconData icon,
     required Color backgroundColor,
@@ -315,7 +318,7 @@ class _LoginPageState extends State<LoginPage> {
       elevation: 2,
       child: InkWell(
         onTap: () {
-          // Implementar inicio de sesión con redes sociales
+          // Implementar inicio de sesiÃ³n con redes sociales
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Funcionalidad en desarrollo'),
@@ -326,11 +329,7 @@ class _LoginPageState extends State<LoginPage> {
         customBorder: const CircleBorder(),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 30,
-          ),
+          child: Icon(icon, color: Colors.white, size: 30),
         ),
       ),
     );

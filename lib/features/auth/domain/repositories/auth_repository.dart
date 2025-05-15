@@ -7,7 +7,7 @@ abstract class AuthRepository {
   /// Autentica al usuario con email y contraseña
   /// Retorna un [User] si la autenticación es exitosa
   Future<User> login(Credentials credentials);
-  
+
   /// Registra un nuevo usuario
   /// Retorna el [User] creado
   Future<User> register({
@@ -15,13 +15,13 @@ abstract class AuthRepository {
     required String email,
     required String password,
   });
-  
+
   /// Cierra la sesión del usuario actual
   Future<void> logout();
-  
+
   /// Envía un correo para recuperar la contraseña
   Future<void> recoverPassword(String email);
-  
+
   /// Verifica si hay un usuario actualmente autenticado
   Future<User?> getCurrentUser();
 }

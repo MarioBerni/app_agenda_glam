@@ -2,27 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 /// Widget que proporciona un fondo de video con degradado
-/// para las pantallas principales de la aplicación.
-/// 
+/// para las pantallas principales de la aplicaciÃ³n.
+///
 /// Permite reproducir un video como fondo con diferentes efectos
-/// de degradado para mantener la estética masculina y elegante.
+/// de degradado para mantener la estÃ©tica masculina y elegante.
 class GlamVideoBackground extends StatefulWidget {
   /// Ruta al archivo de video (desde assets)
   final String videoAsset;
-  
+
   /// Opacidad del degradado superior (0.0 - 1.0)
   final double gradientOpacity;
-  
+
   /// Color principal del degradado
   final Color? gradientColor;
-  
+
   /// Si el video debe reproducirse en loop
   final bool loop;
-  
-  /// Si el video debe reproducirse automáticamente
+
+  /// Si el video debe reproducirse automÃ¡ticamente
   final bool autoPlay;
-  
-  /// Widget hijo que se mostrará sobre el video
+
+  /// Widget hijo que se mostrarÃ¡ sobre el video
   final Widget? child;
 
   const GlamVideoBackground({
@@ -51,20 +51,20 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
 
   Future<void> _initializeVideoPlayer() async {
     _controller = VideoPlayerController.asset(widget.videoAsset);
-    
+
     await _controller.initialize();
-    
+
     if (widget.loop) {
       _controller.setLooping(true);
     }
-    
+
     if (widget.autoPlay) {
       _controller.play();
     }
-    
-    // Para asegurar que se reproduzca a pantalla completa sin importar la relación de aspecto
+
+    // Para asegurar que se reproduzca a pantalla completa sin importar la relaciÃ³n de aspecto
     _controller.setVolume(0.0); // Sin sonido
-    
+
     if (mounted) {
       setState(() {
         _isInitialized = true;
@@ -82,16 +82,14 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final gradientColor = widget.gradientColor ?? theme.colorScheme.primary;
-    
+
     if (!_isInitialized) {
       return Container(
         color: theme.scaffoldBackgroundColor,
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
+        child: const Center(child: CircularProgressIndicator()),
       );
     }
-    
+
     return Stack(
       fit: StackFit.expand,
       children: [
@@ -104,22 +102,22 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
             child: VideoPlayer(_controller),
           ),
         ),
-        
-        // Degradado superior (más oscuro arriba)
+
+        // Degradado superior (mÃ¡s oscuro arriba)
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                gradientColor.withOpacity(widget.gradientOpacity),
-                gradientColor.withOpacity(0.3),
+                gradientColor.withValues(alpha: widget.gradientOpacity),
+                gradientColor.withValues(alpha: 0.3),
               ],
             ),
           ),
         ),
-        
-        // Degradado complementario (efecto viñeta)
+
+        // Degradado complementario (efecto viÃ±eta)
         Container(
           decoration: BoxDecoration(
             gradient: RadialGradient(
@@ -127,13 +125,13 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
               radius: 1.5,
               colors: [
                 Colors.transparent,
-                gradientColor.withOpacity(widget.gradientOpacity * 0.7),
+                gradientColor.withValues(alpha: widget.gradientOpacity * 0.7),
               ],
               stops: const [0.6, 1.0],
             ),
           ),
         ),
-        
+
         // Contenido hijo
         if (widget.child != null) widget.child!,
       ],

@@ -10,11 +10,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 /// Página de registro de nuevos usuarios con flujo por pasos
-/// 
+///
 /// Esta página implementa un proceso de registro dividido en dos pasos:
 /// 1. Información personal (nombre y email)
 /// 2. Configuración de contraseña (contraseña y confirmación)
-/// 
+///
 /// La arquitectura está modularizada utilizando componentes independientes
 /// para cada sección, facilitando el mantenimiento y las pruebas unitarias.
 class RegisterPage extends StatefulWidget {
@@ -24,65 +24,66 @@ class RegisterPage extends StatefulWidget {
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderStateMixin {
+class _RegisterPageState extends State<RegisterPage>
+    with SingleTickerProviderStateMixin {
   // Controladores de texto
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   // Estado del registro
   int _currentStep = 1;
   final int _totalSteps = 2;
   bool _isLoading = false;
-  
+
   // Controladores
   late final AnimationController _animController;
   late final RegisterController _registerController;
-  
+
   // Errores de validación
   String? _nameError;
   String? _emailError;
   String? _passwordError;
   String? _confirmPasswordError;
-  
+
   // Estado de validación en tiempo real
   bool _isNameValid = false;
   bool _isEmailValid = false;
   bool _isPasswordValid = false;
   bool _doPasswordsMatch = false;
-  
+
   // Criterios de contraseña
   final Map<String, bool> _passwordCriteria = {
-    'length': false,      // Al menos 6 caracteres
-    'uppercase': false,   // Al menos una mayúscula
-    'number': false,      // Al menos un número
+    'length': false, // Al menos 6 caracteres
+    'uppercase': false, // Al menos una mayúscula
+    'number': false, // Al menos un número
   };
 
   @override
   void initState() {
     super.initState();
-    
+
     // Inicializar controlador de animación
     _animController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    
+
     // Inicializar controlador de registro
     _registerController = RegisterController(
       animationController: _animController,
       onFieldError: _showFieldError,
     );
-    
+
     // Escuchar cambios en los campos para validación en tiempo real
     _nameController.addListener(_validateNameRealtime);
     _emailController.addListener(_validateEmailRealtime);
     _passwordController.addListener(_validatePasswordRealtime);
     _confirmPasswordController.addListener(_validateConfirmPasswordRealtime);
   }
-  
+
   @override
   void dispose() {
     // Eliminar listeners
@@ -90,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
     _emailController.removeListener(_validateEmailRealtime);
     _passwordController.removeListener(_validatePasswordRealtime);
     _confirmPasswordController.removeListener(_validateConfirmPasswordRealtime);
-    
+
     // Dispose de controllers
     _nameController.dispose();
     _emailController.dispose();
@@ -104,15 +105,16 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
   /// Navegar al siguiente paso del registro
   void _nextStep() async {
     await _registerController.nextStep(
-      _currentStep, 
+      _currentStep,
       () => setState(() => _currentStep++),
-      () => [
-        // Validar campos del paso actual
-        _validateCurrentStepFields(),
-      ].expand((element) => element).toList(),
+      () =>
+          [
+            // Validar campos del paso actual
+            _validateCurrentStepFields(),
+          ].expand((element) => element).toList(),
     );
   }
-  
+
   /// Validar campos según el paso actual del formulario
   List<String?> _validateCurrentStepFields() {
     if (_currentStep == 1) {
@@ -124,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
     } else {
       setState(() {
         _passwordError = RegisterValidator.validatePassword(
-          _passwordController.text, 
+          _passwordController.text,
           _passwordCriteria,
         );
         _confirmPasswordError = RegisterValidator.validateConfirmPassword(
@@ -135,7 +137,7 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
       return [_passwordError, _confirmPasswordError];
     }
   }
-  
+
   /// Navegar al paso anterior o volver a la pantalla de bienvenida
   void _previousStep() async {
     await _registerController.previousStep(
@@ -144,7 +146,7 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
       () => context.go(AppRouter.welcome),
     );
   }
-  
+
   /// Mostrar efecto visual para campos con error
   void _showFieldError(String field) {
     // Esta función se puede ampliar para mostrar efectos visuales
@@ -165,37 +167,42 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
 
   /// Métodos de validación en tiempo real
   void _validateNameRealtime() {
-    final isValid = RegisterValidator.validateName(_nameController.text) == null;
+    final isValid =
+        RegisterValidator.validateName(_nameController.text) == null;
     if (_isNameValid != isValid) {
       setState(() => _isNameValid = isValid);
     }
   }
-  
+
   void _validateEmailRealtime() {
-    final isValid = RegisterValidator.validateEmail(_emailController.text) == null;
+    final isValid =
+        RegisterValidator.validateEmail(_emailController.text) == null;
     if (_isEmailValid != isValid) {
       setState(() => _isEmailValid = isValid);
     }
   }
-  
+
   void _validatePasswordRealtime() {
-    final isValid = RegisterValidator.validatePassword(
-      _passwordController.text, 
-      _passwordCriteria,
-    ) == null;
-    
+    final isValid =
+        RegisterValidator.validatePassword(
+          _passwordController.text,
+          _passwordCriteria,
+        ) ==
+        null;
+
     if (_isPasswordValid != isValid) {
       setState(() => _isPasswordValid = isValid);
     }
-    
+
     // También verificar coincidencia cuando cambia la contraseña
     _validateConfirmPasswordRealtime();
   }
-  
+
   void _validateConfirmPasswordRealtime() {
-    final doMatch = _passwordController.text.isNotEmpty && 
-                   _passwordController.text == _confirmPasswordController.text;
-    
+    final doMatch =
+        _passwordController.text.isNotEmpty &&
+        _passwordController.text == _confirmPasswordController.text;
+
     if (_doPasswordsMatch != doMatch) {
       setState(() => _doPasswordsMatch = doMatch);
     }
@@ -216,7 +223,9 @@ class _RegisterPageState extends State<RegisterPage> with SingleTickerProviderSt
           case AuthStatus.error:
             setState(() => _isLoading = false);
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage ?? 'Error desconocido')),
+              SnackBar(
+                content: Text(state.errorMessage ?? 'Error desconocido'),
+              ),
             );
             break;
           default:

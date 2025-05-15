@@ -32,7 +32,7 @@ class GlamTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +40,7 @@ class GlamTextField extends StatelessWidget {
           Text(
             label,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onBackground,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 8),
@@ -54,7 +54,7 @@ class GlamTextField extends StatelessWidget {
           onEditingComplete: onEditingComplete,
           onChanged: onChanged,
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onBackground,
+            color: theme.colorScheme.onSurface,
           ),
           decoration: InputDecoration(
             hintText: hintText,

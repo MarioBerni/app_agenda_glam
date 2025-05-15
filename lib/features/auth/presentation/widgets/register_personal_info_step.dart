@@ -7,20 +7,20 @@ import 'package:flutter/material.dart';
 class RegisterPersonalInfoStep extends StatelessWidget {
   /// Controlador para el campo de nombre
   final TextEditingController nameController;
-  
+
   /// Controlador para el campo de email
   final TextEditingController emailController;
-  
+
   /// Mensaje de error para el campo de nombre (si existe)
   final String? nameError;
-  
+
   /// Mensaje de error para el campo de email (si existe)
   final String? emailError;
-  
-  /// Indica si el nombre es válido para efectos visuales
+
+  /// Indica si el nombre es vÃ¡lido para efectos visuales
   final bool isNameValid;
-  
-  /// Indica si el email es válido para efectos visuales
+
+  /// Indica si el email es vÃ¡lido para efectos visuales
   final bool isEmailValid;
 
   const RegisterPersonalInfoStep({
@@ -39,19 +39,19 @@ class RegisterPersonalInfoStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       key: const ValueKey('personal_info_step'),
       children: [
-        // Campo de nombre con animación
+        // Campo de nombre con animaciÃ³n
         GlamAnimations.applyEntryEffect(
           Stack(
             children: [
               GlamTextField(
                 label: 'Nombre completo',
-                hintText: 'Juan Pérez',
+                hintText: 'Juan PÃ©rez',
                 controller: nameController,
                 errorText: nameError,
                 keyboardType: TextInputType.name,
                 prefixIcon: Icon(
                   Icons.person_outline,
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                 ),
               ),
               if (isNameValid && nameError == null)
@@ -71,8 +71,8 @@ class RegisterPersonalInfoStep extends StatelessWidget {
           slideDistance: 0.12,
         ),
         const SizedBox(height: 24),
-        
-        // Campo de email con animación
+
+        // Campo de email con animaciÃ³n
         GlamAnimations.applyEntryEffect(
           Stack(
             children: [
@@ -84,7 +84,7 @@ class RegisterPersonalInfoStep extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 prefixIcon: Icon(
                   Icons.email_outlined,
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                 ),
               ),
               if (isEmailValid && emailError == null)
@@ -103,7 +103,7 @@ class RegisterPersonalInfoStep extends StatelessWidget {
           ),
           slideDistance: 0.15,
         ),
-        
+
         // Texto informativo sobre el siguiente paso
         const SizedBox(height: 16),
         GlamAnimations.applyEntryEffect(
@@ -114,15 +114,15 @@ class RegisterPersonalInfoStep extends StatelessWidget {
                 Icon(
                   Icons.info_outline,
                   size: 14,
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'En el siguiente paso configurarás tu contraseña de acceso',
+                    'En el siguiente paso configurarÃ¡s tu contraseÃ±a de acceso',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontStyle: FontStyle.italic,
                     ),
                   ),

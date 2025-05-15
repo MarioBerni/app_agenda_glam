@@ -6,19 +6,19 @@ import 'package:go_router/go_router.dart';
 enum TransitionType {
   /// Transición por defecto - Fade + Slide desde abajo
   defaultTransition,
-  
+
   /// Transición para entrar a pantallas de autenticación - Fade + Slide desde la derecha
   authForward,
-  
+
   /// Transición para volver atrás en autenticación - Fade + Slide desde la izquierda
   authBackward,
-  
+
   /// Transición para confirmaciones - Fade + Scale
   confirmation,
-  
+
   /// Transición para pantallas de perfil - Slide horizontal
   profile,
-  
+
   /// Transición fade para cambios sutiles
   fade,
 }
@@ -28,7 +28,7 @@ enum TransitionType {
 class AppPageTransitions {
   // Prevenir instanciación
   AppPageTransitions._();
-  
+
   /// Mapa de transiciones predefinidas (se puede expandir según necesidad)
   static final Map<String, TransitionType> _routeTransitions = {
     // Autenticación
@@ -36,19 +36,19 @@ class AppPageTransitions {
     '/login': TransitionType.authForward,
     '/register': TransitionType.authForward,
     '/recovery': TransitionType.authForward,
-    
+
     // Confirmaciones
     '/recovery/confirmation': TransitionType.confirmation,
-    
+
     // Principal
     '/': TransitionType.fade,
   };
-  
+
   /// Obtiene el tipo de transición para una ruta específica
   static TransitionType getTransitionType(String routePath) {
     return _routeTransitions[routePath] ?? TransitionType.defaultTransition;
   }
-  
+
   /// Crea una página con transición personalizada basada en la ruta y dirección
   static CustomTransitionPage<void> buildTransitionPage({
     required BuildContext context,
@@ -57,8 +57,9 @@ class AppPageTransitions {
     TransitionType? transitionType,
   }) {
     // Determinar tipo de transición
-    final effectiveTransitionType = transitionType ?? getTransitionType(state.location);
-    
+    final effectiveTransitionType =
+        transitionType ?? getTransitionType(state.location);
+
     // Crear transición basada en el tipo
     return CustomTransitionPage<void>(
       key: state.pageKey,
@@ -73,10 +74,12 @@ class AppPageTransitions {
         );
       },
       transitionDuration: _getTransitionDuration(effectiveTransitionType),
-      reverseTransitionDuration: _getTransitionDuration(effectiveTransitionType),
+      reverseTransitionDuration: _getTransitionDuration(
+        effectiveTransitionType,
+      ),
     );
   }
-  
+
   /// Construye la transición específica basada en el tipo
   static Widget _buildTransition({
     required BuildContext context,
@@ -90,7 +93,7 @@ class AppPageTransitions {
       parent: animation,
       curve: GlamAnimations.defaultCurve,
     );
-    
+
     switch (type) {
       case TransitionType.defaultTransition:
         // Fade + Slide desde abajo
@@ -104,7 +107,7 @@ class AppPageTransitions {
             child: child,
           ),
         );
-        
+
       case TransitionType.authForward:
         // Fade + Slide desde la derecha
         return FadeTransition(
@@ -117,7 +120,7 @@ class AppPageTransitions {
             child: child,
           ),
         );
-        
+
       case TransitionType.authBackward:
         // Fade + Slide desde la izquierda
         return FadeTransition(
@@ -130,25 +133,19 @@ class AppPageTransitions {
             child: child,
           ),
         );
-        
+
       case TransitionType.confirmation:
         // Fade + Scale para confirmaciones
         return FadeTransition(
           opacity: curve,
           child: ScaleTransition(
-            scale: Tween<double>(
-              begin: 0.95,
-              end: 1.0,
-            ).animate(
-              CurvedAnimation(
-                parent: animation,
-                curve: Curves.easeOutQuint,
-              ),
+            scale: Tween<double>(begin: 0.95, end: 1.0).animate(
+              CurvedAnimation(parent: animation, curve: Curves.easeOutQuint),
             ),
             child: child,
           ),
         );
-        
+
       case TransitionType.profile:
         // Slide horizontal para perfil
         return SlideTransition(
@@ -158,16 +155,13 @@ class AppPageTransitions {
           ).animate(curve),
           child: child,
         );
-        
+
       case TransitionType.fade:
         // Transición fade simple
-        return FadeTransition(
-          opacity: curve,
-          child: child,
-        );
+        return FadeTransition(opacity: curve, child: child);
     }
   }
-  
+
   /// Determina la duración de la transición según el tipo
   static Duration _getTransitionDuration(TransitionType type) {
     switch (type) {

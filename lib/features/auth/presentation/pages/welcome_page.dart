@@ -24,10 +24,7 @@ class ParallaxBackground extends StatelessWidget {
       animation: controller,
       builder: (context, _) {
         return Transform.translate(
-          offset: Offset(
-            controller.dx * 15,
-            controller.dy * 15,
-          ),
+          offset: Offset(controller.dx * 15, controller.dy * 15),
           child: child,
         );
       },
@@ -44,18 +41,18 @@ class ParallaxController extends ChangeNotifier {
   double get dx => _dx;
   double get dy => _dy;
 
-  // Animación de movimiento sutil para el fondo
+  // AnimaciÃ³n de movimiento sutil para el fondo
   void animateForward() {
     if (_isAnimating) return;
     _isAnimating = true;
-    
+
     // Mover ligeramente el fondo al azar
     final random = DateTime.now().millisecondsSinceEpoch % 100 / 1000;
     _dx = random - 0.05;
     _dy = (random / 2) - 0.025;
     notifyListeners();
-    
-    // Volver a la posición original después
+
+    // Volver a la posiciÃ³n original despuÃ©s
     Future.delayed(const Duration(milliseconds: 800), () {
       _dx = 0.0;
       _dy = 0.0;
@@ -64,14 +61,12 @@ class ParallaxController extends ChangeNotifier {
     });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  // No necesitamos sobrescribir dispose() si solo llamamos a super.dispose()
+  // El analizador recomienda eliminar overrides innecesarios
 }
 
-/// Página de bienvenida que muestra opciones para login o registro
-/// con diseño visual mejorado y animaciones fluidas
+/// PÃ¡gina de bienvenida que muestra opciones para login o registro
+/// con diseÃ±o visual mejorado y animaciones fluidas
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
 
@@ -80,7 +75,7 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  // Controlador para animación del fondo parallax
+  // Controlador para animaciÃ³n del fondo parallax
   final _parallaxController = ParallaxController();
 
   @override
@@ -105,109 +100,133 @@ class _WelcomePageState extends State<WelcomePage> {
             controller: _parallaxController,
             child: const GlamVideoBackground(
               videoAsset: 'assets/videos/welcome_background.mp4',
-              gradientOpacity: 0.9,  // Aumentamos la opacidad para un efecto más visible
-              gradientColor: kPrimaryColor, // Usamos el color primario más oscuro
+              gradientOpacity:
+                  0.9, // Aumentamos la opacidad para un efecto mÃ¡s visible
+              gradientColor:
+                  kPrimaryColor, // Usamos el color primario mÃ¡s oscuro
             ),
           ),
-          
+
           // Contenido principal con SafeArea
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 16.0,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SizedBox(height: size.height * 0.05),
-                  
+
                   // Logo con animaciones mejoradas
                   GlamAnimations.applyLogoEffect(
-                    const GlamLogo(
-                      size: 110,
-                      showTagline: true,
-                    ),
+                    const GlamLogo(size: 110, showTagline: true),
                   ),
-                  
+
                   const Spacer(),
-                  
+
                   // Contenido con animaciones escalonadas
                   Column(
-                      children: [
-                        // Mensaje de bienvenida con animación de entrada
-                        GlamAnimations.applyEntryEffect(
-                          Text(
-                            'Bienvenido',
-                            style: theme.textTheme.headlineMedium?.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 0.5,
+                    children: [
+                      // Mensaje de bienvenida con animaciÃ³n de entrada
+                      GlamAnimations.applyEntryEffect(
+                        Text(
+                          'Bienvenido',
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            letterSpacing: 0.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        slideDistance: 0.1,
+                      ),
+                      const SizedBox(height: 16),
+                      // Texto descriptivo con animaciÃ³n retrasada
+                      GlamAnimations.applyEntryEffect(
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'Tu plataforma para descubrir y reservar los mejores servicios de estÃ©tica masculina',
+                            style: theme.textTheme.bodyLarge?.copyWith(
+                              color: Colors.white.withValues(alpha: 0.9),
+                              height: 1.4,
                             ),
                             textAlign: TextAlign.center,
                           ),
-                          slideDistance: 0.1,
                         ),
-                        const SizedBox(height: 16),
-                        // Texto descriptivo con animación retrasada
-                        GlamAnimations.applyEntryEffect(
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8),
-                            child: Text(
-                              'Tu plataforma para descubrir y reservar los mejores servicios de estética masculina',
-                              style: theme.textTheme.bodyLarge?.copyWith(
-                                color: Colors.white.withOpacity(0.9),
-                                height: 1.4,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                        slideDistance: 0.15,
+                      ),
+
+                      const SizedBox(height: 48),
+
+                      // BotÃ³n de inicio de sesiÃ³n con efectos visuales mejorados
+                      GlamAnimations.applyEntryEffect(
+                        Hero(
+                          tag:
+                              'login_button', // Para animaciÃ³n hero en transiciÃ³n
+                          child: GlamButton(
+                            text: 'Iniciar SesiÃ³n',
+                            onPressed: () {
+                              // AnimaciÃ³n de cambio de pÃ¡gina
+                              _parallaxController.animateForward();
+
+                              // Capturar el navegador antes de la operaciÃ³n asÃ­ncrona
+                              final navigator = GoRouter.of(context);
+
+                              Future.delayed(
+                                const Duration(milliseconds: 300),
+                                () {
+                                  // Verificar si el widget aÃºn estÃ¡ montado antes de usar el contexto
+                                  if (mounted) {
+                                    navigator.go(AppRouter.login);
+                                  }
+                                },
+                              );
+                            },
+                            icon: Icons.login_rounded,
+                            withShimmer: true, // Efecto visual adicional
                           ),
-                          slideDistance: 0.15,
                         ),
-                        
-                        const SizedBox(height: 48),
-                        
-                        // Botón de inicio de sesión con efectos visuales mejorados
-                        GlamAnimations.applyEntryEffect(
-                          Hero(
-                            tag: 'login_button', // Para animación hero en transición
-                            child: GlamButton(
-                              text: 'Iniciar Sesión',
-                              onPressed: () {
-                                // Animación de cambio de página
-                                _parallaxController.animateForward();
-                                Future.delayed(const Duration(milliseconds: 300), () {
-                                  context.go(AppRouter.login);
-                                });
-                              },
-                              icon: Icons.login_rounded,
-                              withShimmer: true, // Efecto visual adicional
-                            ),
+                        slideDistance: 0.2,
+                      ),
+
+                      const SizedBox(height: 16),
+
+                      // BotÃ³n de registro con animaciÃ³n de entrada
+                      GlamAnimations.applyEntryEffect(
+                        Hero(
+                          tag:
+                              'register_button', // Para animaciÃ³n hero en transiciÃ³n
+                          child: GlamButton(
+                            text: 'Registrarse',
+                            onPressed: () {
+                              // AnimaciÃ³n de cambio de pÃ¡gina
+                              _parallaxController.animateForward();
+
+                              // Capturar el navegador antes de la operaciÃ³n asÃ­ncrona
+                              final navigator = GoRouter.of(context);
+
+                              Future.delayed(
+                                const Duration(milliseconds: 300),
+                                () {
+                                  // Verificar si el widget aÃºn estÃ¡ montado antes de usar el contexto
+                                  if (mounted) {
+                                    navigator.go(AppRouter.register);
+                                  }
+                                },
+                              );
+                            },
+                            isSecondary: true,
+                            icon: Icons.person_add_rounded,
                           ),
-                          slideDistance: 0.2,
                         ),
-                        
-                        const SizedBox(height: 16),
-                        
-                        // Botón de registro con animación de entrada
-                        GlamAnimations.applyEntryEffect(
-                          Hero(
-                            tag: 'register_button', // Para animación hero en transición
-                            child: GlamButton(
-                              text: 'Registrarse',
-                              onPressed: () {
-                                // Animación de cambio de página
-                                _parallaxController.animateForward();
-                                Future.delayed(const Duration(milliseconds: 300), () {
-                                  context.go(AppRouter.register);
-                                });
-                              },
-                              isSecondary: true,
-                              icon: Icons.person_add_rounded,
-                            ),
-                          ),
-                          slideDistance: 0.25,
-                        ),
-                      ],
-                    ),
-                  
+                        slideDistance: 0.25,
+                      ),
+                    ],
+                  ),
+
                   SizedBox(height: size.height * 0.08),
                 ],
               ),

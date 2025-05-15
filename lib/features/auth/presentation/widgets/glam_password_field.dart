@@ -1,45 +1,45 @@
 import 'package:app_agenda_glam/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:flutter/material.dart';
 
-/// Campo de contraseña personalizado que permite mostrar/ocultar el texto
+/// Campo de contraseÃ±a personalizado que permite mostrar/ocultar el texto
 /// y opcionalmente mostrar un indicador de fortaleza
 class GlamPasswordField extends StatefulWidget {
   /// Etiqueta del campo
   final String label;
-  
+
   /// Texto de sugerencia (placeholder)
   final String? hintText;
-  
+
   /// Controlador para el campo de texto
   final TextEditingController controller;
-  
+
   /// Mensaje de error a mostrar
   final String? errorText;
-  
-  /// Si el campo está habilitado
+
+  /// Si el campo estÃ¡ habilitado
   final bool enabled;
-  
-  /// Acción del teclado al completar
+
+  /// AcciÃ³n del teclado al completar
   final TextInputAction textInputAction;
-  
+
   /// Nodo de foco para controlar el foco del campo
   final FocusNode? focusNode;
-  
-  /// Callback cuando se completa la edición
+
+  /// Callback cuando se completa la ediciÃ³n
   final VoidCallback? onEditingComplete;
-  
+
   /// Callback cuando cambia el valor
   final ValueChanged<String>? onChanged;
-  
+
   /// Callback cuando se completa la entrada en el campo (al presionar 'Done' o 'Next')
   final ValueChanged<String>? onFieldSubmitted;
-  
-  /// Si se debe mostrar el indicador de fortaleza de contraseña
+
+  /// Si se debe mostrar el indicador de fortaleza de contraseÃ±a
   final bool showStrengthIndicator;
-  
-  /// Criterios para evaluar la fortaleza de la contraseña
+
+  /// Criterios para evaluar la fortaleza de la contraseÃ±a
   final Map<String, bool> passwordCriteria;
-  
+
   /// Etiquetas descriptivas para cada criterio
   final Map<String, String>? criteriaLabels;
 
@@ -70,15 +70,15 @@ class _GlamPasswordFieldState extends State<GlamPasswordField> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (widget.label.isNotEmpty) ...[  
+        if (widget.label.isNotEmpty) ...[
           Text(
             widget.label,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onBackground,
+              color: theme.colorScheme.onSurface,
             ),
           ),
           const SizedBox(height: 8),
@@ -98,19 +98,26 @@ class _GlamPasswordFieldState extends State<GlamPasswordField> {
             }
           },
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onBackground,
+            color: theme.colorScheme.onSurface,
           ),
           decoration: InputDecoration(
             hintText: widget.hintText,
             errorText: widget.errorText,
             prefixIcon: Icon(
               Icons.lock_outline,
-              color: theme.colorScheme.onSurface.withOpacity(0.6),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
             ),
             suffixIcon: IconButton(
               icon: Icon(
-                _obscureText ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-                color: theme.colorScheme.onSurface.withOpacity(0.6),
+                _obscureText
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
+                color: Color.fromRGBO(
+                  theme.colorScheme.onSurface.r.toInt(),
+                  theme.colorScheme.onSurface.g.toInt(),
+                  theme.colorScheme.onSurface.b.toInt(),
+                  0.6,
+                ),
               ),
               onPressed: () {
                 setState(() {
@@ -158,17 +165,20 @@ class _GlamPasswordFieldState extends State<GlamPasswordField> {
             ),
           ),
         ),
-        
-        // Indicador de fortaleza de contraseña (si está habilitado)
-        if (widget.showStrengthIndicator && widget.passwordCriteria.isNotEmpty) ...[  
+
+        // Indicador de fortaleza de contraseÃ±a (si estÃ¡ habilitado)
+        if (widget.showStrengthIndicator &&
+            widget.passwordCriteria.isNotEmpty) ...[
           const SizedBox(height: 16),
           PasswordStrengthIndicator(
             criteria: widget.passwordCriteria,
-            criteriaLabels: widget.criteriaLabels ?? const {
-              'length': 'Al menos 6 caracteres',
-              'uppercase': 'Al menos una mayúscula',
-              'number': 'Al menos un número',
-            },
+            criteriaLabels:
+                widget.criteriaLabels ??
+                const {
+                  'length': 'Al menos 6 caracteres',
+                  'uppercase': 'Al menos una mayÃºscula',
+                  'number': 'Al menos un nÃºmero',
+                },
           ),
         ],
       ],

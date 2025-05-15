@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// Página para recuperar contraseña olvidada
+/// PÃ¡gina para recuperar contraseÃ±a olvidada
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
 
@@ -19,7 +19,7 @@ class ForgotPasswordPage extends StatefulWidget {
 class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  
+
   String? _emailError;
   bool _isLoading = false;
   bool _isSuccess = false;
@@ -31,13 +31,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   void _requestPasswordReset() {
-    // Validación básica
+    // ValidaciÃ³n bÃ¡sica
     setState(() {
       _emailError = _validateEmail(_emailController.text);
     });
 
     if (_emailError == null) {
-      // Si el email es válido, enviar solicitud
+      // Si el email es vÃ¡lido, enviar solicitud
       context.read<AuthCubit>().recoverPassword(_emailController.text);
     }
   }
@@ -46,12 +46,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     if (value.isEmpty) {
       return 'El email es requerido';
     }
-    
+
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Ingresa un email válido';
+      return 'Ingresa un email vÃ¡lido';
     }
-    
+
     return null;
   }
 
@@ -61,10 +61,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent, elevation: 0),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           switch (state.status) {
@@ -86,7 +83,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 _isSuccess = false;
               });
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMessage ?? 'Error desconocido')),
+                SnackBar(
+                  content: Text(state.errorMessage ?? 'Error desconocido'),
+                ),
               );
               break;
             default:
@@ -101,9 +100,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 padding: const EdgeInsets.all(24.0),
                 child: Form(
                   key: _formKey,
-                  child: _isSuccess 
-                      ? _buildSuccessView(theme)
-                      : _buildFormView(theme),
+                  child:
+                      _isSuccess
+                          ? _buildSuccessView(theme)
+                          : _buildFormView(theme),
                 ),
               ),
             ),
@@ -118,26 +118,21 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // Logo reducido
-        const Center(
-          child: GlamLogo(
-            size: 60,
-            showTagline: false,
-          ),
-        ),
+        const Center(child: GlamLogo(size: 60, showTagline: false)),
         const SizedBox(height: 32),
-        // Título
+        // TÃ­tulo
         Text(
-          'Recuperar contraseña',
+          'Recuperar contraseÃ±a',
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: theme.colorScheme.onBackground,
+            color: theme.colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
         Text(
-          'Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña',
+          'Ingresa tu email y te enviaremos un enlace para restablecer tu contraseÃ±a',
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onBackground.withOpacity(0.8),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
           ),
         ),
         const SizedBox(height: 32),
@@ -150,11 +145,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           keyboardType: TextInputType.emailAddress,
           prefixIcon: Icon(
             Icons.email_outlined,
-            color: theme.colorScheme.onSurface.withOpacity(0.6),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
           ),
         ),
         const SizedBox(height: 32),
-        // Botón de enviar
+        // BotÃ³n de enviar
         GlamButton(
           text: 'Enviar enlace',
           onPressed: _isLoading ? null : _requestPasswordReset,
@@ -166,15 +161,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              '¿Recordaste tu contraseña?',
+              'Â¿Recordaste tu contraseÃ±a?',
               style: theme.textTheme.bodyMedium?.copyWith(
-                color: theme.colorScheme.onBackground.withOpacity(0.8),
+                color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
               ),
             ),
             TextButton(
               onPressed: () => context.go(AppRouter.login),
               child: Text(
-                'Inicia sesión',
+                'Inicia sesiÃ³n',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.bold,
@@ -199,24 +194,24 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
         const SizedBox(height: 24),
         Text(
-          '¡Enlace enviado!',
+          'Â¡Enlace enviado!',
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
-            color: theme.colorScheme.onBackground,
+            color: theme.colorScheme.onSurface,
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 16),
         Text(
-          'Te hemos enviado un correo con instrucciones para restablecer tu contraseña',
+          'Te hemos enviado un correo con instrucciones para restablecer tu contraseÃ±a',
           style: theme.textTheme.bodyLarge?.copyWith(
-            color: theme.colorScheme.onBackground.withOpacity(0.8),
+            color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 48),
         GlamButton(
-          text: 'Volver a inicio de sesión',
+          text: 'Volver a inicio de sesiÃ³n',
           onPressed: () => context.go(AppRouter.login),
         ),
       ],

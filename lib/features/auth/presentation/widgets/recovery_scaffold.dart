@@ -3,21 +3,21 @@ import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Scaffold base para la pantalla de recuperación de contraseña
-/// Define la estructura común y elementos visuales compartidos
+/// Scaffold base para la pantalla de recuperaciÃ³n de contraseÃ±a
+/// Define la estructura comÃºn y elementos visuales compartidos
 class RecoveryScaffold extends StatelessWidget {
-  /// Título del scaffold
+  /// TÃ­tulo del scaffold
   final String title;
-  
-  /// Descripción o mensaje secundario
+
+  /// DescripciÃ³n o mensaje secundario
   final String? subtitle;
-  
+
   /// Contenido principal del scaffold
   final Widget content;
-  
-  /// Si debe mostrar el botón de retroceso
+
+  /// Si debe mostrar el botÃ³n de retroceso
   final bool showBackButton;
-  
+
   /// Constructor
   const RecoveryScaffold({
     super.key,
@@ -34,19 +34,16 @@ class RecoveryScaffold extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: showBackButton
-            ? IconButton(
-                icon: const Icon(Icons.arrow_back_ios, size: 20),
-                onPressed: () => context.pop(),
-                color: Colors.white,
-              ).glamEntry(
-                    duration: GlamAnimations.shortDuration,
-                  )
-            : null,
+        leading:
+            showBackButton
+                ? IconButton(
+                  icon: const Icon(Icons.arrow_back_ios, size: 20),
+                  onPressed: () => context.pop(),
+                  color: Colors.white,
+                ).glamEntry(duration: GlamAnimations.shortDuration)
+                : null,
       ),
-      body: SafeArea(
-        child: _buildContent(),
-      ),
+      body: SafeArea(child: _buildContent()),
     );
   }
 
@@ -61,7 +58,7 @@ class RecoveryScaffold extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Título principal
+              // TÃ­tulo principal
               Text(
                 title,
                 style: const TextStyle(
@@ -73,8 +70,8 @@ class RecoveryScaffold extends StatelessWidget {
                 duration: const Duration(milliseconds: 600),
                 offset: const Offset(0, 0.05),
               ),
-              
-              // Subtítulo opcional
+
+              // SubtÃ­tulo opcional
               if (subtitle != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -82,7 +79,7 @@ class RecoveryScaffold extends StatelessWidget {
                     subtitle!,
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.white.withOpacity(0.7),
+                      color: Colors.white.withValues(alpha: 0.7),
                     ),
                   ).glamEntry(
                     duration: const Duration(milliseconds: 700),
@@ -92,7 +89,7 @@ class RecoveryScaffold extends StatelessWidget {
             ],
           ),
         ),
-        
+
         // Separador superior con gradiente sutil
         Container(
           height: 1,
@@ -101,20 +98,16 @@ class RecoveryScaffold extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 Colors.transparent,
-                kAccentColor.withOpacity(0.6),
+                kAccentColor.withValues(alpha: 0.6),
                 Colors.transparent,
               ],
               stops: const [0.0, 0.5, 1.0],
             ),
           ),
-        ).glamEntry(
-          duration: const Duration(milliseconds: 900),
-        ),
-        
+        ).glamEntry(duration: const Duration(milliseconds: 900)),
+
         // Contenido principal
-        Expanded(
-          child: content,
-        ),
+        Expanded(child: content),
       ],
     );
   }

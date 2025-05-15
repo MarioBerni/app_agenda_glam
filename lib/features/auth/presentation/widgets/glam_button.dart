@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-/// Botón personalizado con el estilo de Agenda Glam
+/// BotÃ³n personalizado con el estilo de Agenda Glam
 /// Soporta estados de carga, deshabilitado, iconos y efectos visuales
 class GlamButton extends StatefulWidget {
   final String text;
@@ -31,7 +31,8 @@ class GlamButton extends StatefulWidget {
   State<GlamButton> createState() => _GlamButtonState();
 }
 
-class _GlamButtonState extends State<GlamButton> with SingleTickerProviderStateMixin {
+class _GlamButtonState extends State<GlamButton>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _shimmerAnimation;
   bool _isHovered = false;
@@ -48,10 +49,7 @@ class _GlamButtonState extends State<GlamButton> with SingleTickerProviderStateM
     _shimmerAnimation = Tween<double>(
       begin: -1.0,
       end: 2.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
 
     if (widget.withShimmer) {
       _controller.repeat();
@@ -69,20 +67,22 @@ class _GlamButtonState extends State<GlamButton> with SingleTickerProviderStateM
     final theme = Theme.of(context);
     final accentColor = theme.colorScheme.secondary;
     final textColor = widget.isSecondary ? accentColor : Colors.black;
-    
-    // Calcular tamaños y sombras basados en estado
+
+    // Calcular tamaÃ±os y sombras basados en estado
     final scale = _isPressed ? 0.98 : (_isHovered ? 1.02 : 1.0);
-    final elevation = widget.isSecondary 
-        ? 0.0 
-        : (_isHovered ? 4.0 : (_isPressed ? 1.0 : 2.0));
-    final shadowOpacity = widget.isSecondary 
-        ? 0.0 
-        : (_isHovered ? 0.4 : (_isPressed ? 0.2 : 0.3));
-    
-    // Construir el contenido del botón
+    final elevation =
+        widget.isSecondary
+            ? 0.0
+            : (_isHovered ? 4.0 : (_isPressed ? 1.0 : 2.0));
+    final shadowOpacity =
+        widget.isSecondary
+            ? 0.0
+            : (_isHovered ? 0.4 : (_isPressed ? 0.2 : 0.3));
+
+    // Construir el contenido del botÃ³n
     Widget buttonContent = isLoadingOrContent(textColor, theme);
-    
-    // Aplicar efecto shimmer si está habilitado
+
+    // Aplicar efecto shimmer si estÃ¡ habilitado
     if (widget.withShimmer && !widget.isLoading) {
       buttonContent = AnimatedBuilder(
         animation: _shimmerAnimation,
@@ -96,7 +96,7 @@ class _GlamButtonState extends State<GlamButton> with SingleTickerProviderStateM
         child: buttonContent,
       );
     }
-    
+
     return SizedBox(
       width: widget.isFullWidth ? double.infinity : null,
       height: widget.height,
@@ -117,13 +117,14 @@ class _GlamButtonState extends State<GlamButton> with SingleTickerProviderStateM
               decoration: BoxDecoration(
                 color: widget.isSecondary ? Colors.transparent : accentColor,
                 borderRadius: BorderRadius.circular(12),
-                border: widget.isSecondary 
-                    ? Border.all(color: accentColor, width: 2)
-                    : null,
+                border:
+                    widget.isSecondary
+                        ? Border.all(color: accentColor, width: 2)
+                        : null,
                 boxShadow: [
                   if (!widget.isSecondary)
                     BoxShadow(
-                      color: accentColor.withOpacity(shadowOpacity),
+                      color: accentColor.withValues(alpha: shadowOpacity),
                       blurRadius: elevation * 2,
                       spreadRadius: elevation / 2,
                       offset: Offset(0, elevation / 2),
@@ -135,14 +136,18 @@ class _GlamButtonState extends State<GlamButton> with SingleTickerProviderStateM
                 child: InkWell(
                   onTap: widget.isLoading ? null : widget.onPressed,
                   borderRadius: BorderRadius.circular(12),
-                  splashColor: widget.withRippleEffect
-                      ? (widget.isSecondary 
-                          ? accentColor.withOpacity(0.1) 
-                          : Colors.white.withOpacity(0.1))
-                      : Colors.transparent,
+                  splashColor:
+                      widget.withRippleEffect
+                          ? (widget.isSecondary
+                              ? accentColor.withValues(alpha: 0.1)
+                              : Colors.white.withValues(alpha: 0.1))
+                          : Colors.transparent,
                   highlightColor: Colors.transparent,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 24,
+                    ),
                     child: Center(child: buttonContent),
                   ),
                 ),
@@ -153,7 +158,7 @@ class _GlamButtonState extends State<GlamButton> with SingleTickerProviderStateM
       ),
     );
   }
-  
+
   Widget isLoadingOrContent(Color textColor, ThemeData theme) {
     if (widget.isLoading) {
       // Estado de carga
@@ -212,17 +217,13 @@ class ShimmerEffect extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (!active) return child;
-    
+
     return ShaderMask(
       shaderCallback: (bounds) {
         return LinearGradient(
           begin: Alignment(math.max(-1, math.min(direction, 2)), 0.0),
           end: Alignment(math.min(2, math.max(direction + 1, -1)), 0.0),
-          colors: const [
-            Colors.transparent,
-            Colors.white,
-            Colors.transparent,
-          ],
+          colors: const [Colors.transparent, Colors.white, Colors.transparent],
           stops: const [0.4, 0.5, 0.6],
         ).createShader(bounds);
       },

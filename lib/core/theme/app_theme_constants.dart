@@ -1,26 +1,41 @@
 import 'package:flutter/material.dart';
 
 // Paleta de colores para Agenda Glam (Azul y Dorado)
-const Color kPrimaryColor = Color(0xFF00296B);    // Royal Blue Traditional (AppBar)
-const Color kPrimaryColorLight = Color(0xFF003F88);  // Marian Blue
-const Color kPrimaryColorDark = Color(0xFF00509D);   // Polynesian Blue
-const Color kAccentColor = Color(0xFFFDC500);     // Mikado Yellow (Acento/Botones)
-const Color kAccentColorAlt = Color(0xFFFFD500);  // Gold (Acento alternativo)
-const Color kBackgroundColor = Color(0xFF001B4D);  // Versión más oscura de Royal Blue (Fondo)
-const Color kSurfaceColor = Color(0xFF002C76);     // Versión más oscura de Marian Blue (Superficies/Cards)
-const Color kTextColor = Color(0xFFFFFFFF);        // Blanco (Texto principal)
-const Color kSecondaryTextColor = Color(0xFFB0BAC5); // Gris azulado (Texto secundario)
-const Color kErrorColor = Color(0xFFCF6679);       // Rojo error oscuro
-const Color kOnPrimaryColor = kTextColor;          // Texto sobre primario
-const Color kOnAccentColor = Colors.black;         // Texto sobre acento (negro sobre dorado)
+const Color kPrimaryColor = Color(
+  0xFF00296B,
+); // Royal Blue Traditional (AppBar)
+const Color kPrimaryColorLight = Color(0xFF003F88); // Marian Blue
+const Color kPrimaryColorDark = Color(0xFF00509D); // Polynesian Blue
+const Color kAccentColor = Color(0xFFFDC500); // Mikado Yellow (Acento/Botones)
+const Color kAccentColorAlt = Color(0xFFFFD500); // Gold (Acento alternativo)
+const Color kBackgroundColor = Color(
+  0xFF001B4D,
+); // Versión más oscura de Royal Blue (Fondo)
+const Color kSurfaceColor = Color(
+  0xFF002C76,
+); // Versión más oscura de Marian Blue (Superficies/Cards)
+const Color kTextColor = Color(0xFFFFFFFF); // Blanco (Texto principal)
+const Color kSecondaryTextColor = Color(
+  0xFFB0BAC5,
+); // Gris azulado (Texto secundario)
+const Color kErrorColor = Color(0xFFCF6679); // Rojo error oscuro
+const Color kOnPrimaryColor = kTextColor; // Texto sobre primario
+const Color kOnAccentColor =
+    Colors.black; // Texto sobre acento (negro sobre dorado)
 
 // Color con opacidad para usar en varios lugares
 // Usamos withAlpha en lugar de withOpacity para evitar el warning de deprecación
-final Color kAccentColorWithOpacity = kAccentColor.withAlpha(102);      // 0.4 * 255 = 102
-final Color kSecondaryTextColorWithOpacity = kSecondaryTextColor.withAlpha(179); // 0.7 * 255 = 179
-final Color kSurfaceColorWithOpacity = kSurfaceColor.withAlpha(179);     // 0.7 * 255 = 179
-final Color kAccentColorLightBg = kAccentColor.withAlpha(51);           // 0.2 * 255 = 51
-final Color kBlackWithOpacity = Colors.black.withAlpha(77);             // 0.3 * 255 = 77
+final Color kAccentColorWithOpacity = kAccentColor.withAlpha(
+  102,
+); // 0.4 * 255 = 102
+final Color kSecondaryTextColorWithOpacity = kSecondaryTextColor.withAlpha(
+  179,
+); // 0.7 * 255 = 179
+final Color kSurfaceColorWithOpacity = kSurfaceColor.withAlpha(
+  179,
+); // 0.7 * 255 = 179
+final Color kAccentColorLightBg = kAccentColor.withAlpha(51); // 0.2 * 255 = 51
+final Color kBlackWithOpacity = Colors.black.withAlpha(77); // 0.3 * 255 = 77
 
 // Constantes de espaciado
 const double kSpaceXXS = 2.0;

@@ -4,28 +4,28 @@ import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Footer para la página de registro con enlace a inicio de sesión
+/// Footer para la pÃ¡gina de registro con enlace a inicio de sesiÃ³n
 class RegisterFooter extends StatelessWidget {
   const RegisterFooter({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return GlamAnimations.applyEntryEffect(
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            '¿Ya tienes una cuenta?',
+            'Â¿Ya tienes una cuenta?',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
             ),
           ),
           TextButton(
             onPressed: () => context.go(AppRouter.login),
             child: Text(
-              'Inicia sesión',
+              'Inicia sesiÃ³n',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: kAccentColor,
                 fontWeight: FontWeight.w500,

@@ -20,12 +20,12 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-void main() async { 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // Configurar el BlocObserver para depuración
   Bloc.observer = AppBlocObserver();
-  
+
   // Inicializar las dependencias con GetIt
   await initializeDependencies();
 

@@ -1,12 +1,11 @@
 # Herramientas y Comandos para Desarrollo: Agenda Glam
 
-Este documento centraliza todos los comandos y herramientas útiles para el análisis, prueba, depuración y optimización del proyecto Agenda Glam. Está organizado por categorías funcionales para facilitar su consulta durante el desarrollo.
+Este documento centraliza los comandos y herramientas esenciales para el análisis, depuración y optimización del proyecto Agenda Glam.
 
 ## 📋 Índice
 
 - [Análisis de Código y Calidad](#análisis-de-código-y-calidad)
 - [Rendimiento y Optimización](#rendimiento-y-optimización)
-- [Testing y Cobertura](#testing-y-cobertura)
 - [Integración Continua y Builds](#integración-continua-y-builds)
 - [Depuración Avanzada](#depuración-avanzada)
 - [Herramientas UI y Visualización](#herramientas-ui-y-visualización)
@@ -179,73 +178,7 @@ flutter run --trace-startup --profile
 
 **Resultado**: Registro de tiempos para eventos de inicialización como precalentamiento de VM, carga de recursos, etc.
 
----
 
-## Testing y Cobertura
-
-### Ejecutar Tests
-
-```bash
-# Ejecutar todos los tests
-flutter test
-
-# Ejecutar un archivo específico de test
-flutter test test/features/auth/domain/usecases/login_user_test.dart
-
-# Ejecutar todos los tests de un directorio
-flutter test test/features/auth/
-```
-
-**Objetivo**: Verificar el correcto funcionamiento del código mediante pruebas automatizadas.
-
-**Resultado**: Reporte de tests ejecutados, aprobados y fallidos.
-
-**Estructura recomendada**: Organizar los tests siguiendo la misma estructura de carpetas del código, respetando la arquitectura por features.
-
-### Tests con Cobertura
-
-```bash
-# Ejecutar tests con cobertura
-flutter test --coverage
-
-# Generar reporte HTML (requiere lcov)
-genhtml coverage/lcov.info -o coverage/html
-
-# Abrir reporte en navegador (Windows PowerShell)
-Start-Process "coverage/html/index.html"
-```
-
-**Objetivo**: Medir qué porcentaje del código está cubierto por tests.
-
-**Resultado**: 
-- Archivo `lcov.info` con datos de cobertura
-- Reporte HTML que muestra visualmente las líneas cubiertas y no cubiertas
-
-**Configuración previa**: 
-- Para generar el reporte HTML, instalar lcov:
-  - Windows: a través de Chocolatey `choco install lcov`
-  - Mac: `brew install lcov`
-  - Linux: `sudo apt install lcov`
-
-**Interpretación**: Buscar áreas con baja cobertura, especialmente en la capa de dominio (lógica de negocio).
-
-### Golden Tests (Tests Visuales)
-
-```bash
-# Ejecutar solo golden tests
-flutter test --tags=golden
-
-# Actualizar archivos golden
-flutter test --update-goldens
-```
-
-**Objetivo**: Verificar que los widgets se renderizan visualmente como se espera.
-
-**Resultado**: Comparación píxel por píxel entre el renderizado actual y una imagen de referencia.
-
-**Configuración previa**: 
-- Crear archivos de test que generen imágenes golden
-- Estructura recomendada: `test/features/auth/presentation/widgets/login_button_golden_test.dart`
 
 ---
 
@@ -404,110 +337,55 @@ flutter logs | Select-String "BLoC"
 
 ## Herramientas UI y Visualización
 
-### Flutter Stetho (Para Android con Chrome)
-
-```yaml
-# Añadir a pubspec.yaml
-dependencies:
-  flutter_stetho: ^0.6.0
-```
+### Performance Overlay
 
 ```dart
-// En main.dart antes de runApp
-void main() {
-  Stetho.initialize();
-  runApp(MyApp());
-}
+// En MaterialApp
+MaterialApp(
+  showPerformanceOverlay: true,
+  home: MyHomePage(),
+);
 ```
 
-**Objetivo**: Conectar la app Flutter a Chrome DevTools para inspección avanzada.
+**Objetivo**: Visualizar rendimiento UI en tiempo real con gráficos superpuestos.
 
-**Resultado**: Permite ver:
-- Logs
-- Base de datos SQLite
-- Peticiones de red
-- Jerarquía de vistas
+**Resultado**: Gráficos que muestran rendimiento de frames UI y rasterizado.
 
-**Configuración previa**:
-1. Añadir dependencia en pubspec.yaml
-2. Inicializar en main.dart
-3. Conectar dispositivo Android
-4. Abrir chrome://inspect en Chrome
+### Devtools de Flutter
 
-**Limitación**: Solo funciona en Android.
+```bash
+# Activar DevTools
+flutter pub global activate devtools
 
-### Flutter Performance Monitor
-
-```yaml
-# Añadir a pubspec.yaml
-dependencies:
-  flutter_performance_monitor: ^1.0.4
+# Iniciar DevTools
+flutter pub global run devtools
 ```
+
+**Objetivo**: Suite completa de herramientas para depuración y análisis.
+
+**Resultado**: Acceso a inspección de widgets, análisis de rendimiento, memoria y red.
+
+### BLoC Observer para Depuración
 
 ```dart
-// Activar monitor en cualquier lugar de la app
-PerformanceMonitor().start();
-```
-
-**Objetivo**: Mostrar estadísticas de rendimiento directamente en la app.
-
-**Resultado**: Overlay visual con:
-- FPS actual
-- Uso de CPU
-- Uso de memoria
-- Tiempo de frame
-
-**Cuándo usar**: Durante desarrollo para identificar problemas de rendimiento en tiempo real.
-
-### Timeline Events Personalizados
-
-```dart
-import 'dart:developer' as developer;
-
-void funcionCostosa() {
-  developer.Timeline.startSync('Operación costosa');
-  try {
-    // Código a medir
-  } finally {
-    developer.Timeline.finishSync();
-  }
-}
-```
-
-**Objetivo**: Crear marcadores personalizados en la timeline de DevTools.
-
-**Resultado**: Secciones identificables en la timeline de DevTools para análisis detallado.
-
-**Visualización**: Los eventos aparecen en la pestaña Performance de DevTools.
-
-### Inspección de Provider/BLoC
-
-```yaml
-# Añadir a pubspec.yaml (si usas provider)
-dev_dependencies:
-  provider_debugger: ^1.0.0
-```
-
-```dart
-// Para BLoC, ya incluye su propia herramienta de debug
+// En main.dart
 BlocOverrides.runZoned(
   () => runApp(MyApp()),
   blocObserver: AppBlocObserver(),
 );
+
+// Implementación sencilla
+class AppBlocObserver extends BlocObserver {
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    print('${bloc.runtimeType} $change');
+  }
+}
 ```
 
-**Objetivo**: Facilitar la depuración de estados y cambios en Provider o BLoC.
-
-**Resultado**: 
-- Para Provider: Widget en pantalla mostrando estados actuales
-- Para BLoC: Logs detallados de transiciones de estado a través de AppBlocObserver
-
-**Configuración previa**:
-- Provider: Añadir paquete provider_debugger
-- BLoC: Implementar AppBlocObserver personalizado
-
-**Recomendación**: En producción, desactivar estas herramientas de debug o configurarlas para que solo se activen en modo desarrollo.
+**Objetivo**: Monitorear cambios de estado en la arquitectura BLoC.
 
 ---
 
-Este documento será actualizado con nuevas herramientas y comandos a medida que el proyecto evolucione. Si encuentras una herramienta útil, por favor considera añadirla a esta lista.
+Este documento será actualizado según evolucione el proyecto. Contiene las herramientas esenciales para el desarrollo actual de Agenda Glam.

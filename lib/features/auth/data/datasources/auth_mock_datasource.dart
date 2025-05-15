@@ -23,13 +23,13 @@ class AuthMockDataSource {
   }) async {
     // Simular retraso de red
     await Future.delayed(const Duration(seconds: 1));
-    
+
     // Busca un usuario con el email indicado
     final user = _users.firstWhere(
       (user) => user.email == email,
       orElse: () => throw Exception('Usuario no encontrado'),
     );
-    
+
     // En un escenario real, aquí verificaríamos la contraseña
     // Para demo aceptamos cualquier contraseña
     if (password.isNotEmpty) {
@@ -48,13 +48,13 @@ class AuthMockDataSource {
   }) async {
     // Simular retraso de red
     await Future.delayed(const Duration(seconds: 1));
-    
+
     // Verifica si ya existe un usuario con ese email
     final existingUser = _users.any((user) => user.email == email);
     if (existingUser) {
       throw Exception('El email ya está registrado');
     }
-    
+
     // Crea un nuevo usuario
     final newUser = UserModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -62,13 +62,13 @@ class AuthMockDataSource {
       email: email,
       isAuthenticated: true,
     );
-    
+
     // Añade el usuario a la "base de datos"
     _users.add(newUser);
-    
+
     // Establece como usuario actual
     _currentUser = newUser;
-    
+
     return newUser;
   }
 
@@ -82,13 +82,13 @@ class AuthMockDataSource {
   Future<void> recoverPassword(String email) async {
     // Simular retraso de red
     await Future.delayed(const Duration(seconds: 1));
-    
+
     // Verifica si existe un usuario con ese email
     final existingUser = _users.any((user) => user.email == email);
     if (!existingUser) {
       throw Exception('No existe ningún usuario con ese email');
     }
-    
+
     // En un caso real, aquí se enviaría un email
     // Para la demo, simplemente retornamos éxito
     return;

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class RegisterController {
   /// Controlador de animación para las transiciones entre pasos
   final AnimationController animationController;
-  
+
   /// Función de callback cuando se produce un error en un campo
   final Function(String field) onFieldError;
-  
+
   /// Constructor
   RegisterController({
     required this.animationController,
@@ -24,7 +24,7 @@ class RegisterController {
     // Obtener errores de validación
     final List<String?> errors = validateCurrentStep();
     final bool hasErrors = errors.any((error) => error != null);
-    
+
     if (!hasErrors) {
       // Animar transición al siguiente paso
       await animationController.forward();
@@ -35,17 +35,18 @@ class RegisterController {
       final int errorIndex = errors.indexWhere((error) => error != null);
       if (errorIndex >= 0) {
         // Determinar qué campo tiene el error
-        final List<String> fieldNames = currentStep == 1 
-          ? ['name', 'email'] 
-          : ['password', 'confirmPassword'];
-          
+        final List<String> fieldNames =
+            currentStep == 1
+                ? ['name', 'email']
+                : ['password', 'confirmPassword'];
+
         if (errorIndex < fieldNames.length) {
           onFieldError(fieldNames[errorIndex]);
         }
       }
     }
   }
-  
+
   /// Navega al paso anterior con animación
   Future<void> previousStep(
     int currentStep,
@@ -62,7 +63,7 @@ class RegisterController {
       onBackToWelcome();
     }
   }
-  
+
   /// Limpia los recursos del controlador
   void dispose() {
     // No necesitamos hacer dispose del animation controller

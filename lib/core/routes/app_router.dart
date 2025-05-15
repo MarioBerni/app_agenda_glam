@@ -17,7 +17,7 @@ class AppRouter {
   static const String login = '/login';
   static const String register = '/register';
   static const String recovery = '/recovery';
-  
+
   /// Configuración del router con go_router y transiciones personalizadas
   static final GoRouter router = GoRouter(
     initialLocation: splash,
@@ -26,67 +26,73 @@ class AppRouter {
       // Pantalla de splash
       GoRoute(
         path: splash,
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const SplashScreen(),
-          transitionType: TransitionType.fade,
-        ),
+        pageBuilder:
+            (context, state) => AppPageTransitions.buildTransitionPage(
+              context: context,
+              state: state,
+              child: const SplashScreen(),
+              transitionType: TransitionType.fade,
+            ),
       ),
-      
+
       // Pantalla de bienvenida/selector (login/registro)
       GoRoute(
         path: welcome,
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const WelcomePage(),
-          transitionType: TransitionType.defaultTransition,
-        ),
+        pageBuilder:
+            (context, state) => AppPageTransitions.buildTransitionPage(
+              context: context,
+              state: state,
+              child: const WelcomePage(),
+              transitionType: TransitionType.defaultTransition,
+            ),
       ),
-      
+
       // Pantalla de login
       GoRoute(
         path: login,
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const LoginPage(),
-          transitionType: TransitionType.authForward,
-        ),
+        pageBuilder:
+            (context, state) => AppPageTransitions.buildTransitionPage(
+              context: context,
+              state: state,
+              child: const LoginPage(),
+              transitionType: TransitionType.authForward,
+            ),
       ),
-      
+
       // Pantalla de registro
       GoRoute(
         path: register,
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const RegisterPage(),
-          transitionType: TransitionType.authForward,
-        ),
+        pageBuilder:
+            (context, state) => AppPageTransitions.buildTransitionPage(
+              context: context,
+              state: state,
+              child: const RegisterPage(),
+              transitionType: TransitionType.authForward,
+            ),
       ),
-      
+
       // Pantalla de recuperación de contraseña
       GoRoute(
         path: recovery,
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const RecoveryPage(),
-          transitionType: TransitionType.authForward,
-        ),
+        pageBuilder:
+            (context, state) => AppPageTransitions.buildTransitionPage(
+              context: context,
+              state: state,
+              child: const RecoveryPage(),
+              transitionType: TransitionType.authForward,
+            ),
       ),
-      
+
       // Pantalla de inicio (Home)
       GoRoute(
         path: home,
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const HomeScreen(),
-          transitionType: TransitionType.fade,
-        ),
+        pageBuilder:
+            (context, state) => AppPageTransitions.buildTransitionPage(
+              context: context,
+              state: state,
+              child: const HomeScreen(),
+              transitionType: TransitionType.fade,
+            ),
       ),
     ],
   );
@@ -100,7 +106,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   // Controlador para animación del botón
   late AnimationController _buttonAnimController;
   bool _showButton = false;
@@ -108,13 +115,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   void initState() {
     super.initState();
-    
+
     // Inicializar controlador de animación
     _buttonAnimController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 800),
     );
-    
+
     // Mostrar el botón después de 2 segundos para dar tiempo a que se aprecien las animaciones
     Future.delayed(const Duration(seconds: 2), () {
       if (mounted) {
@@ -135,7 +142,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Center(
@@ -143,33 +150,46 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Aquí podría ir un logo o imagen cuando se tengan los assets
-            Icon(
-              Icons.schedule,
-              size: 80,
-              color: theme.colorScheme.secondary,
-            ).animate()
-              .fade(duration: const Duration(milliseconds: 800))
-              .scale(delay: const Duration(milliseconds: 300)),
-              
+            Icon(Icons.schedule, size: 80, color: theme.colorScheme.secondary)
+                .animate()
+                .fade(duration: const Duration(milliseconds: 800))
+                .scale(delay: const Duration(milliseconds: 300)),
+
             const SizedBox(height: 24),
             Text(
-              'Agenda Glam',
-              style: theme.textTheme.headlineLarge?.copyWith(
-                color: theme.colorScheme.secondary,
-                fontWeight: FontWeight.bold,
-              ),
-            ).animate()
-              .fade(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 400))
-              .slideY(begin: 0.2, end: 0, delay: const Duration(milliseconds: 400)),
-              
+                  'Agenda Glam',
+                  style: theme.textTheme.headlineLarge?.copyWith(
+                    color: theme.colorScheme.secondary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                )
+                .animate()
+                .fade(
+                  duration: const Duration(milliseconds: 800),
+                  delay: const Duration(milliseconds: 400),
+                )
+                .slideY(
+                  begin: 0.2,
+                  end: 0,
+                  delay: const Duration(milliseconds: 400),
+                ),
+
             const SizedBox(height: 16),
             Text(
-              'Tu agenda de belleza masculina',
-              style: theme.textTheme.bodyLarge,
-            ).animate()
-              .fade(duration: const Duration(milliseconds: 800), delay: const Duration(milliseconds: 700))
-              .slideY(begin: 0.2, end: 0, delay: const Duration(milliseconds: 700)),
-              
+                  'Tu agenda de belleza masculina',
+                  style: theme.textTheme.bodyLarge,
+                )
+                .animate()
+                .fade(
+                  duration: const Duration(milliseconds: 800),
+                  delay: const Duration(milliseconds: 700),
+                )
+                .slideY(
+                  begin: 0.2,
+                  end: 0,
+                  delay: const Duration(milliseconds: 700),
+                ),
+
             const SizedBox(height: 60),
             // Botón con animación de aparición
             AnimatedOpacity(
@@ -183,8 +203,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                   onPressed: () => context.go(AppRouter.welcome),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.secondary,
-                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 40,
+                      vertical: 16,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                   child: const Text('Comenzar', style: TextStyle(fontSize: 18)),
                 ),
@@ -204,12 +229,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Agenda Glam'),
-      ),
-      body: const Center(
-        child: Text('Bienvenido a Agenda Glam'),
-      ),
+      appBar: AppBar(title: const Text('Agenda Glam')),
+      body: const Center(child: Text('Bienvenido a Agenda Glam')),
     );
   }
 }

@@ -202,7 +202,7 @@ class AppTheme {
       behavior: SnackBarBehavior.floating,
       actionTextColor: kAccentColor,
     ),
-    
+
     useMaterial3: true,
   );
 }

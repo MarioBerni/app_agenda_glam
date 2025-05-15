@@ -6,16 +6,16 @@ import 'package:app_agenda_glam/features/auth/domain/validators/recovery_validat
 class RecoveryController {
   /// Controlador de animación para transiciones y efectos visuales
   final AnimationController animationController;
-  
+
   /// Función de callback cuando se produce un error en un campo
   final Function(String message) onError;
-  
+
   /// Función de callback cuando se inicia el procesamiento
   final Function() onStartProcessing;
-  
+
   /// Función de callback cuando se completa el procesamiento
   final Function() onEndProcessing;
-  
+
   /// Función de callback cuando se envía correctamente el email
   final Function() onEmailSent;
 
@@ -27,7 +27,7 @@ class RecoveryController {
     required this.onEndProcessing,
     required this.onEmailSent,
   });
-  
+
   /// Inicia el proceso de recuperación de contraseña
   Future<void> recoverPassword(String email) async {
     // Validar el formato del email primero
@@ -36,17 +36,19 @@ class RecoveryController {
       onError(emailError);
       return;
     }
-    
+
     // Iniciar animación de procesamiento
     onStartProcessing();
-    
+
     try {
       // Simular la verificación con el backend
       await animationController.forward();
-      
+
       // Verificar si el email está registrado
-      final bool isRegistered = await RecoveryValidator.isEmailRegistered(email);
-      
+      final bool isRegistered = await RecoveryValidator.isEmailRegistered(
+        email,
+      );
+
       if (isRegistered) {
         // Si está registrado, simular el envío de correo
         await Future.delayed(const Duration(milliseconds: 800));
@@ -64,12 +66,12 @@ class RecoveryController {
       onEndProcessing();
     }
   }
-  
+
   /// Reinicia el proceso de recuperación de contraseña
   void resetRecovery() {
     animationController.reset();
   }
-  
+
   /// Limpia los recursos del controlador
   void dispose() {
     // No necesitamos hacer dispose del animation controller

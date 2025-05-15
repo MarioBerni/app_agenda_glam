@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 class RegisterScaffold extends StatelessWidget {
   /// Contenido principal del scaffold
   final Widget child;
-  
+
   /// Función para manejar el botón de retroceso
   final VoidCallback onBackPressed;
 
@@ -28,10 +28,7 @@ class RegisterScaffold extends StatelessWidget {
         leading: GestureDetector(
           onTap: onBackPressed,
           child: GlamAnimations.applyEntryEffect(
-            const Icon(
-              Icons.arrow_back_ios_new_rounded,
-              color: Colors.white,
-            ),
+            const Icon(Icons.arrow_back_ios_new_rounded, color: Colors.white),
           ),
         ),
       ),
@@ -39,7 +36,7 @@ class RegisterScaffold extends StatelessWidget {
         children: [
           // Fondo con degradado y patrón sutil
           const GlamBackground(intensity: 0.7),
-          
+
           // Contenido principal
           SafeArea(child: child),
         ],

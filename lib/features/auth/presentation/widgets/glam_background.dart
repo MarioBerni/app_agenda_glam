@@ -2,24 +2,24 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 
-/// Widget que proporciona un fondo elegante y dinámico con
-/// degradados, formas geométricas y efectos de parallax sutiles.
+/// Widget que proporciona un fondo elegante y dinÃ¡mico con
+/// degradados, formas geomÃ©tricas y efectos de parallax sutiles.
 class GlamBackground extends StatefulWidget {
   /// El color primario del gradiente
   final Color? primaryColor;
-  
+
   /// El color secundario del gradiente
   final Color? secondaryColor;
-  
-  /// Determina si el fondo tendrá un efecto de movimiento
+
+  /// Determina si el fondo tendrÃ¡ un efecto de movimiento
   final bool animate;
-  
+
   /// La opacidad de los elementos decorativos
   final double decorationOpacity;
-  
-  /// La densidad de elementos decorativos (formas geométricas)
+
+  /// La densidad de elementos decorativos (formas geomÃ©tricas)
   final double decorationDensity;
-  
+
   /// La intensidad general de los efectos visuales
   final double intensity;
 
@@ -37,31 +37,28 @@ class GlamBackground extends StatefulWidget {
   State<GlamBackground> createState() => _GlamBackgroundState();
 }
 
-class _GlamBackgroundState extends State<GlamBackground> 
+class _GlamBackgroundState extends State<GlamBackground>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
-  
+
   @override
   void initState() {
     super.initState();
-    
-    // Configurar controlador de animación
+
+    // Configurar controlador de animaciÃ³n
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 60),
     );
-    
-    _animation = Tween<double>(
-      begin: 0,
-      end: math.pi * 2,
-    ).animate(_controller);
-    
+
+    _animation = Tween<double>(begin: 0, end: math.pi * 2).animate(_controller);
+
     if (widget.animate) {
       _controller.repeat();
     }
   }
-  
+
   @override
   void dispose() {
     _controller.dispose();
@@ -73,7 +70,7 @@ class _GlamBackgroundState extends State<GlamBackground>
     final theme = Theme.of(context);
     final primaryColor = widget.primaryColor ?? kPrimaryColorDark;
     final secondaryColor = widget.secondaryColor ?? kBackgroundColor;
-    
+
     return AnimatedBuilder(
       animation: _animation,
       builder: (context, child) {
@@ -90,8 +87,8 @@ class _GlamBackgroundState extends State<GlamBackground>
                 ),
               ),
             ),
-            
-            // Overlay con patrón geométrico
+
+            // Overlay con patrÃ³n geomÃ©trico
             CustomPaint(
               painter: GeometricPatternPainter(
                 phase: _animation.value,
@@ -102,7 +99,7 @@ class _GlamBackgroundState extends State<GlamBackground>
               ),
               size: Size.infinite,
             ),
-            
+
             // Resplandor superior
             Positioned(
               top: -100,
@@ -114,14 +111,16 @@ class _GlamBackgroundState extends State<GlamBackground>
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      theme.colorScheme.secondary.withOpacity(0.2 * widget.intensity),
+                      theme.colorScheme.secondary.withValues(
+                        alpha: 0.2 * widget.intensity,
+                      ),
                       Colors.transparent,
                     ],
                   ),
                 ),
               ),
             ),
-            
+
             // Resplandor inferior
             Positioned(
               bottom: -80,
@@ -133,17 +132,19 @@ class _GlamBackgroundState extends State<GlamBackground>
                   shape: BoxShape.circle,
                   gradient: RadialGradient(
                     colors: [
-                      kPrimaryColorLight.withOpacity(0.12 * widget.intensity),
+                      kPrimaryColorLight.withValues(
+                        alpha: 0.12 * widget.intensity,
+                      ),
                       Colors.transparent,
                     ],
                   ),
                 ),
               ),
             ),
-            
-            // Capa de overlay para oscurecer ligeramente y añadir textura
+
+            // Capa de overlay para oscurecer ligeramente y aÃ±adir textura
             Container(
-              color: Colors.black.withOpacity(0.05 * widget.intensity),
+              color: Colors.black.withValues(alpha: 0.05 * widget.intensity),
             ),
           ],
         );
@@ -152,7 +153,7 @@ class _GlamBackgroundState extends State<GlamBackground>
   }
 }
 
-/// Pintor personalizado que dibuja formas geométricas distribuidas
+/// Pintor personalizado que dibuja formas geomÃ©tricas distribuidas
 /// en el lienzo para crear un efecto de profundidad y elegancia.
 class GeometricPatternPainter extends CustomPainter {
   final double phase;
@@ -160,7 +161,7 @@ class GeometricPatternPainter extends CustomPainter {
   final double opacity;
   final double density;
   final double intensity;
-  
+
   const GeometricPatternPainter({
     required this.phase,
     required this.patternColor,
@@ -168,72 +169,87 @@ class GeometricPatternPainter extends CustomPainter {
     this.density = 1.0,
     this.intensity = 1.0,
   });
-  
+
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = patternColor.withOpacity(opacity)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.0;
-      
+    final paint =
+        Paint()
+          ..color = patternColor.withValues(alpha: opacity)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.0;
+
     final int elementsCount = (20 * density).round();
     final random = math.Random(42); // Semilla fija para consistencia
-    
-    // Dibujar líneas geométricas
+
+    // Dibujar lÃ­neas geomÃ©tricas
     for (int i = 0; i < elementsCount; i++) {
       final x = random.nextDouble() * size.width;
       final y = random.nextDouble() * size.height;
       final elementSize = (random.nextDouble() * 30 + 10) * density;
       final moveOffset = math.sin(phase + i * 0.1) * 5 * density * intensity;
-      
-      // Decidir qué tipo de forma dibujar
+
+      // Decidir quÃ© tipo de forma dibujar
       final shapeType = random.nextInt(3);
-      
+
       switch (shapeType) {
         case 0: // Rombo
           _drawDiamond(canvas, paint, Offset(x + moveOffset, y), elementSize);
           break;
-        case 1: // Línea de puntos
-          _drawDottedLine(canvas, paint, Offset(x, y + moveOffset), elementSize, phase);
+        case 1: // LÃ­nea de puntos
+          _drawDottedLine(
+            canvas,
+            paint,
+            Offset(x, y + moveOffset),
+            elementSize,
+            phase,
+          );
           break;
-        case 2: // Triángulo
+        case 2: // TriÃ¡ngulo
           _drawTriangle(canvas, paint, Offset(x - moveOffset, y), elementSize);
           break;
       }
     }
   }
-  
+
   void _drawDiamond(Canvas canvas, Paint paint, Offset center, double size) {
-    final path = Path()
-      ..moveTo(center.dx, center.dy - size / 2)
-      ..lineTo(center.dx + size / 2, center.dy)
-      ..lineTo(center.dx, center.dy + size / 2)
-      ..lineTo(center.dx - size / 2, center.dy)
-      ..close();
-      
+    final path =
+        Path()
+          ..moveTo(center.dx, center.dy - size / 2)
+          ..lineTo(center.dx + size / 2, center.dy)
+          ..lineTo(center.dx, center.dy + size / 2)
+          ..lineTo(center.dx - size / 2, center.dy)
+          ..close();
+
     canvas.drawPath(path, paint);
   }
-  
-  void _drawDottedLine(Canvas canvas, Paint paint, Offset start, double length, double phase) {
+
+  void _drawDottedLine(
+    Canvas canvas,
+    Paint paint,
+    Offset start,
+    double length,
+    double phase,
+  ) {
     final endX = start.dx + length;
     final dotInterval = 4.0;
     final animationOffset = (phase * 2) % dotInterval;
-    
+
     for (double x = start.dx - animationOffset; x < endX; x += dotInterval) {
       canvas.drawCircle(Offset(x, start.dy), 1.0, paint);
     }
   }
-  
+
   void _drawTriangle(Canvas canvas, Paint paint, Offset center, double size) {
-    final path = Path()
-      ..moveTo(center.dx, center.dy - size / 2)
-      ..lineTo(center.dx + size / 2, center.dy + size / 2)
-      ..lineTo(center.dx - size / 2, center.dy + size / 2)
-      ..close();
-      
+    final path =
+        Path()
+          ..moveTo(center.dx, center.dy - size / 2)
+          ..lineTo(center.dx + size / 2, center.dy + size / 2)
+          ..lineTo(center.dx - size / 2, center.dy + size / 2)
+          ..close();
+
     canvas.drawPath(path, paint);
   }
-  
+
   @override
   bool shouldRepaint(GeometricPatternPainter oldDelegate) {
     return oldDelegate.phase != phase;

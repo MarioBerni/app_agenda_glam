@@ -13,52 +13,52 @@ import 'package:flutter/material.dart';
 class RegisterContent extends StatelessWidget {
   /// Paso actual del registro
   final int currentStep;
-  
+
   /// Total de pasos del registro
   final int totalSteps;
-  
+
   /// Controlador para el campo de nombre
   final TextEditingController nameController;
-  
+
   /// Controlador para el campo de email
   final TextEditingController emailController;
-  
+
   /// Controlador para el campo de contraseña
   final TextEditingController passwordController;
-  
+
   /// Controlador para el campo de confirmación de contraseña
   final TextEditingController confirmPasswordController;
-  
+
   /// Error del campo de nombre
   final String? nameError;
-  
+
   /// Error del campo de email
   final String? emailError;
-  
+
   /// Error del campo de contraseña
   final String? passwordError;
-  
+
   /// Error del campo de confirmación de contraseña
   final String? confirmPasswordError;
-  
+
   /// Indica si el nombre es válido
   final bool isNameValid;
-  
+
   /// Indica si el email es válido
   final bool isEmailValid;
-  
+
   /// Criterios para la validación de contraseña
   final Map<String, bool> passwordCriteria;
-  
+
   /// Indica si las contraseñas coinciden
   final bool doPasswordsMatch;
-  
+
   /// Indica si está en estado de carga
   final bool isLoading;
-  
+
   /// Función para ir al siguiente paso
   final VoidCallback onNextStep;
-  
+
   /// Función para enviar el formulario
   final VoidCallback onRegister;
 
@@ -95,14 +95,11 @@ class RegisterContent extends StatelessWidget {
             // Logo con animación
             Center(
               child: GlamAnimations.applyLogoEffect(
-                const GlamLogo(
-                  size: 60,
-                  showTagline: false,
-                ),
+                const GlamLogo(size: 60, showTagline: false),
               ),
             ),
             const SizedBox(height: 24),
-            
+
             // Indicador de progreso
             GlamAnimations.applyEntryEffect(
               RegisterStepIndicator(
@@ -112,30 +109,31 @@ class RegisterContent extends StatelessWidget {
               slideDistance: 0.05,
             ),
             const SizedBox(height: 24),
-            
+
             // Encabezado con título y subtítulo
             RegisterHeader(currentStep: currentStep),
             const SizedBox(height: 32),
-            
+
             // Formulario por pasos (con animación)
             _buildCurrentStep(),
-            
+
             const SizedBox(height: 24),
-            
+
             // Botón de acción principal
             GlamAnimations.applyEntryEffect(
               GlamButton(
                 text: currentStep == 1 ? 'Continuar' : 'Registrarse',
-                onPressed: isLoading 
-                  ? null 
-                  : (currentStep == 1 ? onNextStep : onRegister),
+                onPressed:
+                    isLoading
+                        ? null
+                        : (currentStep == 1 ? onNextStep : onRegister),
                 isLoading: isLoading,
               ),
               slideDistance: 0.15,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Pie de página con enlace a login
             const RegisterFooter(),
           ],
@@ -143,7 +141,7 @@ class RegisterContent extends StatelessWidget {
       ),
     );
   }
-  
+
   /// Construye el paso actual del formulario con animación
   Widget _buildCurrentStep() {
     return AnimatedSwitcher(
@@ -160,24 +158,25 @@ class RegisterContent extends StatelessWidget {
           ),
         );
       },
-      child: currentStep == 1
-          ? RegisterPersonalInfoStep(
-              nameController: nameController,
-              emailController: emailController,
-              nameError: nameError,
-              emailError: emailError,
-              isNameValid: isNameValid,
-              isEmailValid: isEmailValid,
-            )
-          : RegisterPasswordStep(
-              passwordController: passwordController,
-              confirmPasswordController: confirmPasswordController,
-              passwordError: passwordError,
-              confirmPasswordError: confirmPasswordError,
-              passwordCriteria: passwordCriteria,
-              doPasswordsMatch: doPasswordsMatch,
-              onEditingComplete: onRegister,
-            ),
+      child:
+          currentStep == 1
+              ? RegisterPersonalInfoStep(
+                nameController: nameController,
+                emailController: emailController,
+                nameError: nameError,
+                emailError: emailError,
+                isNameValid: isNameValid,
+                isEmailValid: isEmailValid,
+              )
+              : RegisterPasswordStep(
+                passwordController: passwordController,
+                confirmPasswordController: confirmPasswordController,
+                passwordError: passwordError,
+                confirmPasswordError: confirmPasswordError,
+                passwordCriteria: passwordCriteria,
+                doPasswordsMatch: doPasswordsMatch,
+                onEditingComplete: onRegister,
+              ),
     );
   }
 }

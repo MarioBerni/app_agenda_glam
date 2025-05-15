@@ -4,28 +4,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Contenedor circular para iconos con estilo visual unificado
-/// 
+///
 /// Proporciona un contenedor circular con colores y efectos visuales consistentes
-/// para los iconos en las diferentes pantallas de la aplicación.
+/// para los iconos en las diferentes pantallas de la aplicaciÃ³n.
 class GlamIconContainer extends StatelessWidget {
   /// Icono a mostrar en el contenedor
   final IconData icon;
-  
-  /// Tamaño del contenedor (diámetro)
+
+  /// TamaÃ±o del contenedor (diÃ¡metro)
   final double size;
-  
+
   /// Color de fondo del contenedor
   final Color? backgroundColor;
-  
+
   /// Color del icono
   final Color? iconColor;
-  
-  /// Efecto de brillo (shimmer) periódico
+
+  /// Efecto de brillo (shimmer) periÃ³dico
   final bool enableShimmer;
-  
-  /// Animación de entrada
+
+  /// AnimaciÃ³n de entrada
   final bool animateEntry;
-  
+
   /// Constructor
   const GlamIconContainer({
     super.key,
@@ -49,49 +49,45 @@ class GlamIconContainer extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.2),
+              color: Colors.black.withValues(alpha: 0.2),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Center(
-          child: Icon(
-            icon,
-            size: size * 0.5,
-            color: iconColor ?? kAccentColor,
-          ),
+          child: Icon(icon, size: size * 0.5, color: iconColor ?? kAccentColor),
         ),
       ),
     );
-    
-    // Aplicar animaciones según configuración
+
+    // Aplicar animaciones segÃºn configuraciÃ³n
     if (animateEntry) {
       container = container
-        .animate()
-        .fadeIn(
-          duration: const Duration(milliseconds: 600),
-          curve: Curves.easeOutCubic,
-        )
-        .scale(
-          begin: const Offset(0.7, 0.7),
-          end: const Offset(1.0, 1.0),
-          duration: const Duration(milliseconds: 800),
-          curve: Curves.elasticOut,
-        );
+          .animate()
+          .fadeIn(
+            duration: const Duration(milliseconds: 600),
+            curve: Curves.easeOutCubic,
+          )
+          .scale(
+            begin: const Offset(0.7, 0.7),
+            end: const Offset(1.0, 1.0),
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.elasticOut,
+          );
     }
-    
-    // Añadir efecto shimmer si está habilitado
+
+    // AÃ±adir efecto shimmer si estÃ¡ habilitado
     if (enableShimmer) {
       container = container
-        .animate(onPlay: (controller) => controller.repeat())
-        .shimmer(
-          delay: const Duration(milliseconds: 2000),
-          duration: const Duration(milliseconds: 1800),
-          color: kAccentColor.withOpacity(0.3),
-        );
+          .animate(onPlay: (controller) => controller.repeat())
+          .shimmer(
+            delay: const Duration(milliseconds: 2000),
+            duration: const Duration(milliseconds: 1800),
+            color: kAccentColor.withValues(alpha: 0.3),
+          );
     }
-    
+
     return container;
   }
 }

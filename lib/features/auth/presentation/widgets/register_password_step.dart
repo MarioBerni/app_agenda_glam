@@ -4,27 +4,27 @@ import 'package:app_agenda_glam/features/auth/presentation/widgets/password_stre
 import 'package:flutter/material.dart';
 
 /// Widget que representa el segundo paso del registro donde se configura
-/// la contraseña y se visualiza su fortaleza.
+/// la contraseÃ±a y se visualiza su fortaleza.
 class RegisterPasswordStep extends StatelessWidget {
-  /// Controlador para el campo de contraseña
+  /// Controlador para el campo de contraseÃ±a
   final TextEditingController passwordController;
-  
-  /// Controlador para el campo de confirmar contraseña
+
+  /// Controlador para el campo de confirmar contraseÃ±a
   final TextEditingController confirmPasswordController;
-  
-  /// Mensaje de error para el campo de contraseña (si existe)
+
+  /// Mensaje de error para el campo de contraseÃ±a (si existe)
   final String? passwordError;
-  
-  /// Mensaje de error para el campo de confirmar contraseña (si existe)
+
+  /// Mensaje de error para el campo de confirmar contraseÃ±a (si existe)
   final String? confirmPasswordError;
-  
-  /// Mapa de criterios de fortaleza de contraseña
+
+  /// Mapa de criterios de fortaleza de contraseÃ±a
   final Map<String, bool> passwordCriteria;
-  
-  /// Indica si las contraseñas coinciden
+
+  /// Indica si las contraseÃ±as coinciden
   final bool doPasswordsMatch;
-  
-  /// Acción a ejecutar al completar la edición
+
+  /// AcciÃ³n a ejecutar al completar la ediciÃ³n
   final VoidCallback? onEditingComplete;
 
   const RegisterPasswordStep({
@@ -44,42 +44,40 @@ class RegisterPasswordStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       key: const ValueKey('password_step'),
       children: [
-        // Campo de contraseña con animación
+        // Campo de contraseÃ±a con animaciÃ³n
         GlamAnimations.applyEntryEffect(
           GlamPasswordField(
-            label: 'Contraseña',
-            hintText: '••••••••',
+            label: 'ContraseÃ±a',
+            hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
             controller: passwordController,
             errorText: passwordError,
           ),
           slideDistance: 0.12,
         ),
-        
+
         const SizedBox(height: 24),
-        
-        // Indicador de fortaleza de contraseña
+
+        // Indicador de fortaleza de contraseÃ±a
         GlamAnimations.applyEntryEffect(
-          PasswordStrengthIndicator(
-            criteria: passwordCriteria,
-          ),
+          PasswordStrengthIndicator(criteria: passwordCriteria),
           slideDistance: 0.15,
         ),
-        
+
         const SizedBox(height: 24),
-        
-        // Campo de confirmar contraseña con animación
+
+        // Campo de confirmar contraseÃ±a con animaciÃ³n
         GlamAnimations.applyEntryEffect(
           Stack(
             children: [
               GlamPasswordField(
-                label: 'Confirmar contraseña',
-                hintText: '••••••••',
+                label: 'Confirmar contraseÃ±a',
+                hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
                 controller: confirmPasswordController,
                 errorText: confirmPasswordError,
                 onEditingComplete: onEditingComplete,
               ),
-              // Icono de verificación si las contraseñas coinciden
-              if (doPasswordsMatch && 
+              // Icono de verificaciÃ³n si las contraseÃ±as coinciden
+              if (doPasswordsMatch &&
                   passwordController.text.isNotEmpty &&
                   confirmPasswordError == null)
                 Positioned(
@@ -97,7 +95,7 @@ class RegisterPasswordStep extends StatelessWidget {
           ),
           slideDistance: 0.18,
         ),
-        
+
         // Texto informativo sobre seguridad
         const SizedBox(height: 16),
         GlamAnimations.applyEntryEffect(
@@ -108,15 +106,15 @@ class RegisterPasswordStep extends StatelessWidget {
                 Icon(
                   Icons.security,
                   size: 14,
-                  color: Colors.white.withOpacity(0.6),
+                  color: Colors.white.withValues(alpha: 0.6),
                 ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Crea una contraseña segura usando caracteres especiales y combinando mayúsculas y números',
+                    'Crea una contraseÃ±a segura usando caracteres especiales y combinando mayÃºsculas y nÃºmeros',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       fontStyle: FontStyle.italic,
                     ),
                   ),

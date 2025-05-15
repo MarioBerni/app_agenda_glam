@@ -2,26 +2,26 @@ import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
-/// Divisor elegante con gradiente dorado para separación visual
-/// 
+/// Divisor elegante con gradiente dorado para separaciÃ³n visual
+///
 /// Proporciona un elemento visual consistente para separar secciones
-/// en las diferentes pantallas de la aplicación.
+/// en las diferentes pantallas de la aplicaciÃ³n.
 class GlamDivider extends StatelessWidget {
   /// Altura del divisor
   final double height;
-  
-  /// Anchura del divisor (en relación a la pantalla)
+
+  /// Anchura del divisor (en relaciÃ³n a la pantalla)
   final double widthFactor;
-  
+
   /// Color principal del gradiente
   final Color? primaryColor;
-  
+
   /// Opacidad del color principal
   final double primaryOpacity;
-  
+
   /// Si debe animarse al aparecer
   final bool animate;
-  
+
   /// Constructor
   const GlamDivider({
     super.key,
@@ -43,7 +43,7 @@ class GlamDivider extends StatelessWidget {
           gradient: LinearGradient(
             colors: [
               Colors.transparent,
-              (primaryColor ?? kAccentColor).withOpacity(primaryOpacity),
+              (primaryColor ?? kAccentColor).withValues(alpha: primaryOpacity),
               Colors.transparent,
             ],
             stops: const [0.0, 0.5, 1.0],
@@ -51,38 +51,36 @@ class GlamDivider extends StatelessWidget {
         ),
       ),
     );
-    
-    // Aplicar animación si está habilitada
+
+    // Aplicar animaciÃ³n si estÃ¡ habilitada
     if (animate) {
-      return divider.glamEntry(
-        duration: const Duration(milliseconds: 900),
-      );
+      return divider.glamEntry(duration: const Duration(milliseconds: 900));
     }
-    
+
     return divider;
   }
 }
 
-/// Versión del divisor con texto centrado
+/// VersiÃ³n del divisor con texto centrado
 class GlamTextDivider extends StatelessWidget {
   /// Texto a mostrar en el centro del divisor
   final String text;
-  
+
   /// Estilo del texto
   final TextStyle? textStyle;
-  
+
   /// Altura del divisor
   final double dividerHeight;
-  
+
   /// Color principal del gradiente
   final Color? primaryColor;
-  
+
   /// Opacidad del color principal
   final double primaryOpacity;
-  
+
   /// Espaciado horizontal
   final double horizontalPadding;
-  
+
   /// Constructor
   const GlamTextDivider({
     super.key,
@@ -97,7 +95,10 @@ class GlamTextDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: horizontalPadding),
+      padding: EdgeInsets.symmetric(
+        vertical: 16.0,
+        horizontal: horizontalPadding,
+      ),
       child: Row(
         children: [
           // Divisor izquierdo
@@ -108,20 +109,22 @@ class GlamTextDivider extends StatelessWidget {
               primaryOpacity: primaryOpacity,
             ),
           ),
-          
+
           // Texto central
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
               text,
-              style: textStyle ?? TextStyle(
-                color: Colors.white.withOpacity(0.7),
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500,
-              ),
+              style:
+                  textStyle ??
+                  TextStyle(
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w500,
+                  ),
             ),
           ),
-          
+
           // Divisor derecho
           Expanded(
             child: GlamDivider(
@@ -132,8 +135,6 @@ class GlamTextDivider extends StatelessWidget {
           ),
         ],
       ),
-    ).glamEntry(
-      duration: const Duration(milliseconds: 1000),
-    );
+    ).glamEntry(duration: const Duration(milliseconds: 1000));
   }
 }

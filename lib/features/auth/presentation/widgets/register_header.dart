@@ -1,33 +1,30 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:flutter/material.dart';
 
-/// Widget de encabezado para la página de registro
-/// Muestra el título y subtítulo según el paso actual
+/// Widget de encabezado para la pÃ¡gina de registro
+/// Muestra el tÃ­tulo y subtÃ­tulo segÃºn el paso actual
 class RegisterHeader extends StatelessWidget {
   /// Paso actual del registro
   final int currentStep;
 
-  const RegisterHeader({
-    super.key,
-    required this.currentStep,
-  });
+  const RegisterHeader({super.key, required this.currentStep});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
-    final String title = currentStep == 1 
-        ? 'Crea tu cuenta' 
-        : 'Configura tu contraseña';
-        
-    final String subtitle = currentStep == 1 
-        ? 'Ingresa tus datos para comenzar'
-        : 'Elige una contraseña segura';
+
+    final String title =
+        currentStep == 1 ? 'Crea tu cuenta' : 'Configura tu contraseÃ±a';
+
+    final String subtitle =
+        currentStep == 1
+            ? 'Ingresa tus datos para comenzar'
+            : 'Elige una contraseÃ±a segura';
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Título con animación
+        // TÃ­tulo con animaciÃ³n
         GlamAnimations.applyEntryEffect(
           Text(
             title,
@@ -39,13 +36,13 @@ class RegisterHeader extends StatelessWidget {
           slideDistance: 0.08,
         ),
         const SizedBox(height: 8),
-        
-        // Subtítulo con animación
+
+        // SubtÃ­tulo con animaciÃ³n
         GlamAnimations.applyEntryEffect(
           Text(
             subtitle,
             style: theme.textTheme.bodyLarge?.copyWith(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
             ),
           ),
           slideDistance: 0.1,
