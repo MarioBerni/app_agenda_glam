@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+﻿import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-/// PÃ¡gina para recuperar contraseÃ±a olvidada
+/// Página para recuperar contraseña olvidada
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
 
@@ -31,13 +31,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   }
 
   void _requestPasswordReset() {
-    // ValidaciÃ³n bÃ¡sica
+    // Validación básica
     setState(() {
       _emailError = _validateEmail(_emailController.text);
     });
 
     if (_emailError == null) {
-      // Si el email es vÃ¡lido, enviar solicitud
+      // Si el email es válido, enviar solicitud
       context.read<AuthCubit>().recoverPassword(_emailController.text);
     }
   }
@@ -49,7 +49,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
-      return 'Ingresa un email vÃ¡lido';
+      return 'Ingresa un email válido';
     }
 
     return null;
@@ -120,9 +120,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         // Logo reducido
         const Center(child: GlamLogo(size: 60, showTagline: false)),
         const SizedBox(height: 32),
-        // TÃ­tulo
+        // Título
         Text(
-          'Recuperar contraseÃ±a',
+          'Recuperar contraseña',
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
             color: theme.colorScheme.onSurface,
@@ -130,7 +130,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
         const SizedBox(height: 8),
         Text(
-          'Ingresa tu email y te enviaremos un enlace para restablecer tu contraseÃ±a',
+          'Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña',
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
           ),
@@ -149,7 +149,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ),
         ),
         const SizedBox(height: 32),
-        // BotÃ³n de enviar
+        // Botón de enviar
         GlamButton(
           text: 'Enviar enlace',
           onPressed: _isLoading ? null : _requestPasswordReset,
@@ -161,7 +161,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Â¿Recordaste tu contraseÃ±a?',
+              'Â¿Recordaste tu contraseña?',
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
               ),
@@ -169,7 +169,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             TextButton(
               onPressed: () => context.go(AppRouter.login),
               child: Text(
-                'Inicia sesiÃ³n',
+                'Inicia sesión',
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.secondary,
                   fontWeight: FontWeight.bold,
@@ -203,7 +203,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
         const SizedBox(height: 16),
         Text(
-          'Te hemos enviado un correo con instrucciones para restablecer tu contraseÃ±a',
+          'Te hemos enviado un correo con instrucciones para restablecer tu contraseña',
           style: theme.textTheme.bodyLarge?.copyWith(
             color: theme.colorScheme.onSurface.withValues(alpha: 0.8),
           ),
@@ -211,7 +211,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         ),
         const SizedBox(height: 48),
         GlamButton(
-          text: 'Volver a inicio de sesiÃ³n',
+          text: 'Volver a inicio de sesión',
           onPressed: () => context.go(AppRouter.login),
         ),
       ],

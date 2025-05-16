@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 // Paleta de colores para Agenda Glam (Azul y Dorado)
 const Color kPrimaryColor = Color(

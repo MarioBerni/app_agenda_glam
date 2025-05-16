@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 /// Widget que proporciona un fondo de video con degradado
-/// para las pantallas principales de la aplicaciÃ³n.
+/// para las pantallas principales de la aplicación.
 ///
 /// Permite reproducir un video como fondo con diferentes efectos
-/// de degradado para mantener la estÃ©tica masculina y elegante.
+/// de degradado para mantener la estética masculina y elegante.
 class GlamVideoBackground extends StatefulWidget {
   /// Ruta al archivo de video (desde assets)
   final String videoAsset;
@@ -19,10 +19,10 @@ class GlamVideoBackground extends StatefulWidget {
   /// Si el video debe reproducirse en loop
   final bool loop;
 
-  /// Si el video debe reproducirse automÃ¡ticamente
+  /// Si el video debe reproducirse automáticamente
   final bool autoPlay;
 
-  /// Widget hijo que se mostrarÃ¡ sobre el video
+  /// Widget hijo que se mostrará sobre el video
   final Widget? child;
 
   const GlamVideoBackground({
@@ -62,7 +62,7 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
       _controller.play();
     }
 
-    // Para asegurar que se reproduzca a pantalla completa sin importar la relaciÃ³n de aspecto
+    // Para asegurar que se reproduzca a pantalla completa sin importar la relación de aspecto
     _controller.setVolume(0.0); // Sin sonido
 
     if (mounted) {
@@ -103,7 +103,7 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
           ),
         ),
 
-        // Degradado superior (mÃ¡s oscuro arriba)
+        // Degradado superior (más oscuro arriba)
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -117,7 +117,7 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
           ),
         ),
 
-        // Degradado complementario (efecto viÃ±eta)
+        // Degradado complementario (efecto viñeta)
         Container(
           decoration: BoxDecoration(
             gradient: RadialGradient(

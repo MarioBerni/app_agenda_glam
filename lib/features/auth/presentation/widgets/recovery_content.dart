@@ -1,10 +1,10 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/domain/validators/recovery_validator.dart';
 import 'package:flutter/material.dart';
 
-/// Widget que muestra el formulario de recuperaciÃ³n de contraseÃ±a
+/// Widget que muestra el formulario de recuperación de contraseña
 /// con animaciones y validaciones en tiempo real.
 class RecoveryContent extends StatelessWidget {
   /// Controlador del campo de email
@@ -13,7 +13,7 @@ class RecoveryContent extends StatelessWidget {
   /// Estado de carga del proceso
   final bool isLoading;
 
-  /// FunciÃ³n para iniciar el proceso de recuperaciÃ³n
+  /// Función para iniciar el proceso de recuperación
   final VoidCallback onRecoverPassword;
 
   /// Error actual si existe
@@ -41,9 +41,9 @@ class RecoveryContent extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // Mensaje de recuperaciÃ³n
+            // Mensaje de recuperación
             Text(
-              'Ingresa tu direcciÃ³n de correo electrÃ³nico para recibir instrucciones sobre cÃ³mo restablecer tu contraseÃ±a.',
+              'Ingresa tu dirección de correo electrónico para recibir instrucciones sobre cómo restablecer tu contraseña.',
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.white.withValues(alpha: 0.8),
@@ -55,19 +55,19 @@ class RecoveryContent extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // Campo de email con animaciÃ³n
+            // Campo de email con animación
             _buildEmailField(),
 
             const SizedBox(height: 8),
 
             const SizedBox(height: 32),
 
-            // BotÃ³n de recuperaciÃ³n con animaciÃ³n
+            // Botón de recuperación con animación
             _buildRecoverButton(),
 
             const SizedBox(height: 16),
 
-            // LÃ­mite de intentos con contador visual (solo decorativo)
+            // Límite de intentos con contador visual (solo decorativo)
             _buildAttemptsCounter(),
           ],
         ),
@@ -75,7 +75,7 @@ class RecoveryContent extends StatelessWidget {
     );
   }
 
-  /// Construye el icono representativo de recuperaciÃ³n
+  /// Construye el icono representativo de recuperación
   Widget _buildRecoveryIcon() {
     return const GlamIconContainer(
       icon: Icons.lock_reset_outlined,
@@ -85,7 +85,7 @@ class RecoveryContent extends StatelessWidget {
     );
   }
 
-  /// Construye el campo de email con animaciÃ³n en tiempo real
+  /// Construye el campo de email con animación en tiempo real
   Widget _buildEmailField() {
     return GlamTextField(
       controller: emailController,
@@ -100,7 +100,7 @@ class RecoveryContent extends StatelessWidget {
     );
   }
 
-  /// Construye el botÃ³n de recuperaciÃ³n con animaciÃ³n
+  /// Construye el botón de recuperación con animación
   Widget _buildRecoverButton() {
     return GlamButton(
       text: 'Enviar instrucciones',
@@ -115,9 +115,9 @@ class RecoveryContent extends StatelessWidget {
 
   /// Construye el contador de intentos visual (decorativo)
   Widget _buildAttemptsCounter() {
-    // Simulamos un lÃ­mite de 3 intentos para el diseÃ±o visual
+    // Simulamos un límite de 3 intentos para el diseño visual
     const int maxAttempts = 3;
-    const int currentAttempt = 1; // Para diseÃ±o, siempre mostramos 1/3
+    const int currentAttempt = 1; // Para diseño, siempre mostramos 1/3
 
     return Column(
       children: [

@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
+﻿import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
 import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
 
 /// Define las operaciones relacionadas con la autenticación

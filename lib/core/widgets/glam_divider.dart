@@ -1,16 +1,16 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
-/// Divisor elegante con gradiente dorado para separaciÃ³n visual
+/// Divisor elegante con gradiente dorado para separación visual
 ///
 /// Proporciona un elemento visual consistente para separar secciones
-/// en las diferentes pantallas de la aplicaciÃ³n.
+/// en las diferentes pantallas de la aplicación.
 class GlamDivider extends StatelessWidget {
   /// Altura del divisor
   final double height;
 
-  /// Anchura del divisor (en relaciÃ³n a la pantalla)
+  /// Anchura del divisor (en relación a la pantalla)
   final double widthFactor;
 
   /// Color principal del gradiente
@@ -52,7 +52,7 @@ class GlamDivider extends StatelessWidget {
       ),
     );
 
-    // Aplicar animaciÃ³n si estÃ¡ habilitada
+    // Aplicar animación si está habilitada
     if (animate) {
       return divider.glamEntry(duration: const Duration(milliseconds: 900));
     }
@@ -61,7 +61,7 @@ class GlamDivider extends StatelessWidget {
   }
 }
 
-/// VersiÃ³n del divisor con texto centrado
+/// Versión del divisor con texto centrado
 class GlamTextDivider extends StatelessWidget {
   /// Texto a mostrar en el centro del divisor
   final String text;

@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
@@ -41,7 +41,7 @@ class ParallaxController extends ChangeNotifier {
   double get dx => _dx;
   double get dy => _dy;
 
-  // AnimaciÃ³n de movimiento sutil para el fondo
+  // Animación de movimiento sutil para el fondo
   void animateForward() {
     if (_isAnimating) return;
     _isAnimating = true;
@@ -52,7 +52,7 @@ class ParallaxController extends ChangeNotifier {
     _dy = (random / 2) - 0.025;
     notifyListeners();
 
-    // Volver a la posiciÃ³n original despuÃ©s
+    // Volver a la posición original después
     Future.delayed(const Duration(milliseconds: 800), () {
       _dx = 0.0;
       _dy = 0.0;
@@ -65,8 +65,8 @@ class ParallaxController extends ChangeNotifier {
   // El analizador recomienda eliminar overrides innecesarios
 }
 
-/// PÃ¡gina de bienvenida que muestra opciones para login o registro
-/// con diseÃ±o visual mejorado y animaciones fluidas
+/// Página de bienvenida que muestra opciones para login o registro
+/// con diseño visual mejorado y animaciones fluidas
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
 
@@ -75,7 +75,7 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  // Controlador para animaciÃ³n del fondo parallax
+  // Controlador para animación del fondo parallax
   final _parallaxController = ParallaxController();
 
   @override
@@ -101,9 +101,9 @@ class _WelcomePageState extends State<WelcomePage> {
             child: const GlamVideoBackground(
               videoAsset: 'assets/videos/welcome_background.mp4',
               gradientOpacity:
-                  0.9, // Aumentamos la opacidad para un efecto mÃ¡s visible
+                  0.9, // Aumentamos la opacidad para un efecto más visible
               gradientColor:
-                  kPrimaryColor, // Usamos el color primario mÃ¡s oscuro
+                  kPrimaryColor, // Usamos el color primario más oscuro
             ),
           ),
 
@@ -129,7 +129,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   // Contenido con animaciones escalonadas
                   Column(
                     children: [
-                      // Mensaje de bienvenida con animaciÃ³n de entrada
+                      // Mensaje de bienvenida con animación de entrada
                       GlamAnimations.applyEntryEffect(
                         Text(
                           'Bienvenido',
@@ -143,12 +143,12 @@ class _WelcomePageState extends State<WelcomePage> {
                         slideDistance: 0.1,
                       ),
                       const SizedBox(height: 16),
-                      // Texto descriptivo con animaciÃ³n retrasada
+                      // Texto descriptivo con animación retrasada
                       GlamAnimations.applyEntryEffect(
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
-                            'Tu plataforma para descubrir y reservar los mejores servicios de estÃ©tica masculina',
+                            'Tu plataforma para descubrir y reservar los mejores servicios de estética masculina',
                             style: theme.textTheme.bodyLarge?.copyWith(
                               color: Colors.white.withValues(alpha: 0.9),
                               height: 1.4,
@@ -161,24 +161,24 @@ class _WelcomePageState extends State<WelcomePage> {
 
                       const SizedBox(height: 48),
 
-                      // BotÃ³n de inicio de sesiÃ³n con efectos visuales mejorados
+                      // Botón de inicio de sesión con efectos visuales mejorados
                       GlamAnimations.applyEntryEffect(
                         Hero(
                           tag:
-                              'login_button', // Para animaciÃ³n hero en transiciÃ³n
+                              'login_button', // Para animación hero en transición
                           child: GlamButton(
-                            text: 'Iniciar SesiÃ³n',
+                            text: 'Iniciar Sesión',
                             onPressed: () {
-                              // AnimaciÃ³n de cambio de pÃ¡gina
+                              // Animación de cambio de página
                               _parallaxController.animateForward();
 
-                              // Capturar el navegador antes de la operaciÃ³n asÃ­ncrona
+                              // Capturar el navegador antes de la operación asíncrona
                               final navigator = GoRouter.of(context);
 
                               Future.delayed(
                                 const Duration(milliseconds: 300),
                                 () {
-                                  // Verificar si el widget aÃºn estÃ¡ montado antes de usar el contexto
+                                  // Verificar si el widget aún está montado antes de usar el contexto
                                   if (mounted) {
                                     navigator.go(AppRouter.login);
                                   }
@@ -194,24 +194,24 @@ class _WelcomePageState extends State<WelcomePage> {
 
                       const SizedBox(height: 16),
 
-                      // BotÃ³n de registro con animaciÃ³n de entrada
+                      // Botón de registro con animación de entrada
                       GlamAnimations.applyEntryEffect(
                         Hero(
                           tag:
-                              'register_button', // Para animaciÃ³n hero en transiciÃ³n
+                              'register_button', // Para animación hero en transición
                           child: GlamButton(
                             text: 'Registrarse',
                             onPressed: () {
-                              // AnimaciÃ³n de cambio de pÃ¡gina
+                              // Animación de cambio de página
                               _parallaxController.animateForward();
 
-                              // Capturar el navegador antes de la operaciÃ³n asÃ­ncrona
+                              // Capturar el navegador antes de la operación asíncrona
                               final navigator = GoRouter.of(context);
 
                               Future.delayed(
                                 const Duration(milliseconds: 300),
                                 () {
-                                  // Verificar si el widget aÃºn estÃ¡ montado antes de usar el contexto
+                                  // Verificar si el widget aún está montado antes de usar el contexto
                                   if (mounted) {
                                     navigator.go(AppRouter.register);
                                   }

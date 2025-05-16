@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/features/auth/data/models/user_model.dart';
+﻿import 'package:app_agenda_glam/features/auth/data/models/user_model.dart';
 
 /// Fuente de datos mock para autenticación (sin Firebase)
 /// Esta clase simula la interacción con una API o backend

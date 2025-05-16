@@ -1,23 +1,23 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Scaffold base unificado para todas las pantallas de autenticaciÃ³n
+/// Scaffold base unificado para todas las pantallas de autenticación
 /// Proporciona una experiencia visual consistente con fondo degradado,
-/// estructura comÃºn y componentes visuales compartidos.
+/// estructura común y componentes visuales compartidos.
 class GlamScaffold extends StatelessWidget {
-  /// TÃ­tulo principal de la pantalla
+  /// Título principal de la pantalla
   final String title;
 
-  /// SubtÃ­tulo o descripciÃ³n (opcional)
+  /// Subtítulo o descripción (opcional)
   final String? subtitle;
 
   /// Contenido principal del scaffold
   final Widget content;
 
-  /// Si debe mostrar el botÃ³n de retroceso
+  /// Si debe mostrar el botón de retroceso
   final bool showBackButton;
 
   /// Color primario para el fondo degradado (opcional)
@@ -26,7 +26,7 @@ class GlamScaffold extends StatelessWidget {
   /// Intensidad del fondo degradado (0.0 - 1.0)
   final double backgroundIntensity;
 
-  /// AcciÃ³n personalizada para el botÃ³n de retroceso (opcional)
+  /// Acción personalizada para el botón de retroceso (opcional)
   final VoidCallback? onBackPressed;
 
   /// Constructor
@@ -46,11 +46,11 @@ class GlamScaffold extends StatelessWidget {
     return Scaffold(
       // Fondo transparente porque GlamBackground proporciona el fondo
       backgroundColor: Colors.transparent,
-      // Extender el cuerpo detrÃ¡s del AppBar para evitar el borde negro
+      // Extender el cuerpo detrás del AppBar para evitar el borde negro
       extendBodyBehindAppBar: true,
       // Extender el cuerpo hasta los bordes de la pantalla
       extendBody: true,
-      // AppBar con botÃ³n de retroceso animado
+      // AppBar con botón de retroceso animado
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -84,13 +84,13 @@ class GlamScaffold extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Cabecera animada con tÃ­tulo y subtÃ­tulo
+        // Cabecera animada con título y subtítulo
         Padding(
           padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // TÃ­tulo principal
+              // Título principal
               Text(
                 title,
                 style: const TextStyle(
@@ -103,7 +103,7 @@ class GlamScaffold extends StatelessWidget {
                 offset: const Offset(0, 0.05),
               ),
 
-              // SubtÃ­tulo opcional
+              // Subtítulo opcional
               if (subtitle != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),

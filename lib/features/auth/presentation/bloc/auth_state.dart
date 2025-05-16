@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
+﻿import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
 import 'package:equatable/equatable.dart';
 
 /// Tipos de estados de autenticación

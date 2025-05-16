@@ -1,29 +1,29 @@
-// No necesitamos importar animation_presets directamente ya que usamos Flutter Animate
+﻿// No necesitamos importar animation_presets directamente ya que usamos Flutter Animate
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-/// BotÃ³n estilizado con animaciones y efectos visuales consistentes
+/// Botón estilizado con animaciones y efectos visuales consistentes
 ///
-/// Proporciona un botÃ³n con estilo visual unificado para toda la aplicaciÃ³n,
-/// incluyendo animaciones, efectos de presiÃ³n y estados de carga.
+/// Proporciona un botón con estilo visual unificado para toda la aplicación,
+/// incluyendo animaciones, efectos de presión y estados de carga.
 class GlamButton extends StatefulWidget {
-  /// Texto del botÃ³n
+  /// Texto del botón
   final String text;
 
-  /// FunciÃ³n al presionar el botÃ³n
+  /// Función al presionar el botón
   final VoidCallback? onPressed;
 
-  /// Icono del botÃ³n (opcional)
+  /// Icono del botón (opcional)
   final IconData? icon;
 
   /// Estado de carga
   final bool isLoading;
 
-  /// Variante del botÃ³n (primary, secondary, text)
+  /// Variante del botón (primary, secondary, text)
   final GlamButtonVariant variant;
 
-  /// TamaÃ±o del botÃ³n
+  /// Tamaño del botón
   final GlamButtonSize size;
 
   /// Si debe expandirse al ancho disponible
@@ -32,7 +32,7 @@ class GlamButton extends StatefulWidget {
   /// Bordes redondeados personalizados
   final BorderRadius? borderRadius;
 
-  /// Si debe aplicar animaciÃ³n de entrada
+  /// Si debe aplicar animación de entrada
   final bool animateEntry;
 
   /// Color principal personalizado
@@ -95,13 +95,13 @@ class _GlamButtonState extends State<GlamButton>
 
   @override
   Widget build(BuildContext context) {
-    // Configurar segÃºn la variante y tamaÃ±o
+    // Configurar según la variante y tamaño
     final colors = _getColorsForVariant();
     final padding = _getPaddingForSize();
     final textStyle = _getTextStyleForSize();
     final buttonRadius = widget.borderRadius ?? BorderRadius.circular(8.0);
 
-    // Construir el botÃ³n base
+    // Construir el botón base
     Widget buttonChild = Ink(
       decoration: BoxDecoration(
         color:
@@ -181,7 +181,7 @@ class _GlamButtonState extends State<GlamButton>
                   ),
                 ),
 
-              // Texto del botÃ³n
+              // Texto del botón
               Text(
                 widget.text,
                 style: textStyle.copyWith(color: colors.text),
@@ -193,14 +193,14 @@ class _GlamButtonState extends State<GlamButton>
       ),
     );
 
-    // Aplicar efecto de presiÃ³n
+    // Aplicar efecto de presión
     buttonChild = AnimatedScale(
       scale: _isPressed ? 0.95 : 1.0,
       duration: const Duration(milliseconds: 150),
       child: buttonChild,
     );
 
-    // Aplicar animaciÃ³n de entrada si estÃ¡ habilitada
+    // Aplicar animación de entrada si está habilitada
     if (widget.animateEntry) {
       buttonChild = buttonChild
           .animate()
@@ -219,7 +219,7 @@ class _GlamButtonState extends State<GlamButton>
     return buttonChild;
   }
 
-  /// Obtiene los colores segÃºn la variante del botÃ³n
+  /// Obtiene los colores según la variante del botón
   _ButtonColors _getColorsForVariant() {
     final isEnabled = widget.onPressed != null;
 
@@ -250,7 +250,7 @@ class _GlamButtonState extends State<GlamButton>
     }
   }
 
-  /// Obtiene el padding segÃºn el tamaÃ±o del botÃ³n
+  /// Obtiene el padding según el tamaño del botón
   EdgeInsets _getPaddingForSize() {
     switch (widget.size) {
       case GlamButtonSize.small:
@@ -262,7 +262,7 @@ class _GlamButtonState extends State<GlamButton>
     }
   }
 
-  /// Obtiene el estilo de texto segÃºn el tamaÃ±o del botÃ³n
+  /// Obtiene el estilo de texto según el tamaño del botón
   TextStyle _getTextStyleForSize() {
     switch (widget.size) {
       case GlamButtonSize.small:
@@ -275,31 +275,31 @@ class _GlamButtonState extends State<GlamButton>
   }
 }
 
-/// Variantes de estilo para el botÃ³n
+/// Variantes de estilo para el botón
 enum GlamButtonVariant {
-  /// BotÃ³n principal con fondo de color y gradiente
+  /// Botón principal con fondo de color y gradiente
   primary,
 
-  /// BotÃ³n secundario con fondo semitransparente
+  /// Botón secundario con fondo semitransparente
   secondary,
 
-  /// BotÃ³n de texto sin fondo
+  /// Botón de texto sin fondo
   text,
 }
 
-/// TamaÃ±os predefinidos para el botÃ³n
+/// Tamaños predefinidos para el botón
 enum GlamButtonSize {
-  /// BotÃ³n pequeÃ±o
+  /// Botón pequeño
   small,
 
-  /// BotÃ³n mediano (por defecto)
+  /// Botón mediano (por defecto)
   medium,
 
-  /// BotÃ³n grande
+  /// Botón grande
   large,
 }
 
-/// Clase auxiliar para manejar los colores del botÃ³n
+/// Clase auxiliar para manejar los colores del botón
 class _ButtonColors {
   final Color background;
   final Color text;

@@ -1,9 +1,9 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 
-/// Widget que proporciona un fondo elegante y dinÃ¡mico con
-/// degradados, formas geomÃ©tricas y efectos de parallax sutiles.
+/// Widget que proporciona un fondo elegante y dinámico con
+/// degradados, formas geométricas y efectos de parallax sutiles.
 class GlamBackground extends StatefulWidget {
   /// El color primario del gradiente
   final Color? primaryColor;
@@ -11,13 +11,13 @@ class GlamBackground extends StatefulWidget {
   /// El color secundario del gradiente
   final Color? secondaryColor;
 
-  /// Determina si el fondo tendrÃ¡ un efecto de movimiento
+  /// Determina si el fondo tendrá un efecto de movimiento
   final bool animate;
 
   /// La opacidad de los elementos decorativos
   final double decorationOpacity;
 
-  /// La densidad de elementos decorativos (formas geomÃ©tricas)
+  /// La densidad de elementos decorativos (formas geométricas)
   final double decorationDensity;
 
   /// La intensidad general de los efectos visuales
@@ -46,7 +46,7 @@ class _GlamBackgroundState extends State<GlamBackground>
   void initState() {
     super.initState();
 
-    // Configurar controlador de animaciÃ³n
+    // Configurar controlador de animación
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 60),
@@ -88,7 +88,7 @@ class _GlamBackgroundState extends State<GlamBackground>
               ),
             ),
 
-            // Overlay con patrÃ³n geomÃ©trico
+            // Overlay con patrón geométrico
             CustomPaint(
               painter: GeometricPatternPainter(
                 phase: _animation.value,
@@ -142,7 +142,7 @@ class _GlamBackgroundState extends State<GlamBackground>
               ),
             ),
 
-            // Capa de overlay para oscurecer ligeramente y aÃ±adir textura
+            // Capa de overlay para oscurecer ligeramente y añadir textura
             Container(
               color: Colors.black.withValues(alpha: 0.05 * widget.intensity),
             ),
@@ -153,7 +153,7 @@ class _GlamBackgroundState extends State<GlamBackground>
   }
 }
 
-/// Pintor personalizado que dibuja formas geomÃ©tricas distribuidas
+/// Pintor personalizado que dibuja formas geométricas distribuidas
 /// en el lienzo para crear un efecto de profundidad y elegancia.
 class GeometricPatternPainter extends CustomPainter {
   final double phase;
@@ -181,21 +181,21 @@ class GeometricPatternPainter extends CustomPainter {
     final int elementsCount = (20 * density).round();
     final random = math.Random(42); // Semilla fija para consistencia
 
-    // Dibujar lÃ­neas geomÃ©tricas
+    // Dibujar líneas geométricas
     for (int i = 0; i < elementsCount; i++) {
       final x = random.nextDouble() * size.width;
       final y = random.nextDouble() * size.height;
       final elementSize = (random.nextDouble() * 30 + 10) * density;
       final moveOffset = math.sin(phase + i * 0.1) * 5 * density * intensity;
 
-      // Decidir quÃ© tipo de forma dibujar
+      // Decidir qué tipo de forma dibujar
       final shapeType = random.nextInt(3);
 
       switch (shapeType) {
         case 0: // Rombo
           _drawDiamond(canvas, paint, Offset(x + moveOffset, y), elementSize);
           break;
-        case 1: // LÃ­nea de puntos
+        case 1: // Línea de puntos
           _drawDottedLine(
             canvas,
             paint,
@@ -204,7 +204,7 @@ class GeometricPatternPainter extends CustomPainter {
             phase,
           );
           break;
-        case 2: // TriÃ¡ngulo
+        case 2: // Triángulo
           _drawTriangle(canvas, paint, Offset(x - moveOffset, y), elementSize);
           break;
       }

@@ -1,4 +1,4 @@
-// Exporta todos los componentes UI unificados para facilitar su importación
+﻿// Exporta todos los componentes UI unificados para facilitar su importación
 //
 // Esto permite importar todos los componentes con una sola línea:
 // import 'package:app_agenda_glam/core/widgets/glam_ui.dart'

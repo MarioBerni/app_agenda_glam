@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+﻿import 'package:equatable/equatable.dart';
 
 /// Representa las credenciales necesarias para autenticar a un usuario
 class Credentials extends Equatable {

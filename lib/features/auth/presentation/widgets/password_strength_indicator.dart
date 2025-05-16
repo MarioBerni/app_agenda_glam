@@ -1,8 +1,8 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
-/// Widget que muestra visualmente la fortaleza de una contraseÃ±a
+/// Widget que muestra visualmente la fortaleza de una contraseña
 /// basado en diferentes criterios como longitud, caracteres especiales, etc.
 class PasswordStrengthIndicator extends StatelessWidget {
   /// Mapa de criterios y si se cumplen o no
@@ -17,8 +17,8 @@ class PasswordStrengthIndicator extends StatelessWidget {
     required this.criteria,
     this.criteriaLabels = const {
       'length': 'Al menos 6 caracteres',
-      'uppercase': 'Al menos una mayÃºscula',
-      'number': 'Al menos un nÃºmero',
+      'uppercase': 'Al menos una mayúscula',
+      'number': 'Al menos un número',
     },
   });
 
@@ -27,11 +27,11 @@ class PasswordStrengthIndicator extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TÃ­tulo de la secciÃ³n
+        // Título de la sección
         Padding(
           padding: const EdgeInsets.only(bottom: 12.0, left: 4.0),
           child: Text(
-            'Fortaleza de la contraseÃ±a',
+            'Fortaleza de la contraseña',
             style: TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w500,
@@ -53,7 +53,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
 
   /// Construye la barra de progreso de fortaleza
   Widget _buildStrengthBar() {
-    // Calcular la fortaleza basada en cuÃ¡ntos criterios se cumplen
+    // Calcular la fortaleza basada en cuántos criterios se cumplen
     final int fulfilledCriteria = criteria.values.where((v) => v).length;
     final double strength =
         criteria.isEmpty ? 0.0 : fulfilledCriteria / criteria.length;
@@ -64,7 +64,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
 
     if (strength <= 0.33) {
       barColor = Colors.red.shade700;
-      strengthText = 'DÃ©bil';
+      strengthText = 'Débil';
     } else if (strength <= 0.66) {
       barColor = Colors.orange.shade700;
       strengthText = 'Media';
@@ -128,7 +128,7 @@ class PasswordStrengthIndicator extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Row(
         children: [
-          // Icono con animaciÃ³n de Ã©xito/pendiente
+          // Icono con animación de éxito/pendiente
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             transitionBuilder: (Widget child, Animation<double> animation) {

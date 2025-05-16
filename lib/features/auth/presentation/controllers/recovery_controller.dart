@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:app_agenda_glam/features/auth/domain/validators/recovery_validator.dart';
 
 /// Controlador para manejar la lógica del flujo de recuperación de contraseña.

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 /// Controlador para manejar la lógica del flujo de registro por pasos.
 /// Separa la lógica de negocio de la interfaz de usuario.

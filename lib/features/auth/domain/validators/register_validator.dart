@@ -1,4 +1,4 @@
-/// Clase utilitaria para manejar las validaciones del formulario de registro.
+﻿/// Clase utilitaria para manejar las validaciones del formulario de registro.
 /// Separa la lógica de validación de la interfaz de usuario.
 class RegisterValidator {
   /// Valida el nombre de usuario

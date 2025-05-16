@@ -1,12 +1,12 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// Campo de texto estilizado con etiqueta flotante y diseÃ±o visual unificado
+/// Campo de texto estilizado con etiqueta flotante y diseño visual unificado
 ///
-/// Proporciona un campo de texto con estilo visual consistente para toda la aplicaciÃ³n,
-/// incluyendo animaciones, validaciÃ³n visual y estados de error.
+/// Proporciona un campo de texto con estilo visual consistente para toda la aplicación,
+/// incluyendo animaciones, validación visual y estados de error.
 class GlamTextField extends StatefulWidget {
   /// Controlador de texto para el campo
   final TextEditingController? controller;
@@ -17,25 +17,25 @@ class GlamTextField extends StatefulWidget {
   /// Icono a mostrar en el campo (opcional)
   final IconData? prefixIcon;
 
-  /// Si el campo es para contraseÃ±a
+  /// Si el campo es para contraseña
   final bool isPassword;
 
   /// Texto de ayuda (opcional)
   final String? hintText;
 
-  /// FunciÃ³n de validaciÃ³n (opcional)
+  /// Función de validación (opcional)
   final String? Function(String?)? validator;
 
   /// Tipo de teclado
   final TextInputType keyboardType;
 
-  /// AcciÃ³n del teclado
+  /// Acción del teclado
   final TextInputAction textInputAction;
 
-  /// FunciÃ³n cuando se completa la ediciÃ³n
+  /// Función cuando se completa la edición
   final Function(String)? onFieldSubmitted;
 
-  /// FunciÃ³n cuando cambia el valor
+  /// Función cuando cambia el valor
   final Function(String)? onChanged;
 
   /// Texto de error (opcional)
@@ -44,13 +44,13 @@ class GlamTextField extends StatefulWidget {
   /// Widget de sufijo (opcional)
   final Widget? suffixIcon;
 
-  /// Si el campo estÃ¡ habilitado
+  /// Si el campo está habilitado
   final bool enabled;
 
   /// Lista de formateadores de texto (opcional)
   final List<TextInputFormatter>? inputFormatters;
 
-  /// NÃºmero mÃ¡ximo de lÃ­neas (opcional)
+  /// Número máximo de líneas (opcional)
   final int? maxLines;
 
   /// Constructor
@@ -111,7 +111,7 @@ class _GlamTextFieldState extends State<GlamTextField> {
 
   @override
   Widget build(BuildContext context) {
-    // Construir el campo de texto con animaciÃ³n
+    // Construir el campo de texto con animación
     return GlamAnimations.applyEntryEffect(
       TextFormField(
         controller: widget.controller,

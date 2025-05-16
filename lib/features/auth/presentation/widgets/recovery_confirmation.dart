@@ -1,14 +1,14 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Widget que muestra la confirmaciÃ³n de que se ha enviado el email
-/// de recuperaciÃ³n de contraseÃ±a con animaciones visuales.
+/// Widget que muestra la confirmación de que se ha enviado el email
+/// de recuperación de contraseña con animaciones visuales.
 class RecoveryConfirmation extends StatelessWidget {
-  /// Email al que se enviÃ³ el correo de recuperaciÃ³n
+  /// Email al que se envió el correo de recuperación
   final String email;
 
   /// Constructor
@@ -28,7 +28,7 @@ class RecoveryConfirmation extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // TÃ­tulo con animaciÃ³n
+              // Título con animación
               Text(
                 'Email Enviado',
                 style: const TextStyle(
@@ -43,9 +43,9 @@ class RecoveryConfirmation extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Mensaje de confirmaciÃ³n
+              // Mensaje de confirmación
               Text(
-                'Hemos enviado instrucciones para restablecer tu contraseÃ±a a:',
+                'Hemos enviado instrucciones para restablecer tu contraseña a:',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -91,7 +91,7 @@ class RecoveryConfirmation extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              // BotÃ³n para volver al login
+              // Botón para volver al login
               _buildReturnButton(context),
 
               const SizedBox(height: 16),
@@ -109,7 +109,7 @@ class RecoveryConfirmation extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {
-                      // AquÃ­ se podrÃ­a implementar la lÃ³gica para reenviar el correo
+                      // Aquí se podría implementar la lógica para reenviar el correo
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Correo reenviado'),
@@ -137,7 +137,7 @@ class RecoveryConfirmation extends StatelessWidget {
     );
   }
 
-  /// Construye la animaciÃ³n de "correo enviado"
+  /// Construye la animación de "correo enviado"
   Widget _buildEmailSentAnimation() {
     return const GlamIconContainer(
       icon: Icons.mark_email_read_outlined,
@@ -147,10 +147,10 @@ class RecoveryConfirmation extends StatelessWidget {
     );
   }
 
-  /// Construye el botÃ³n para volver al login
+  /// Construye el botón para volver al login
   Widget _buildReturnButton(BuildContext context) {
     return GlamButton(
-      text: 'Volver al inicio de sesiÃ³n',
+      text: 'Volver al inicio de sesión',
       onPressed: () => context.go(AppRouter.login),
       icon: Icons.login_outlined,
       variant: GlamButtonVariant.primary,

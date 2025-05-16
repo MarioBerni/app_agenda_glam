@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Widget que muestra el logo de Agenda Glam con animaciones elegantes
-/// Se puede configurar el tamaÃ±o, colores y tipo de animaciÃ³n
+/// Se puede configurar el tamaño, colores y tipo de animación
 class GlamLogo extends StatelessWidget {
   final double size;
   final bool showTagline;
@@ -27,11 +27,11 @@ class GlamLogo extends StatelessWidget {
     final logo = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Logo con cÃ­rculo y glow
+        // Logo con círculo y glow
         Stack(
           alignment: Alignment.center,
           children: [
-            // CÃ­rculo de fondo con degradado
+            // Círculo de fondo con degradado
             Container(
               width: size * 1.2,
               height: size * 1.2,
@@ -57,7 +57,7 @@ class GlamLogo extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // TÃ­tulo
+        // Título
         Text(
           'Agenda Glam',
           style: theme.textTheme.headlineLarge?.copyWith(
@@ -82,7 +82,7 @@ class GlamLogo extends StatelessWidget {
       ],
     );
 
-    // Si no hay animaciÃ³n, devolver el widget sin animar
+    // Si no hay animación, devolver el widget sin animar
     if (!animate) return logo;
 
     // Aplicar animaciones usando flutter_animate
@@ -102,7 +102,7 @@ class GlamLogo extends StatelessWidget {
           curve: Curves.elasticOut,
         );
 
-    // AÃ±adir efecto de shimmer si estÃ¡ activado
+    // Añadir efecto de shimmer si está activado
     if (showShimmer) {
       animatedLogo = animatedLogo.shimmer(
         delay: const Duration(milliseconds: 1200),

@@ -1,21 +1,21 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Scaffold base para la pantalla de recuperaciÃ³n de contraseÃ±a
-/// Define la estructura comÃºn y elementos visuales compartidos
+/// Scaffold base para la pantalla de recuperación de contraseña
+/// Define la estructura común y elementos visuales compartidos
 class RecoveryScaffold extends StatelessWidget {
-  /// TÃ­tulo del scaffold
+  /// Título del scaffold
   final String title;
 
-  /// DescripciÃ³n o mensaje secundario
+  /// Descripción o mensaje secundario
   final String? subtitle;
 
   /// Contenido principal del scaffold
   final Widget content;
 
-  /// Si debe mostrar el botÃ³n de retroceso
+  /// Si debe mostrar el botón de retroceso
   final bool showBackButton;
 
   /// Constructor
@@ -58,7 +58,7 @@ class RecoveryScaffold extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // TÃ­tulo principal
+              // Título principal
               Text(
                 title,
                 style: const TextStyle(
@@ -71,7 +71,7 @@ class RecoveryScaffold extends StatelessWidget {
                 offset: const Offset(0, 0.05),
               ),
 
-              // SubtÃ­tulo opcional
+              // Subtítulo opcional
               if (subtitle != null)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),

@@ -1,7 +1,7 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
-/// BotÃ³n personalizado con el estilo de Agenda Glam
+/// Botón personalizado con el estilo de Agenda Glam
 /// Soporta estados de carga, deshabilitado, iconos y efectos visuales
 class GlamButton extends StatefulWidget {
   final String text;
@@ -68,7 +68,7 @@ class _GlamButtonState extends State<GlamButton>
     final accentColor = theme.colorScheme.secondary;
     final textColor = widget.isSecondary ? accentColor : Colors.black;
 
-    // Calcular tamaÃ±os y sombras basados en estado
+    // Calcular tamaños y sombras basados en estado
     final scale = _isPressed ? 0.98 : (_isHovered ? 1.02 : 1.0);
     final elevation =
         widget.isSecondary
@@ -79,10 +79,10 @@ class _GlamButtonState extends State<GlamButton>
             ? 0.0
             : (_isHovered ? 0.4 : (_isPressed ? 0.2 : 0.3));
 
-    // Construir el contenido del botÃ³n
+    // Construir el contenido del botón
     Widget buttonContent = isLoadingOrContent(textColor, theme);
 
-    // Aplicar efecto shimmer si estÃ¡ habilitado
+    // Aplicar efecto shimmer si está habilitado
     if (widget.withShimmer && !widget.isLoading) {
       buttonContent = AnimatedBuilder(
         animation: _shimmerAnimation,

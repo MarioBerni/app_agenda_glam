@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/features/auth/data/datasources/auth_mock_datasource.dart';
+﻿import 'package:app_agenda_glam/features/auth/data/datasources/auth_mock_datasource.dart';
 import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
 import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
 import 'package:app_agenda_glam/features/auth/domain/repositories/auth_repository.dart';

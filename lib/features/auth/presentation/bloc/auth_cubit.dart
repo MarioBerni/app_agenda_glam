@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
+﻿import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
 import 'package:app_agenda_glam/features/auth/domain/repositories/auth_repository.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,30 +1,30 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_password_field.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que representa el segundo paso del registro donde se configura
-/// la contraseÃ±a y se visualiza su fortaleza.
+/// la contraseña y se visualiza su fortaleza.
 class RegisterPasswordStep extends StatelessWidget {
-  /// Controlador para el campo de contraseÃ±a
+  /// Controlador para el campo de contraseña
   final TextEditingController passwordController;
 
-  /// Controlador para el campo de confirmar contraseÃ±a
+  /// Controlador para el campo de confirmar contraseña
   final TextEditingController confirmPasswordController;
 
-  /// Mensaje de error para el campo de contraseÃ±a (si existe)
+  /// Mensaje de error para el campo de contraseña (si existe)
   final String? passwordError;
 
-  /// Mensaje de error para el campo de confirmar contraseÃ±a (si existe)
+  /// Mensaje de error para el campo de confirmar contraseña (si existe)
   final String? confirmPasswordError;
 
-  /// Mapa de criterios de fortaleza de contraseÃ±a
+  /// Mapa de criterios de fortaleza de contraseña
   final Map<String, bool> passwordCriteria;
 
-  /// Indica si las contraseÃ±as coinciden
+  /// Indica si las contraseñas coinciden
   final bool doPasswordsMatch;
 
-  /// AcciÃ³n a ejecutar al completar la ediciÃ³n
+  /// Acción a ejecutar al completar la edición
   final VoidCallback? onEditingComplete;
 
   const RegisterPasswordStep({
@@ -44,10 +44,10 @@ class RegisterPasswordStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       key: const ValueKey('password_step'),
       children: [
-        // Campo de contraseÃ±a con animaciÃ³n
+        // Campo de contraseña con animación
         GlamAnimations.applyEntryEffect(
           GlamPasswordField(
-            label: 'ContraseÃ±a',
+            label: 'Contraseña',
             hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
             controller: passwordController,
             errorText: passwordError,
@@ -57,7 +57,7 @@ class RegisterPasswordStep extends StatelessWidget {
 
         const SizedBox(height: 24),
 
-        // Indicador de fortaleza de contraseÃ±a
+        // Indicador de fortaleza de contraseña
         GlamAnimations.applyEntryEffect(
           PasswordStrengthIndicator(criteria: passwordCriteria),
           slideDistance: 0.15,
@@ -65,18 +65,18 @@ class RegisterPasswordStep extends StatelessWidget {
 
         const SizedBox(height: 24),
 
-        // Campo de confirmar contraseÃ±a con animaciÃ³n
+        // Campo de confirmar contraseña con animación
         GlamAnimations.applyEntryEffect(
           Stack(
             children: [
               GlamPasswordField(
-                label: 'Confirmar contraseÃ±a',
+                label: 'Confirmar contraseña',
                 hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
                 controller: confirmPasswordController,
                 errorText: confirmPasswordError,
                 onEditingComplete: onEditingComplete,
               ),
-              // Icono de verificaciÃ³n si las contraseÃ±as coinciden
+              // Icono de verificación si las contraseñas coinciden
               if (doPasswordsMatch &&
                   passwordController.text.isNotEmpty &&
                   confirmPasswordError == null)
@@ -111,7 +111,7 @@ class RegisterPasswordStep extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    'Crea una contraseÃ±a segura usando caracteres especiales y combinando mayÃºsculas y nÃºmeros',
+                    'Crea una contraseña segura usando caracteres especiales y combinando mayúsculas y números',
                     style: TextStyle(
                       fontSize: 12,
                       color: Colors.white.withValues(alpha: 0.6),

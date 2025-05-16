@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
+﻿import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
 
 /// Modelo de usuario que implementa la entidad User
 /// Facilita la conversión desde/hacia formatos de datos (json, etc.)

@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+﻿import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/features/auth/domain/validators/register_validator.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';

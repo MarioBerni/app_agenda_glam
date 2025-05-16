@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+﻿import 'package:equatable/equatable.dart';
 
 /// Entidad User representa un usuario autenticado en la aplicación
 /// Sigue los principios de Clean Architecture al ser independiente de detalles de implementación

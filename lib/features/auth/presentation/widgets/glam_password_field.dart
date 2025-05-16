@@ -1,7 +1,7 @@
-import 'package:app_agenda_glam/features/auth/presentation/widgets/password_strength_indicator.dart';
+﻿import 'package:app_agenda_glam/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:flutter/material.dart';
 
-/// Campo de contraseÃ±a personalizado que permite mostrar/ocultar el texto
+/// Campo de contraseña personalizado que permite mostrar/ocultar el texto
 /// y opcionalmente mostrar un indicador de fortaleza
 class GlamPasswordField extends StatefulWidget {
   /// Etiqueta del campo
@@ -16,16 +16,16 @@ class GlamPasswordField extends StatefulWidget {
   /// Mensaje de error a mostrar
   final String? errorText;
 
-  /// Si el campo estÃ¡ habilitado
+  /// Si el campo está habilitado
   final bool enabled;
 
-  /// AcciÃ³n del teclado al completar
+  /// Acción del teclado al completar
   final TextInputAction textInputAction;
 
   /// Nodo de foco para controlar el foco del campo
   final FocusNode? focusNode;
 
-  /// Callback cuando se completa la ediciÃ³n
+  /// Callback cuando se completa la edición
   final VoidCallback? onEditingComplete;
 
   /// Callback cuando cambia el valor
@@ -34,10 +34,10 @@ class GlamPasswordField extends StatefulWidget {
   /// Callback cuando se completa la entrada en el campo (al presionar 'Done' o 'Next')
   final ValueChanged<String>? onFieldSubmitted;
 
-  /// Si se debe mostrar el indicador de fortaleza de contraseÃ±a
+  /// Si se debe mostrar el indicador de fortaleza de contraseña
   final bool showStrengthIndicator;
 
-  /// Criterios para evaluar la fortaleza de la contraseÃ±a
+  /// Criterios para evaluar la fortaleza de la contraseña
   final Map<String, bool> passwordCriteria;
 
   /// Etiquetas descriptivas para cada criterio
@@ -166,7 +166,7 @@ class _GlamPasswordFieldState extends State<GlamPasswordField> {
           ),
         ),
 
-        // Indicador de fortaleza de contraseÃ±a (si estÃ¡ habilitado)
+        // Indicador de fortaleza de contraseña (si está habilitado)
         if (widget.showStrengthIndicator &&
             widget.passwordCriteria.isNotEmpty) ...[
           const SizedBox(height: 16),
@@ -176,8 +176,8 @@ class _GlamPasswordFieldState extends State<GlamPasswordField> {
                 widget.criteriaLabels ??
                 const {
                   'length': 'Al menos 6 caracteres',
-                  'uppercase': 'Al menos una mayÃºscula',
-                  'number': 'Al menos un nÃºmero',
+                  'uppercase': 'Al menos una mayúscula',
+                  'number': 'Al menos un número',
                 },
           ),
         ],

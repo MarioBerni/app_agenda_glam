@@ -1,4 +1,4 @@
-// No necesitamos importar animation_presets directamente ya que usamos Flutter Animate
+﻿// No necesitamos importar animation_presets directamente ya que usamos Flutter Animate
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -6,12 +6,12 @@ import 'package:flutter_animate/flutter_animate.dart';
 /// Contenedor circular para iconos con estilo visual unificado
 ///
 /// Proporciona un contenedor circular con colores y efectos visuales consistentes
-/// para los iconos en las diferentes pantallas de la aplicaciÃ³n.
+/// para los iconos en las diferentes pantallas de la aplicación.
 class GlamIconContainer extends StatelessWidget {
   /// Icono a mostrar en el contenedor
   final IconData icon;
 
-  /// TamaÃ±o del contenedor (diÃ¡metro)
+  /// Tamaño del contenedor (diámetro)
   final double size;
 
   /// Color de fondo del contenedor
@@ -20,10 +20,10 @@ class GlamIconContainer extends StatelessWidget {
   /// Color del icono
   final Color? iconColor;
 
-  /// Efecto de brillo (shimmer) periÃ³dico
+  /// Efecto de brillo (shimmer) periódico
   final bool enableShimmer;
 
-  /// AnimaciÃ³n de entrada
+  /// Animación de entrada
   final bool animateEntry;
 
   /// Constructor
@@ -61,7 +61,7 @@ class GlamIconContainer extends StatelessWidget {
       ),
     );
 
-    // Aplicar animaciones segÃºn configuraciÃ³n
+    // Aplicar animaciones según configuración
     if (animateEntry) {
       container = container
           .animate()
@@ -77,7 +77,7 @@ class GlamIconContainer extends StatelessWidget {
           );
     }
 
-    // AÃ±adir efecto shimmer si estÃ¡ habilitado
+    // Añadir efecto shimmer si está habilitado
     if (enableShimmer) {
       container = container
           .animate(onPlay: (controller) => controller.repeat())

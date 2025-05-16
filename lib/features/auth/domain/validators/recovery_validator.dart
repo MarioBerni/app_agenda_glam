@@ -1,4 +1,4 @@
-/// Clase utilitaria para manejar las validaciones del formulario de recuperación.
+﻿/// Clase utilitaria para manejar las validaciones del formulario de recuperación.
 /// Separa la lógica de validación de la interfaz de usuario.
 class RecoveryValidator {
   /// Valida el email del usuario para recuperación de contraseña

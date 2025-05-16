@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

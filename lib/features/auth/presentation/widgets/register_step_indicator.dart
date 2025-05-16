@@ -1,4 +1,4 @@
-import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
+﻿import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que muestra el indicador de progreso para el flujo de registro
@@ -7,7 +7,7 @@ class RegisterStepIndicator extends StatelessWidget {
   /// El paso actual del registro
   final int currentStep;
 
-  /// El nÃºmero total de pasos en el flujo de registro
+  /// El número total de pasos en el flujo de registro
   final int totalSteps;
 
   const RegisterStepIndicator({
@@ -31,7 +31,7 @@ class RegisterStepIndicator extends StatelessWidget {
     return Expanded(
       child: Row(
         children: [
-          // CÃ­rculo indicador
+          // Círculo indicador
           Container(
             width: 36,
             height: 36,
@@ -73,7 +73,7 @@ class RegisterStepIndicator extends StatelessWidget {
             ),
           ),
 
-          // LÃ­nea entre pasos (excepto el Ãºltimo)
+          // Línea entre pasos (excepto el último)
           if (step < totalSteps)
             Expanded(
               child: Container(
