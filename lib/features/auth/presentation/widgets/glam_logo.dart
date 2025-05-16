@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Widget que muestra el logo de Agenda Glam con animaciones elegantes
@@ -50,8 +50,7 @@ class GlamLogo extends StatelessWidget {
                 ],
               ),
             ),
-            // Ãcono central
-            Icon(Icons.schedule, size: size, color: Colors.white),
+            // Mantenemos el círculo vacío para un diseño más minimalista
           ],
         ),
 
