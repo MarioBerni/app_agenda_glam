@@ -1,11 +1,17 @@
-﻿import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
+import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:app_agenda_glam/features/auth/presentation/controllers/recovery_controller.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_background.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_confirmation.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_content.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 /// Pantalla para recuperación de contraseña con flujo visual completo
 ///
@@ -105,23 +111,107 @@ class _RecoveryPageState extends State<RecoveryPage>
         // Aquí se pueden manejar cambios de estado globales del AuthCubit
         // Por ejemplo, si el usuario ya inició sesión, redirigir
       },
-      child: GlamScaffold(
-        title: _emailSent ? 'Recuperación Enviada' : 'Recuperar Contraseña',
-        subtitle:
-            _emailSent
-                ? null
-                : 'Te enviaremos instrucciones para restablecer tu contraseña',
-        content:
-            _emailSent
-                // Si se envió el email, mostrar confirmación
-                ? RecoveryConfirmation(email: _emailController.text)
-                // Si no, mostrar formulario
-                : RecoveryContent(
-                  emailController: _emailController,
-                  isLoading: _isLoading,
-                  onRecoverPassword: _recoverPassword,
-                  error: _error,
-                ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        resizeToAvoidBottomInset: false,
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: GlamAnimations.applyEntryEffect(
+            IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+              onPressed: () => context.go(AppRouter.login),
+            ),
+          ),
+        ),
+        body: Stack(
+          children: [
+            // Fondo degradado elegante
+            const GlamBackground(
+              primaryColor: kPrimaryColor,
+              intensity: 0.9,
+            ),
+            
+            // Contenido principal
+            SafeArea(
+              child: SingleChildScrollView(
+                child: _emailSent
+                  // Si se envió el email, mostrar confirmación
+                  ? RecoveryConfirmation(email: _emailController.text)
+                  // Si no, mostrar formulario
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // Encabezado con icono y título
+                        const RecoveryHeader(),
+                        
+                        // Espacio entre header y formulario
+                        const SizedBox(height: 32),
+                        
+                        // Formulario de recuperación (ahora sin padding innecesario)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: RecoveryContent(
+                            emailController: _emailController,
+                            isLoading: _isLoading,
+                            onRecoverPassword: _recoverPassword,
+                            error: _error,
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 24),
+                        
+                        // Divisor dorado elegante
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 24.0),
+                          child: GlamDivider(
+                            widthFactor: 0.8, // 80% del ancho disponible
+                            primaryOpacity: 0.5, // Sutilmente visible
+                            animate: true, // Con animación de aparición
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 24),
+                        
+                        // Enlace para iniciar sesión
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: GlamAnimations.applyEntryEffect(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  '¿Recordaste tu contraseña?',
+                                  style: TextStyle(
+                                    color: Colors.white.withValues(alpha: 0.9),
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context.go(AppRouter.login);
+                                  },
+                                  child: const Text(
+                                    'Iniciar sesión',
+                                    style: TextStyle(
+                                      color: kAccentColor,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            slideDistance: 0.25,
+                          ),
+                        ),
+                        
+                        SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                      ],
+                    ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

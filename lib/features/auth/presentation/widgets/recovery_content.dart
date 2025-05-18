@@ -1,7 +1,7 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
-import 'package:app_agenda_glam/features/auth/domain/validators/recovery_validator.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que muestra el formulario de recuperación de contraseña
@@ -30,105 +30,93 @@ class RecoveryContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Icono representativo animado
-            _buildRecoveryIcon(),
-
-            const SizedBox(height: 32),
-
-            // Mensaje de recuperación
-            Text(
-              'Ingresa tu dirección de correo electrónico para recibir instrucciones sobre cómo restablecer tu contraseña.',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.white.withValues(alpha: 0.8),
-              ),
-            ).glamEntry(
-              duration: const Duration(milliseconds: 800),
-              offset: const Offset(0, 0.08),
-            ),
-
-            const SizedBox(height: 32),
-
-            // Campo de email con animación
-            _buildEmailField(),
-
-            const SizedBox(height: 8),
-
-            const SizedBox(height: 32),
-
-            // Botón de recuperación con animación
-            _buildRecoverButton(),
-
-            const SizedBox(height: 16),
-
-            // Límite de intentos con contador visual (solo decorativo)
-            _buildAttemptsCounter(),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        // Campo de email con validación
+        GlamAnimations.applyEntryEffect(
+          _buildEmailField(),
+          slideDistance: 0.2,
         ),
-      ),
+        
+        const SizedBox(height: 24),
+        
+        // Botón de recuperación con animación
+        GlamAnimations.applyEntryEffect(
+          _buildRecoverButton(),
+          slideDistance: 0.2,
+        ),
+        
+        const SizedBox(height: 24),
+        
+        // Mostrar contador de intentos
+        GlamAnimations.applyEntryEffect(
+          _buildAttemptsCounter(),
+          slideDistance: 0.2,
+        ),
+      ],
     );
   }
 
-  /// Construye el icono representativo de recuperación
-  Widget _buildRecoveryIcon() {
-    return const GlamIconContainer(
-      icon: Icons.lock_reset_outlined,
-      size: 100,
-      enableShimmer: true,
-      animateEntry: true,
-    );
-  }
-
-  /// Construye el campo de email con animación en tiempo real
+  /// Construye el campo de email utilizando el componente GlamTextField
   Widget _buildEmailField() {
     return GlamTextField(
       controller: emailController,
-      label: 'Email',
+      label: 'Correo electrónico',
       hintText: 'nombre@ejemplo.com',
-      prefixIcon: Icons.email_outlined,
+      prefixIcon: Icons.email,
       keyboardType: TextInputType.emailAddress,
       textInputAction: TextInputAction.done,
       onFieldSubmitted: (_) => onRecoverPassword(),
-      validator: (value) => RecoveryValidator.validateEmail(value ?? ''),
+      validator: _validateEmail,
       errorText: error,
+      enabled: !isLoading,
     );
   }
+  
+  /// Valida el formato del email ingresado
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Por favor, ingresa tu correo electrónico';
+    }
+    
+    // Validación básica de formato de correo
+    final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!emailRegex.hasMatch(value)) {
+      return 'Ingresa un correo electrónico válido';
+    }
+    
+    return null;
+  }
 
-  /// Construye el botón de recuperación con animación
+  /// Construye el botón de envío de instrucciones utilizando el componente GlamButton
   Widget _buildRecoverButton() {
     return GlamButton(
       text: 'Enviar instrucciones',
       onPressed: isLoading ? null : onRecoverPassword,
       isLoading: isLoading,
-      icon: Icons.send_outlined,
-      variant: GlamButtonVariant.primary,
-      size: GlamButtonSize.medium,
-      primaryColor: kAccentColor,
+      icon: Icons.arrow_forward,
+      isSecondary: false,
+      withShimmer: true,
     );
   }
 
-  /// Construye el contador de intentos visual (decorativo)
+  /// Construye el contador de intentos visual utilizando GlamTextDivider y otros componentes comunes
   Widget _buildAttemptsCounter() {
-    // Simulamos un límite de 3 intentos para el diseño visual
+    // Valores fijos para mostrar el primer intento de tres
     const int maxAttempts = 3;
-    const int currentAttempt = 1; // Para diseño, siempre mostramos 1/3
+    const int currentAttempt = 1;
 
     return Column(
       children: [
-        // Separador con texto
+        // Divisor dorado elegante con texto
         GlamTextDivider(
           text: 'Intento $currentAttempt de $maxAttempts',
           dividerHeight: 1.0,
           primaryColor: kAccentColor,
           primaryOpacity: 0.4,
           textStyle: TextStyle(
-            fontSize: 14,
+            fontSize: 12,
             color: Colors.white.withValues(alpha: 0.6),
             fontWeight: FontWeight.w500,
           ),
@@ -144,7 +132,7 @@ class RecoveryContent extends StatelessWidget {
               child: Container(
                 height: 4,
                 decoration: BoxDecoration(
-                  color: kAccentColor.withValues(alpha: 0.8),
+                  color: kAccentColor,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),

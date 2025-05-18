@@ -1,5 +1,5 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_text_field.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/widgets/glam_text_field.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que representa el primer paso del registro donde se ingresan
@@ -39,72 +39,39 @@ class RegisterPersonalInfoStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       key: const ValueKey('personal_info_step'),
       children: [
-        // Campo de nombre con animación
+        // Campo de nombre con animación (mismo estilo que LoginForm)
         GlamAnimations.applyEntryEffect(
-          Stack(
-            children: [
-              GlamTextField(
-                label: 'Nombre completo',
-                hintText: 'Juan Pérez',
-                controller: nameController,
-                errorText: nameError,
-                keyboardType: TextInputType.name,
-                prefixIcon: Icon(
-                  Icons.person_outline,
-                  color: Colors.white.withValues(alpha: 0.6),
-                ),
-              ),
-              if (isNameValid && nameError == null)
-                Positioned(
-                  right: 12,
-                  top: 38,
-                  child: GlamAnimations.applySuccessEffect(
-                    const Icon(
-                      Icons.check_circle,
-                      color: Color(0xFF4CAF50),
-                      size: 22,
-                    ),
-                  ),
-                ),
-            ],
+          // Eliminamos el Stack y los iconos de verificación para mantener coherencia con LoginForm
+          GlamTextField(
+            controller: nameController,
+            label: 'Nombre completo',
+            prefixIcon: Icons.person_outline,
+            keyboardType: TextInputType.name,
+            textInputAction: TextInputAction.next,
+            errorText: nameError,
+            // Aseguramos que la etiqueta se muestre correctamente
+            hintText: 'Ingresa tu nombre completo',
           ),
-          slideDistance: 0.12,
+          slideDistance: 0.2, // Ajustado para coincidir con LoginForm
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 20), // Ajustado para mantener coherencia con LoginForm
 
-        // Campo de email con animación
+        // Campo de email con animación (mismo estilo que LoginForm)
         GlamAnimations.applyEntryEffect(
-          Stack(
-            children: [
-              GlamTextField(
-                label: 'Email',
-                hintText: 'example@mail.com',
-                controller: emailController,
-                errorText: emailError,
-                keyboardType: TextInputType.emailAddress,
-                prefixIcon: Icon(
-                  Icons.email_outlined,
-                  color: Colors.white.withValues(alpha: 0.6),
-                ),
-              ),
-              if (isEmailValid && emailError == null)
-                Positioned(
-                  right: 12,
-                  top: 38,
-                  child: GlamAnimations.applySuccessEffect(
-                    const Icon(
-                      Icons.check_circle,
-                      color: Color(0xFF4CAF50),
-                      size: 22,
-                    ),
-                  ),
-                ),
-            ],
+          // Eliminamos el Stack y los iconos de verificación para mantener coherencia con LoginForm
+          GlamTextField(
+            controller: emailController,
+            label: 'Email',
+            prefixIcon: Icons.email_outlined,
+            keyboardType: TextInputType.emailAddress,
+            textInputAction: TextInputAction.next,
+            errorText: emailError,
+            hintText: 'nombre@ejemplo.com', // Mantenemos el hint text como LoginForm
           ),
-          slideDistance: 0.15,
+          slideDistance: 0.2, // Ajustado para coincidir con LoginForm
         ),
 
-        // Texto informativo sobre el siguiente paso
+        // Texto informativo sobre el siguiente paso (con animación coherente)
         const SizedBox(height: 16),
         GlamAnimations.applyEntryEffect(
           Padding(
@@ -130,7 +97,7 @@ class RegisterPersonalInfoStep extends StatelessWidget {
               ],
             ),
           ),
-          slideDistance: 0.18,
+          slideDistance: 0.2, // Ajustado para mantener coherencia
         ),
       ],
     );

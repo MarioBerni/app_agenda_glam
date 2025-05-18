@@ -1,8 +1,8 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_logo.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_scissors_icon.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_video_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -119,9 +119,39 @@ class _WelcomePageState extends State<WelcomePage> {
                 children: [
                   SizedBox(height: size.height * 0.05),
 
-                  // Logo con animaciones mejoradas
-                  GlamAnimations.applyLogoEffect(
-                    const GlamLogo(size: 110, showTagline: true),
+                  // Ícono de tijera con animación de rotación y zoom
+                  const GlamScissorsIcon(
+                    size: 100, // Mantener el mismo tamaño estándar
+                    animate: true, // Habilitar animaciones de rotación y zoom
+                  ),
+                  
+                  // Título de la aplicación
+                  const SizedBox(height: 16),
+                  GlamAnimations.applyEntryEffect(
+                    const Text(
+                      'Agenda Glam',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: kAccentColor,
+                        letterSpacing: 1.2,
+                      ),
+                    ),
+                  ),
+                  
+                  // Tagline
+                  const SizedBox(height: 8),
+                  GlamAnimations.applyEntryEffect(
+                    const Text(
+                      'Tu agenda de belleza masculina',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.white70,
+                        letterSpacing: 0.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    slideDistance: 0.15, // Ajustar deslizamiento para efecto escalonado
                   ),
 
                   const Spacer(),

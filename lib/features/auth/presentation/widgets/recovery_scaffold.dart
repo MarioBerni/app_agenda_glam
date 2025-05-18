@@ -1,114 +1,53 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_background.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
-/// Scaffold base para la pantalla de recuperación de contraseña
-/// Define la estructura común y elementos visuales compartidos
+/// Widget de scaffold para la página de recuperación de contraseña
+/// Proporciona el layout base y elementos comunes como AppBar
 class RecoveryScaffold extends StatelessWidget {
-  /// Título del scaffold
-  final String title;
-
-  /// Descripción o mensaje secundario
-  final String? subtitle;
-
   /// Contenido principal del scaffold
-  final Widget content;
+  final Widget child;
 
-  /// Si debe mostrar el botón de retroceso
-  final bool showBackButton;
+  /// Función para manejar el botón de retroceso
+  final VoidCallback onBackPressed;
 
-  /// Constructor
   const RecoveryScaffold({
     super.key,
-    required this.title,
-    this.subtitle,
-    required this.content,
-    this.showBackButton = true,
+    required this.child,
+    required this.onBackPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: Colors.transparent,
+      // Controla el redimensionamiento cuando aparece el teclado
+      // false: el contenido no se redimensiona (el fondo permanece estable)
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading:
-            showBackButton
-                ? IconButton(
-                  icon: const Icon(Icons.arrow_back_ios, size: 20),
-                  onPressed: () => context.pop(),
-                  color: Colors.white,
-                ).glamEntry(duration: GlamAnimations.shortDuration)
-                : null,
-      ),
-      body: SafeArea(child: _buildContent()),
-    );
-  }
-
-  /// Construye el contenido principal del scaffold
-  Widget _buildContent() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Cabecera animada
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24.0, 8.0, 24.0, 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Título principal
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-              ).glamEntry(
-                duration: const Duration(milliseconds: 600),
-                offset: const Offset(0, 0.05),
-              ),
-
-              // Subtítulo opcional
-              if (subtitle != null)
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    subtitle!,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white.withValues(alpha: 0.7),
-                    ),
-                  ).glamEntry(
-                    duration: const Duration(milliseconds: 700),
-                    offset: const Offset(0, 0.08),
-                  ),
-                ),
-            ],
+        leading: GlamAnimations.applyEntryEffect(
+          IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            onPressed: onBackPressed,
           ),
         ),
-
-        // Separador superior con gradiente sutil
-        Container(
-          height: 1,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.transparent,
-                kAccentColor.withValues(alpha: 0.6),
-                Colors.transparent,
-              ],
-              stops: const [0.0, 0.5, 1.0],
-            ),
+      ),
+      body: Stack(
+        children: [
+          // Fondo degradado elegante
+          const GlamBackground(
+            primaryColor: kPrimaryColor,
+            intensity: 0.9,
           ),
-        ).glamEntry(duration: const Duration(milliseconds: 900)),
-
-        // Contenido principal
-        Expanded(child: content),
-      ],
+          
+          // Contenido principal
+          SafeArea(child: child),
+        ],
+      ),
     );
   }
 }

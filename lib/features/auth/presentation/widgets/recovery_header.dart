@@ -2,30 +2,15 @@ import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/widgets/glam_icon_container.dart';
 import 'package:flutter/material.dart';
 
-/// Widget que encapsula el encabezado de la página de registro
-/// Incluye el logo, título y descripción según el paso actual
-/// Alineado visualmente con LoginHeader para mantener consistencia estética
-class RegisterHeader extends StatelessWidget {
-  /// Paso actual del registro
-  final int currentStep;
-
-  const RegisterHeader({super.key, required this.currentStep});
+/// Widget que encapsula el encabezado de la página de recuperación de contraseña
+/// Incluye el logo, título y descripción
+class RecoveryHeader extends StatelessWidget {
+  const RecoveryHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
-
-    final String title =
-        currentStep == 1 ? 'Crear Cuenta' : 'Configurar Contraseña';
-
-    final String description =
-        currentStep == 1
-            ? 'Completa tus datos para registrarte y agendar tus citas'
-            : 'Elige una contraseña segura para proteger tu cuenta';
-
-    final IconData iconData =
-        currentStep == 1 ? Icons.person_add_outlined : Icons.lock_outline;
 
     return Column(
       children: [
@@ -34,7 +19,7 @@ class RegisterHeader extends StatelessWidget {
         // Título de la página
         GlamAnimations.applyEntryEffect(
           Text(
-            title,
+            'Recuperar contraseña',
             style: theme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -46,9 +31,9 @@ class RegisterHeader extends StatelessWidget {
         
         const SizedBox(height: 24),
         
-        // Icono representativo con el mismo tamaño y efectos que LoginHeader
-        GlamIconContainer(
-          icon: iconData,
+        // Icono representativo de recuperación
+        const GlamIconContainer(
+          icon: Icons.autorenew_rounded,
           size: 100,
           enableShimmer: true,
           animateEntry: true,
@@ -56,10 +41,10 @@ class RegisterHeader extends StatelessWidget {
         
         const SizedBox(height: 24),
         
-        // Descripción con el mismo estilo que LoginHeader
+        // Descripción
         GlamAnimations.applyEntryEffect(
           Text(
-            description,
+            'Ingresa tu correo electrónico para recibir instrucciones de recuperación',
             style: theme.textTheme.bodyMedium?.copyWith(
               color: Colors.white.withValues(alpha: 0.9),
             ),

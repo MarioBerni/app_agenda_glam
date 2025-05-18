@@ -1,5 +1,5 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_password_field.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/widgets/glam_text_field.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:flutter/material.dart';
 
@@ -44,59 +44,46 @@ class RegisterPasswordStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       key: const ValueKey('password_step'),
       children: [
-        // Campo de contraseña con animación
+        // Campo de contraseña con animación (mismo estilo que LoginForm)
         GlamAnimations.applyEntryEffect(
-          GlamPasswordField(
-            label: 'Contraseña',
-            hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
+          GlamTextField(
             controller: passwordController,
+            label: 'Contraseña',
+            prefixIcon: Icons.lock,
+            isPassword: true, // Parámetro que activa la funcionalidad de contraseña
+            validator: (value) => null, // La validación ya se maneja en otro lugar
+            textInputAction: TextInputAction.next,
             errorText: passwordError,
           ),
-          slideDistance: 0.12,
+          slideDistance: 0.2, // Ajustado para coincidir con LoginForm
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 20), // Ajustado para mantener coherencia con LoginForm
 
-        // Indicador de fortaleza de contraseña
+        // Indicador de fortaleza de contraseña (con la misma animación que otros elementos)
         GlamAnimations.applyEntryEffect(
           PasswordStrengthIndicator(criteria: passwordCriteria),
-          slideDistance: 0.15,
+          slideDistance: 0.2, // Ajustado para mantener coherencia
         ),
 
-        const SizedBox(height: 24),
+        const SizedBox(height: 20), // Ajustado para mantener coherencia con LoginForm
 
-        // Campo de confirmar contraseña con animación
+        // Campo de confirmar contraseña con animación (mismo estilo que LoginForm)
         GlamAnimations.applyEntryEffect(
-          Stack(
-            children: [
-              GlamPasswordField(
-                label: 'Confirmar contraseña',
-                hintText: 'â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢',
-                controller: confirmPasswordController,
-                errorText: confirmPasswordError,
-                onEditingComplete: onEditingComplete,
-              ),
-              // Icono de verificación si las contraseñas coinciden
-              if (doPasswordsMatch &&
-                  passwordController.text.isNotEmpty &&
-                  confirmPasswordError == null)
-                Positioned(
-                  right: 12,
-                  top: 38,
-                  child: GlamAnimations.applySuccessEffect(
-                    const Icon(
-                      Icons.check_circle,
-                      color: Color(0xFF4CAF50),
-                      size: 22,
-                    ),
-                  ),
-                ),
-            ],
+          GlamTextField(
+            controller: confirmPasswordController,
+            label: 'Confirmar contraseña',
+            prefixIcon: Icons.lock,
+            isPassword: true, // Parámetro que activa la funcionalidad de contraseña
+            validator: (value) => null, // La validación ya se maneja en otro lugar
+            textInputAction: TextInputAction.done,
+            errorText: confirmPasswordError,
+            onFieldSubmitted: (_) => onEditingComplete?.call(),
           ),
-          slideDistance: 0.18,
+          slideDistance: 0.2, // Ajustado para coincidir con LoginForm
         ),
 
-        // Texto informativo sobre seguridad
+        // Texto informativo sobre seguridad (con animación coherente con LoginPage)
         const SizedBox(height: 16),
         GlamAnimations.applyEntryEffect(
           Padding(
@@ -122,7 +109,7 @@ class RegisterPasswordStep extends StatelessWidget {
               ],
             ),
           ),
-          slideDistance: 0.21,
+          slideDistance: 0.25, // Ajustado para coincidir con LoginPage
         ),
       ],
     );

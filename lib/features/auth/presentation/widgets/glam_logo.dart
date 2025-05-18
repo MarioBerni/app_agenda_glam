@@ -19,6 +19,59 @@ class GlamLogo extends StatelessWidget {
     this.showShimmer = true,
   });
 
+  // Construye el ícono de tijera estático (sin animación)
+  Widget _buildStaticScissors(double size) {
+    return Icon(
+      Icons.content_cut,  // Ícono de tijera
+      size: size * 0.6,    // Ajustamos el tamaño para que quede proporcional
+      color: const Color(0xFFFFD700), // Color dorado/amarillo para mantener coherencia
+    );
+  }
+
+  // Construye el ícono de tijera con animaciones
+  Widget _buildAnimatedScissors(double size) {
+    // Color dorado para el ícono (igual que los demás íconos de la app)
+    const Color goldColor = Color(0xFFFFD700);
+    
+    return Icon(
+      Icons.content_cut, // Ícono de tijera
+      size: size * 0.6,   // Proporcional al tamaño del logo (ajustado para mantener coherencia)
+      color: goldColor,   // Color dorado para mantener coherencia visual
+    )
+    .animate(onPlay: (controller) => controller.repeat()) // Repetir la animación indefinidamente
+    // Efecto principal: rotación sutil de tijeras que simula el corte
+    .rotate(
+      duration: const Duration(seconds: 5),
+      begin: -0.05,
+      end: 0.05,
+      curve: Curves.easeInOutSine,
+      alignment: Alignment.center,
+    )
+    // Efecto de apertura y cierre de tijeras (más sutil)
+    .scale(
+      delay: const Duration(milliseconds: 500),
+      duration: const Duration(seconds: 2),
+      begin: const Offset(1.0, 1.0),
+      end: const Offset(1.1, 1.1), // Escalado más sutil
+      curve: Curves.easeInOutSine,
+    )
+    .then() // Encadenar con el cierre de tijeras
+    .scale(
+      duration: const Duration(seconds: 2),
+      begin: const Offset(1.1, 1.1),
+      end: const Offset(1.0, 1.0),
+      curve: Curves.easeInOutSine,
+    )
+    // Efecto de brillo ocasional con color dorado
+    .shimmer(
+      delay: const Duration(seconds: 4),
+      duration: const Duration(milliseconds: 1800),
+      color: goldColor.withValues(alpha: 153), // 0.6 * 255 = 153 (Brillo con el mismo color dorado)
+      size: 0.8,
+      curve: Curves.easeInOutSine,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -27,30 +80,28 @@ class GlamLogo extends StatelessWidget {
     final logo = Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // Logo con círculo y glow
+        // Logo con ícono de tijera y glow
         Stack(
           alignment: Alignment.center,
           children: [
-            // Círculo de fondo con degradado
+            // Círculo de fondo azul oscuro (como los otros íconos)
             Container(
               width: size * 1.2,
               height: size * 1.2,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [accentColor, accentColor.withValues(alpha: 0.1)],
-                  stops: const [0.5, 1.0],
-                ),
+                color: const Color(0xFF0A1835), // Color azul oscuro para el fondo
                 boxShadow: [
                   BoxShadow(
-                    color: accentColor.withValues(alpha: 0.3),
-                    blurRadius: 15,
-                    spreadRadius: 5,
+                    color: Colors.black.withValues(alpha: 51), // 0.2 * 255 = 51
+                    blurRadius: 8,
+                    spreadRadius: 2,
                   ),
                 ],
               ),
             ),
-            // Mantenemos el círculo vacío para un diseño más minimalista
+            // Ícono de tijera con animación
+            animate ? _buildAnimatedScissors(size) : _buildStaticScissors(size),
           ],
         ),
 

@@ -1,6 +1,6 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_logo.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_footer.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_header.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_personal_info_step.dart';
@@ -88,54 +88,57 @@ class RegisterContent extends StatelessWidget {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            // Logo con animación
-            Center(
-              child: GlamAnimations.applyLogoEffect(
-                const GlamLogo(size: 60, showTagline: false),
-              ),
-            ),
-            const SizedBox(height: 24),
-
-            // Indicador de progreso
+            // Encabezado con título, icono y descripción
+            RegisterHeader(currentStep: currentStep),
+            
+            // Indicador de progreso (con la misma animación y estilo que otros elementos)
             GlamAnimations.applyEntryEffect(
               RegisterStepIndicator(
                 currentStep: currentStep,
                 totalSteps: totalSteps,
               ),
-              slideDistance: 0.05,
+              slideDistance: 0.15, // Ajustado para consistencia con loginHeader
             ),
             const SizedBox(height: 24),
-
-            // Encabezado con título y subtítulo
-            RegisterHeader(currentStep: currentStep),
-            const SizedBox(height: 32),
-
+            
             // Formulario por pasos (con animación)
             _buildCurrentStep(),
 
             const SizedBox(height: 24),
 
-            // Botón de acción principal
+            // Botón de acción principal (con los mismos parámetros que en LoginForm)
             GlamAnimations.applyEntryEffect(
               GlamButton(
-                text: currentStep == 1 ? 'Continuar' : 'Registrarse',
-                onPressed:
-                    isLoading
-                        ? null
-                        : (currentStep == 1 ? onNextStep : onRegister),
+                text: currentStep == 1 ? 'Continuar' : 'Crear Cuenta',
+                onPressed: isLoading
+                    ? null
+                    : (currentStep == 1 ? onNextStep : onRegister),
                 isLoading: isLoading,
+                icon: currentStep == 1 ? Icons.arrow_forward : Icons.person_add_outlined,
+                withShimmer: true,
               ),
-              slideDistance: 0.15,
+              slideDistance: 0.2, // Ajustado para coincidir con LoginForm
             ),
-
+            
             const SizedBox(height: 24),
-
+            
+            // Divisor dorado elegante (mismo estilo que en LoginPage)
+            const GlamDivider(
+              widthFactor: 0.8, // 80% del ancho disponible
+              primaryOpacity: 0.5, // Sutilmente visible
+              animate: true, // Con animación de aparición
+            ),
+            
+            const SizedBox(height: 24),
+            
             // Pie de página con enlace a login
             const RegisterFooter(),
+            
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
           ],
         ),
       ),
