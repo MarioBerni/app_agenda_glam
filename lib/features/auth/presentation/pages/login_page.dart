@@ -1,8 +1,8 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_background.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/login_form.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/login_header.dart';
 import 'package:flutter/material.dart';
@@ -82,10 +82,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Stack(
         children: [
-          // Fondo degradado elegante
-          const GlamBackground(
+          // Fondo degradado centralizado
+          const GlamGradientBackground(
             primaryColor: kPrimaryColor,
-            intensity: 0.9,
+            opacity: 0.9,
           ),
           
           // Contenido principal

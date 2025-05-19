@@ -1,10 +1,12 @@
-﻿import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/features/auth/domain/validators/register_validator.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:app_agenda_glam/features/auth/presentation/controllers/register_controller.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_content.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/register_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -234,29 +236,68 @@ class _RegisterPageState extends State<RegisterPage>
         }
       },
       builder: (context, state) {
-        return RegisterScaffold(
-          onBackPressed: _previousStep,
-          child: Form(
-            key: _formKey,
-            child: RegisterContent(
-              currentStep: _currentStep,
-              totalSteps: _totalSteps,
-              nameController: _nameController,
-              emailController: _emailController,
-              passwordController: _passwordController,
-              confirmPasswordController: _confirmPasswordController,
-              nameError: _nameError,
-              emailError: _emailError,
-              passwordError: _passwordError,
-              confirmPasswordError: _confirmPasswordError,
-              isNameValid: _isNameValid,
-              isEmailValid: _isEmailValid,
-              passwordCriteria: _passwordCriteria,
-              doPasswordsMatch: _doPasswordsMatch,
-              isLoading: _isLoading,
-              onNextStep: _nextStep,
-              onRegister: _register,
+        return Scaffold(
+          backgroundColor: Colors.transparent,
+          // Controla el redimensionamiento cuando aparece el teclado
+          resizeToAvoidBottomInset: false,
+          extendBodyBehindAppBar: true,
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: GlamAnimations.applyEntryEffect(
+              IconButton(
+                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                onPressed: _previousStep,
+              ),
             ),
+          ),
+          body: Stack(
+            children: [
+              // Fondo degradado centralizado
+              const GlamGradientBackground(
+                primaryColor: kPrimaryColor,
+                opacity: 0.9,
+              ),
+              
+              // Contenido principal
+              SafeArea(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          
+                          // Contenido del formulario según paso actual
+                          RegisterContent(
+                            currentStep: _currentStep,
+                            totalSteps: _totalSteps,
+                            nameController: _nameController,
+                            emailController: _emailController,
+                            passwordController: _passwordController,
+                            confirmPasswordController: _confirmPasswordController,
+                            nameError: _nameError,
+                            emailError: _emailError,
+                            passwordError: _passwordError,
+                            confirmPasswordError: _confirmPasswordError,
+                            isNameValid: _isNameValid,
+                            isEmailValid: _isEmailValid,
+                            passwordCriteria: _passwordCriteria,
+                            doPasswordsMatch: _doPasswordsMatch,
+                            isLoading: _isLoading,
+                            onNextStep: _nextStep,
+                            onRegister: _register,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         );
       },

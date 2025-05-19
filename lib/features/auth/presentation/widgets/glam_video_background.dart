@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
+import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 /// Widget que proporciona un fondo de video con degradado
@@ -84,9 +85,17 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
     final gradientColor = widget.gradientColor ?? theme.colorScheme.primary;
 
     if (!_isInitialized) {
-      return Container(
-        color: theme.scaffoldBackgroundColor,
-        child: const Center(child: CircularProgressIndicator()),
+      // Usar el mismo fondo degradado consistente con el resto de la aplicación
+      return Stack(
+        children: [
+          // Fondo degradado centralizado
+          GlamGradientBackground(
+            primaryColor: gradientColor,
+            opacity: widget.gradientOpacity,
+          ),
+          // Indicador de carga centrado
+          const Center(child: CircularProgressIndicator()),
+        ],
       );
     }
 

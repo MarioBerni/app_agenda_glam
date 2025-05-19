@@ -90,7 +90,7 @@ class _WelcomePageState extends State<WelcomePage> {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      // Eliminar el color de fondo ya que lo proporciona GlamBackground
+      // Fondo transparente porque el video background proporciona el fondo
       backgroundColor: Colors.transparent,
       // Aplicar contenido dentro de un Stack para usar nuestro fondo personalizado
       body: Stack(

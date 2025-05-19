@@ -1,21 +1,49 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_background.dart';
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Scaffold base unificado para todas las pantallas de autenticación
-/// Proporciona una experiencia visual consistente con fondo degradado,
-/// estructura común y componentes visuales compartidos.
+/// Scaffold base unificado para todas las pantallas de la aplicación Agenda Glam.
+/// 
+/// Este componente proporciona:
+/// * Fondo degradado estándar utilizando [GlamGradientBackground]
+/// * Estructura visual consistente con título, subtítulo y divisor dorado
+/// * Soporte para contenido flexible (con o sin encabezado)
+/// * Comportamiento configurable para teclado
+/// * Navegación hacia atrás con animaciones fluidas
+/// 
+/// Puede usarse de dos formas principales:
+/// 1. Con `title`, `subtitle` y `content` para el diseño estándar con encabezado
+/// 2. Con `directContent` para diseños personalizados sin encabezado estándar
+/// 
+/// Es el componente scaffold centralizado que debe usarse en toda la aplicación
+/// para mantener una experiencia visual coherente.
 class GlamScaffold extends StatelessWidget {
-  /// Título principal de la pantalla
-  final String title;
+  /// Título principal de la pantalla que se muestra en la parte superior.
+  /// 
+  /// Opcional si se usa `directContent`. Cuando se proporciona, se muestra con
+  /// un estilo prominente al inicio del scaffold, seguido del subtítulo y el divisor.
+  final String? title;
 
-  /// Subtítulo o descripción (opcional)
+  /// Subtítulo o descripción debajo del título principal.
+  /// 
+  /// Opcional. Proporciona contexto adicional sobre el propósito de la pantalla.
+  /// Solo se muestra si también se proporciona `title`.
   final String? subtitle;
 
-  /// Contenido principal del scaffold
-  final Widget content;
+  /// Contenido principal del scaffold que se integra con el encabezado estándar y divisor.
+  /// 
+  /// Debe usarse cuando se desea mantener el encabezado estándar de la aplicación.
+  /// No puede usarse simultáneamente con `directContent`.
+  final Widget? content;
+
+  /// Contenido directo sin el encabezado ni divisor estándar.
+  /// 
+  /// Debe usarse cuando se necesita un control total sobre la estructuración del contenido,
+  /// como en las páginas de inicio de sesión o registro que tienen sus propios encabezados personalizados.
+  /// No puede usarse simultáneamente con `content`.
+  final Widget? directContent;
 
   /// Si debe mostrar el botón de retroceso
   final bool showBackButton;
@@ -28,24 +56,53 @@ class GlamScaffold extends StatelessWidget {
 
   /// Acción personalizada para el botón de retroceso (opcional)
   final VoidCallback? onBackPressed;
+  
+  /// Controla si el scaffold se redimensiona cuando aparece el teclado
+  final bool resizeToAvoidBottomInset;
 
-  /// Constructor
+  /// Constructor para GlamScaffold.
+  /// 
+  /// Requiere especificar uno de estos parámetros:
+  /// * `content` - Para usar con el encabezado estándar
+  /// * `directContent` - Para control total sobre el contenido
+  /// 
+  /// Ejemplos de uso:
+  /// ```dart
+  /// // Con encabezado estándar
+  /// GlamScaffold(
+  ///   title: 'Mi Pantalla',
+  ///   subtitle: 'Descripción de la pantalla',
+  ///   content: MiContenido(),
+  /// )
+  /// 
+  /// // Con contenido personalizado
+  /// GlamScaffold(
+  ///   directContent: MiContenidoPersonalizado(),
+  /// )
+  /// ```
   const GlamScaffold({
     super.key,
-    required this.title,
+    this.title,
     this.subtitle,
-    required this.content,
+    this.content,
+    this.directContent,
     this.showBackButton = true,
     this.primaryColor,
     this.backgroundIntensity = 0.7,
     this.onBackPressed,
-  });
+    this.resizeToAvoidBottomInset = false,
+  }) : assert(
+          (content != null && directContent == null) ||
+              (content == null && directContent != null),
+          'Debe proporcionarse content o directContent, pero no ambos');
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Fondo transparente porque GlamBackground proporciona el fondo
+      // Fondo transparente porque el fondo se proporciona dentro del stack
       backgroundColor: Colors.transparent,
+      // Configuración del teclado (false para evitar redimensionamiento)
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       // Extender el cuerpo detrás del AppBar para evitar el borde negro
       extendBodyBehindAppBar: true,
       // Extender el cuerpo hasta los bordes de la pantalla
@@ -66,14 +123,16 @@ class GlamScaffold extends StatelessWidget {
       // Stack para fondo y contenido
       body: Stack(
         children: [
-          // Fondo degradado usando GlamBackground
-          GlamBackground(
+          // Fondo degradado usando el componente centralizado
+          GlamGradientBackground(
             primaryColor: primaryColor ?? kPrimaryColorDark,
-            intensity: backgroundIntensity,
+            opacity: backgroundIntensity,
           ),
 
           // Contenido principal
-          SafeArea(child: _buildContent()),
+          SafeArea(
+            child: directContent != null ? directContent! : _buildContent(),
+          ),
         ],
       ),
     );
@@ -81,6 +140,13 @@ class GlamScaffold extends StatelessWidget {
 
   /// Construye el contenido principal del scaffold con encabezado y separador
   Widget _buildContent() {
+    // El content no puede ser nulo en este punto porque:
+    // 1. Si directContent no es nulo, nunca llegamos aquí (se muestra directContent)
+    // 2. Si directContent es nulo, content debe ser no nulo (por el assert del constructor)
+    if (title == null) {
+      return content!; // Content no puede ser nulo aquí por la lógica mencionada
+    }
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,7 +158,7 @@ class GlamScaffold extends StatelessWidget {
             children: [
               // Título principal
               Text(
-                title,
+                title!,
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -126,7 +192,7 @@ class GlamScaffold extends StatelessWidget {
         _buildGoldenDivider(),
 
         // Contenido principal
-        Expanded(child: content),
+        Expanded(child: content!), // Es seguro usar ! aquí porque ya validamos en el constructor
       ],
     );
   }

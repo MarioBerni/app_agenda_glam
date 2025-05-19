@@ -1,4 +1,4 @@
-﻿import 'package:app_agenda_glam/core/routes/app_page_transitions.dart';
+import 'package:app_agenda_glam/core/routes/app_page_transitions.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/recovery_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/login_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.dart';

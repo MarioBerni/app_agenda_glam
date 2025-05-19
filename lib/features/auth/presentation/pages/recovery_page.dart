@@ -5,7 +5,7 @@ import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:app_agenda_glam/features/auth/presentation/controllers/recovery_controller.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_background.dart';
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_confirmation.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_content.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_header.dart';
@@ -128,9 +128,9 @@ class _RecoveryPageState extends State<RecoveryPage>
         body: Stack(
           children: [
             // Fondo degradado elegante
-            const GlamBackground(
+            const GlamGradientBackground(
               primaryColor: kPrimaryColor,
-              intensity: 0.9,
+              opacity: 0.9,
             ),
             
             // Contenido principal
