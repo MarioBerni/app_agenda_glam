@@ -1,4 +1,6 @@
+import 'dart:math' as math;
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -21,6 +23,12 @@ enum TransitionType {
 
   /// Transición fade para cambios sutiles
   fade,
+  
+  /// Transición circular expandiéndose desde la esquina inferior izquierda (avanzar)
+  circleForward,
+  
+  /// Transición circular expandiéndose desde la esquina inferior derecha (retroceder)
+  circleBackward,
 }
 
 /// Define las transiciones personalizadas para las páginas de la aplicación
@@ -32,21 +40,33 @@ class AppPageTransitions {
   /// Mapa de transiciones predefinidas (se puede expandir según necesidad)
   static final Map<String, TransitionType> _routeTransitions = {
     // Autenticación
-    '/welcome': TransitionType.defaultTransition,
-    '/login': TransitionType.authForward,
-    '/register': TransitionType.authForward,
-    '/recovery': TransitionType.authForward,
+    '/welcome': TransitionType.circleForward,
+    '/login': TransitionType.circleForward,
+    '/register': TransitionType.circleForward,
+    '/recovery': TransitionType.circleForward,
 
     // Confirmaciones
     '/recovery/confirmation': TransitionType.confirmation,
 
     // Principal
-    '/': TransitionType.fade,
+    '/': TransitionType.circleForward,
+  };
+  
+  /// Mapa que define las transiciones para navegación hacia atrás
+  static final Map<String, TransitionType> _reverseTransitions = {
+    // Usar transición circular hacia atrás al regresar de estas rutas
+    '/login': TransitionType.circleBackward,
+    '/register': TransitionType.circleBackward,
+    '/recovery': TransitionType.circleBackward,
+    '/': TransitionType.circleBackward,
   };
 
   /// Obtiene el tipo de transición para una ruta específica
-  static TransitionType getTransitionType(String routePath) {
-    return _routeTransitions[routePath] ?? TransitionType.defaultTransition;
+  static TransitionType getTransitionType(String routePath, {bool isReverse = false}) {
+    if (isReverse) {
+      return _reverseTransitions[routePath] ?? TransitionType.circleBackward;
+    }
+    return _routeTransitions[routePath] ?? TransitionType.circleForward;
   }
 
   /// Crea una página con transición personalizada basada en la ruta y dirección
@@ -55,10 +75,11 @@ class AppPageTransitions {
     required GoRouterState state,
     required Widget child,
     TransitionType? transitionType,
+    bool isReverse = false,
   }) {
     // Determinar tipo de transición
     final effectiveTransitionType =
-        transitionType ?? getTransitionType(state.uri.path);
+        transitionType ?? getTransitionType(state.uri.path, isReverse: isReverse);
 
     // Crear transición basada en el tipo
     return CustomTransitionPage<void>(
@@ -159,6 +180,22 @@ class AppPageTransitions {
       case TransitionType.fade:
         // Transición fade simple
         return FadeTransition(opacity: curve, child: child);
+        
+      case TransitionType.circleForward:
+        // Transición circular desde esquina inferior izquierda
+        return _buildCircleTransition(
+          animation: animation,
+          child: child,
+          alignment: Alignment.bottomLeft,
+        );
+      
+      case TransitionType.circleBackward:
+        // Transición circular desde esquina inferior derecha
+        return _buildCircleTransition(
+          animation: animation,
+          child: child,
+          alignment: Alignment.bottomRight,
+        );
     }
   }
 
@@ -175,6 +212,77 @@ class AppPageTransitions {
         return const Duration(milliseconds: 300);
       case TransitionType.fade:
         return const Duration(milliseconds: 250);
+      case TransitionType.circleForward:
+      case TransitionType.circleBackward:
+        return const Duration(milliseconds: 1200);
     }
+  }
+  
+  /// Construye una transición circular con la alineación especificada
+  static Widget _buildCircleTransition({
+    required Animation<double> animation,
+    required Widget child,
+    required Alignment alignment,
+  }) {
+    return Stack(
+      children: [
+        // Fondo común que permanece visible durante toda la transición
+        const GlamGradientBackground(),
+        
+        // La página nueva con el efecto de círculo
+        ClipPath(
+          clipper: _CircleRevealClipper(
+            fraction: animation.value,
+            alignment: alignment,
+          ),
+          child: child,
+        ),
+      ],
+    );
+  }
+}
+
+/// Clipper que crea un círculo que se expande para la transición
+class _CircleRevealClipper extends CustomClipper<Path> {
+  /// Valor entre 0.0 y 1.0 que indica cuánto del círculo se ha revelado
+  final double fraction;
+  
+  /// Alineación del centro del círculo
+  final Alignment alignment;
+  
+  _CircleRevealClipper({
+    required this.fraction,
+    required this.alignment,
+  });
+  
+  @override
+  Path getClip(Size size) {
+    final center = Offset(
+      size.width * (alignment.x * 0.5 + 0.5),
+      size.height * (alignment.y * 0.5 + 0.5),
+    );
+    
+    // Calculamos el radio máximo necesario para cubrir toda la pantalla
+    final maxRadius = math.sqrt(
+      math.pow(size.width, 2) + math.pow(size.height, 2)
+    );
+    
+    // Radio actual basado en la fracción de animación
+    final radius = maxRadius * fraction;
+    
+    final path = Path()
+      ..addOval(
+        Rect.fromCircle(
+          center: center,
+          radius: radius,
+        ),
+      );
+      
+    return path;
+  }
+  
+  @override
+  bool shouldReclip(_CircleRevealClipper oldClipper) {
+    return oldClipper.fraction != fraction || oldClipper.alignment != alignment;
   }
 }

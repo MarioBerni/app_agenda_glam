@@ -63,6 +63,12 @@ Este archivo detalla las tareas necesarias para optimizar y centralizar los comp
   - [X] Clarificar las diferentes formas de usar componentes compartidos
   - [X] Documentar opciones de personalización disponibles
 
+- [X] **Sistema de Transiciones Circulares:** ✅ **COMPLETADO**
+  - [X] Crear `CirclePageRoute` para implementar transiciones con efecto circular
+  - [X] Implementar `CircleNavigation` como utilidad centralizada de navegación
+  - [X] Integrar transiciones circulares en el sistema de rutas existente
+  - [X] Ajustar la duración de transición a 1200ms para mejor apreciación visual
+
 - [ ] **Revisión de Widgets Adicionales:** ⏰ **PENDIENTE**
   - [ ] Analizar widgets en `core/widgets` y `features/*/widgets`
   - [ ] Identificar componentes similares o con funcionalidad duplicada

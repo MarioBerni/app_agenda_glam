@@ -167,14 +167,17 @@ Se aplican los siguientes patrones y estrategias para mantener los archivos por 
 * **Integración:**
     * En `main.dart`, `BlocProvider` utiliza `sl<AuthCubit>()` para crear instancias de Cubits.
 
-### 6.3. Sistema de Rutas (go_router)
-* **Propósito:** Gestionar la navegación entre pantallas de forma declarativa y tipada.
-* **Configuración:**
-    * Las rutas se definen en `AppRouter` (ej. `lib/core/routes/app_router.dart`).
-    * Se definen constantes para los nombres de las rutas (ej. `AppRouter.login`, `AppRouter.home`).
-    * Se crea una instancia de `GoRouter` con la lista de `GoRoute`.
+### 6.3. Sistema de Navegación (Go Router y Transiciones Circulares)
+* **Propósito:** Manejar las rutas y la navegación entre pantallas de manera declarativa y con transiciones suaves, proporcionando una experiencia visual coherente con transiciones circulares personalizadas.
+* **Componentes:**
+    * **GoRouter (`app_router.dart`):** Define la estructura de navegación y rutas de la aplicación.
+    * **CirclePageRoute (`circle_page_route.dart`):** Implementa una transición personalizada con efecto circular expandible.
+    * **CircleNavigation (`circle_navigation.dart`):** Centraliza los métodos de navegación y garantiza la coherencia en las transiciones.
 * **Integración:** La instancia de `GoRouter` se pasa a `MaterialApp.router` en `main.dart`.
-* **Navegación:** Se utiliza `context.go(AppRouter.routeName)` o `context.push(AppRouter.routeName)`.
+* **Navegación:** 
+    * Se recomienda usar los métodos de `CircleNavigation` para todas las navegaciones (ej. `CircleNavigation.goToLogin(context)`).
+    * La transición circular se expande desde `bottomLeft` al avanzar y desde `bottomRight` al retroceder.
+    * La duración de la transición es de 1200ms para una apreciación visual óptima.
 
 ### 6.4. Sistema de Tema (Theme System)
 * **Propósito:** Asegurar una apariencia visual consistente en toda la aplicación.

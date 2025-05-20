@@ -1,5 +1,5 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
@@ -11,7 +11,6 @@ import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_cont
 import 'package:app_agenda_glam/features/auth/presentation/widgets/recovery_header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 /// Pantalla para recuperación de contraseña con flujo visual completo
 ///
@@ -121,7 +120,7 @@ class _RecoveryPageState extends State<RecoveryPage>
           leading: GlamAnimations.applyEntryEffect(
             IconButton(
               icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-              onPressed: () => context.go(AppRouter.login),
+              onPressed: () => CircleNavigation.goBackToLogin(context),
             ),
           ),
         ),
@@ -189,7 +188,7 @@ class _RecoveryPageState extends State<RecoveryPage>
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    context.go(AppRouter.login);
+                                    CircleNavigation.goBackToLogin(context);
                                   },
                                   child: const Text(
                                     'Iniciar sesión',

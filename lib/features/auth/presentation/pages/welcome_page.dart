@@ -1,11 +1,10 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_icon_container.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_video_background.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// Widget para efecto parallax en el fondo
 class ParallaxBackground extends StatelessWidget {
@@ -200,22 +199,22 @@ class _WelcomePageState extends State<WelcomePage> {
                               'login_button', // Para animación hero en transición
                           child: GlamButton(
                             text: 'Iniciar Sesión',
-                            onPressed: () {
+                            onPressed: () async {
                               // Animación de cambio de página
                               _parallaxController.animateForward();
 
-                              // Capturar el navegador antes de la operación asíncrona
-                              final navigator = GoRouter.of(context);
-
-                              Future.delayed(
-                                const Duration(milliseconds: 300),
-                                () {
-                                  // Verificar si el widget aún está montado antes de usar el contexto
-                                  if (mounted) {
-                                    navigator.go(AppRouter.login);
-                                  }
-                                },
-                              );
+                              // Almacenar el NavigatorState antes de la operación asíncrona
+                              final navigatorState = Navigator.of(context);
+                              final themeData = Theme.of(context);
+                              
+                              await Future.delayed(const Duration(milliseconds: 300));
+                              
+                              // Verificar si el widget aún está montado antes de usar el contexto
+                              if (mounted) {
+                                // Usar la navegación centralizada con transición circular que usa
+                                // los estados capturados y no el BuildContext directamente
+                                CircleNavigation.goToLoginWithState(navigatorState, themeData);
+                              }
                             },
                             icon: Icons.login_rounded,
                             withShimmer: true, // Efecto visual adicional
@@ -233,22 +232,22 @@ class _WelcomePageState extends State<WelcomePage> {
                               'register_button', // Para animación hero en transición
                           child: GlamButton(
                             text: 'Registrarse',
-                            onPressed: () {
+                            onPressed: () async {
                               // Animación de cambio de página
                               _parallaxController.animateForward();
 
-                              // Capturar el navegador antes de la operación asíncrona
-                              final navigator = GoRouter.of(context);
-
-                              Future.delayed(
-                                const Duration(milliseconds: 300),
-                                () {
-                                  // Verificar si el widget aún está montado antes de usar el contexto
-                                  if (mounted) {
-                                    navigator.go(AppRouter.register);
-                                  }
-                                },
-                              );
+                              // Almacenar el NavigatorState antes de la operación asíncrona
+                              final navigatorState = Navigator.of(context);
+                              final themeData = Theme.of(context);
+                              
+                              await Future.delayed(const Duration(milliseconds: 300));
+                              
+                              // Verificar si el widget aún está montado antes de usar el contexto
+                              if (mounted) {
+                                // Usar la navegación centralizada con transición circular que usa
+                                // los estados capturados y no el BuildContext directamente
+                                CircleNavigation.goToRegisterWithState(navigatorState, themeData);
+                              }
                             },
                             isSecondary: true,
                             icon: Icons.person_add_rounded,

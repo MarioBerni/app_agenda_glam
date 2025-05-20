@@ -1,5 +1,5 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/features/auth/domain/validators/register_validator.dart';
@@ -9,7 +9,6 @@ import 'package:app_agenda_glam/features/auth/presentation/controllers/register_
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 /// Página de registro de nuevos usuarios con flujo por pasos
 ///
@@ -109,11 +108,10 @@ class _RegisterPageState extends State<RegisterPage>
     await _registerController.nextStep(
       _currentStep,
       () => setState(() => _currentStep++),
-      () =>
-          [
-            // Validar campos del paso actual
-            _validateCurrentStepFields(),
-          ].expand((element) => element).toList(),
+      () => [
+        // Validar campos del paso actual
+        _validateCurrentStepFields(),
+      ].expand((element) => element).toList(),
     );
   }
 
@@ -140,12 +138,15 @@ class _RegisterPageState extends State<RegisterPage>
     }
   }
 
-  /// Navegar al paso anterior o volver a la pantalla de bienvenida
+  /// Navegar al paso anterior o volver a la pantalla de login
   void _previousStep() async {
     await _registerController.previousStep(
       _currentStep,
       () => setState(() => _currentStep--),
-      () => context.go(AppRouter.welcome),
+      () {
+        // Usar la navegación centralizada con transición circular hacia atrás
+        CircleNavigation.goToWelcome(context);
+      },
     );
   }
 
@@ -220,7 +221,7 @@ class _RegisterPageState extends State<RegisterPage>
             break;
           case AuthStatus.authenticated:
             setState(() => _isLoading = false);
-            context.go(AppRouter.home);
+            CircleNavigation.goToHome(context);
             break;
           case AuthStatus.error:
             setState(() => _isLoading = false);

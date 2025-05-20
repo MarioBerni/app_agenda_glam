@@ -1,10 +1,9 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_text_field.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// Widget modularizado que contiene el formulario de inicio de sesión
 /// Extrae la lógica de validación y UI del formulario en un componente reutilizable
@@ -118,7 +117,7 @@ class _LoginFormState extends State<LoginForm> {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
-                  context.go(AppRouter.recovery);
+                  CircleNavigation.goToRecovery(context);
                 },
                 child: Text(
                   '¿Olvidaste tu contraseña?',

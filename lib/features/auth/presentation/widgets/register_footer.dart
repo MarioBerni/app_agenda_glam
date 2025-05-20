@@ -1,8 +1,7 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// Footer para la página de registro con enlace a inicio de sesión
 /// Alineado visualmente con el enlace de la página de login para mantener coherencia
@@ -23,7 +22,7 @@ class RegisterFooter extends StatelessWidget {
             ),
           ),
           TextButton(
-            onPressed: () => context.go(AppRouter.login),
+            onPressed: () => CircleNavigation.goToLogin(context),
             child: const Text(
               'Iniciar Sesión',
               style: TextStyle(

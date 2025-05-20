@@ -1,12 +1,11 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/login_form.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/login_header.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 /// Página de inicio de sesión que permite a los usuarios acceder a su cuenta
 /// con un diseño visual elegante consistente con las demás páginas de autenticación
@@ -55,8 +54,8 @@ class _LoginPageState extends State<LoginPage> {
             _isLoading = false;
           });
           
-          // Usar GoRouter para navegar a Home
-          context.go(AppRouter.home);
+          // Usar navegación centralizada para ir a Home
+          CircleNavigation.goToHome(context);
         }
       }
     });
@@ -76,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
         leading: GlamAnimations.applyEntryEffect(
           IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () => context.go(AppRouter.welcome),
+            onPressed: () => CircleNavigation.goToWelcome(context),
           ),
         ),
       ),
@@ -130,7 +129,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextButton(
                             onPressed: () {
-                              context.go(AppRouter.register);
+                              // Usar la navegación centralizada con transición circular
+                              CircleNavigation.goToRegister(context);
                             },
                             child: const Text(
                               'Regístrate',

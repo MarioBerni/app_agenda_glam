@@ -1,4 +1,5 @@
-import 'package:app_agenda_glam/core/routes/app_page_transitions.dart';
+import 'dart:math' as math;
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/recovery_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/login_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.dart';
@@ -25,79 +26,222 @@ class AppRouter {
       // Pantalla de splash
       GoRoute(
         path: splash,
-        builder: (context, state) => const SplashScreen(),
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const SplashScreen(),
-          transitionType: TransitionType.fade,
-        ),
+        pageBuilder: (context, state) {
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const SplashScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              // Usar fade para la pantalla de splash
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 500),
+          );
+        },
       ),
 
       // Pantalla de bienvenida/selector (login/registro)
       GoRoute(
         path: welcome,
-        builder: (context, state) => const WelcomePage(),
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const WelcomePage(),
-          transitionType: TransitionType.defaultTransition,
-        ),
+        pageBuilder: (context, state) {
+          final bool isBack = state.extra != null && 
+                               state.extra is Map && 
+                               (state.extra as Map)['isBack'] == true;
+          
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const WelcomePage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return buildCircleTransition(
+                context: context,
+                animation: animation,
+                child: child,
+                alignment: isBack ? Alignment.bottomRight : Alignment.bottomLeft,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 1200),
+          );
+        },
       ),
 
       // Pantalla de login
       GoRoute(
         path: login,
-        builder: (context, state) => const LoginPage(),
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const LoginPage(),
-          transitionType: TransitionType.authForward,
-        ),
+        pageBuilder: (context, state) {
+          final bool isBack = state.extra != null && 
+                               state.extra is Map && 
+                               (state.extra as Map)['isBack'] == true;
+          
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const LoginPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return buildCircleTransition(
+                context: context,
+                animation: animation,
+                child: child,
+                alignment: isBack ? Alignment.bottomRight : Alignment.bottomLeft,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 1200),
+          );
+        },
       ),
 
       // Pantalla de registro
       GoRoute(
         path: register,
-        builder: (context, state) => const RegisterPage(),
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const RegisterPage(),
-          transitionType: TransitionType.authForward,
-        ),
+        pageBuilder: (context, state) {
+          final bool isBack = state.extra != null && 
+                               state.extra is Map && 
+                               (state.extra as Map)['isBack'] == true;
+          
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RegisterPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return buildCircleTransition(
+                context: context,
+                animation: animation,
+                child: child,
+                alignment: isBack ? Alignment.bottomRight : Alignment.bottomLeft,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 1200),
+          );
+        },
       ),
 
       // Pantalla de recuperación de contraseña
       GoRoute(
         path: recovery,
-        builder: (context, state) => const RecoveryPage(),
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const RecoveryPage(),
-          transitionType: TransitionType.authForward,
-        ),
+        pageBuilder: (context, state) {
+          final bool isBack = state.extra != null && 
+                               state.extra is Map && 
+                               (state.extra as Map)['isBack'] == true;
+          
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const RecoveryPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return buildCircleTransition(
+                context: context,
+                animation: animation,
+                child: child,
+                alignment: isBack ? Alignment.bottomRight : Alignment.bottomLeft,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 1200),
+          );
+        },
       ),
 
       // Pantalla de inicio (Home)
       GoRoute(
         path: home,
-        builder: (context, state) => const HomeScreen(),
-        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
-          context: context,
-          state: state,
-          child: const HomeScreen(),
-          transitionType: TransitionType.fade,
-        ),
+        pageBuilder: (context, state) {
+          final bool isBack = state.extra != null && 
+                               state.extra is Map && 
+                               (state.extra as Map)['isBack'] == true;
+          
+          return CustomTransitionPage(
+            key: state.pageKey,
+            child: const HomeScreen(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return buildCircleTransition(
+                context: context,
+                animation: animation,
+                child: child,
+                alignment: isBack ? Alignment.bottomRight : Alignment.bottomLeft,
+              );
+            },
+            transitionDuration: const Duration(milliseconds: 1200),
+          );
+        },
       ),
     ],
   );
 }
 
 /// Pantalla de splash temporal
+/// Función para construir una transición de círculo con la alineación especificada
+Widget buildCircleTransition({
+  required BuildContext context,
+  required Animation<double> animation,
+  required Widget child,
+  required Alignment alignment,
+}) {
+  return Stack(
+    children: [
+      // Fondo común que permanece visible durante toda la transición
+      const GlamGradientBackground(),
+      
+      // Utilizar la animación proporcionada por GoRouter para animar el círculo
+      AnimatedBuilder(
+        animation: animation,
+        builder: (context, _) {
+          return ClipPath(
+            clipper: CircleRevealClipper(
+              fraction: animation.value,
+              alignment: alignment,
+            ),
+            child: child,
+          );
+        },
+      ),
+    ],
+  );
+}
+
+/// Clipper que crea un círculo que se expande para la transición
+class CircleRevealClipper extends CustomClipper<Path> {
+  /// Valor entre 0.0 y 1.0 que indica cuánto del círculo se ha revelado
+  final double fraction;
+  
+  /// Alineación del centro del círculo
+  final Alignment alignment;
+  
+  CircleRevealClipper({
+    required this.fraction,
+    required this.alignment,
+  });
+  
+  @override
+  Path getClip(Size size) {
+    final center = Offset(
+      size.width * (alignment.x * 0.5 + 0.5),
+      size.height * (alignment.y * 0.5 + 0.5),
+    );
+    
+    // Calculamos el radio máximo necesario para cubrir toda la pantalla
+    final maxRadius = math.sqrt(
+      math.pow(size.width, 2) + math.pow(size.height, 2)
+    );
+    
+    // Actualizar todas las llamadas a context.go en los botones para especificar la dirección de navegación
+    // Ejemplo:
+    // context.go(AppRouter.welcome) -> context.go(AppRouter.welcome, extra: {'isBack': true})
+    final radius = maxRadius * fraction;
+    
+    final path = Path()
+      ..addOval(
+        Rect.fromCircle(
+          center: center,
+          radius: radius,
+        ),
+      );
+      
+    return path;
+  }
+  
+  @override
+  bool shouldReclip(CircleRevealClipper oldClipper) {
+    return oldClipper.fraction != fraction || oldClipper.alignment != alignment;
+  }
+}
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
