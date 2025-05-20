@@ -32,25 +32,26 @@ dependencies:
     sdk: flutter
 
   # Core dependencies
-  flutter_bloc: ^8.0.1
-  freezed_annotation: ^2.0.3
-  get_it: ^7.2.0
-  equatable: ^2.0.3
+  flutter_bloc: ^9.1.1    # Actualizado de 8.0.1
+  freezed_annotation: ^3.0.0  # Actualizado de 2.0.3
+  get_it: ^8.0.3          # Actualizado de 7.2.0
+  equatable: ^2.0.5       # Actualizado de 2.0.3
   
   # Navegación
-  go_router: ^6.5.9  # Versión compatible con go_router_plus
-  go_router_plus: ^4.1.1  # Última versión disponible
-
+  go_router: ^15.1.2      # Actualizado de 6.5.9 - Cambio mayor
+  # Nota: go_router_plus ha sido removido ya que no es compatible con go_router 15+
+  # y no se ha actualizado en más de un año
+  
   # UI y Animaciones
-  flutter_animate: ^4.2.0  # Biblioteca para animaciones fluidas
-  flutter_svg: ^2.0.7
-  video_player: ^2.7.2  # Reproducción de videos
+  flutter_animate: ^4.4.0  # Actualizado de 4.2.0
+  flutter_svg: ^2.0.9     # Actualizado de 2.0.7
+  video_player: ^2.8.4    # Actualizado de 2.7.2
   
   # UI y recursos
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.3.1  # Actualizado de 3.2.3
   
   # Utilidades
-  intl: ^0.18.1
+  intl: ^0.20.2          # Actualizado de 0.18.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -61,12 +62,12 @@ dev_dependencies:
     sdk: flutter
 
   # Build and code generation
-  build_runner: ^2.1.7
-  freezed: ^2.0.3+1
+  build_runner: ^2.4.8    # Actualizado de 2.1.7
+  freezed: ^3.0.6         # Actualizado de 2.0.3+1
 
   # Testing
-  bloc_test: ^9.0.2
-  mocktail: ^0.3.0
+  bloc_test: ^10.0.0      # Actualizado de 9.0.2
+  mocktail: ^1.0.4        # Actualizado de 0.3.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

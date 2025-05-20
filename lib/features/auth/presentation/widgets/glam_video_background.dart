@@ -85,24 +85,22 @@ class _GlamVideoBackgroundState extends State<GlamVideoBackground> {
     final gradientColor = widget.gradientColor ?? theme.colorScheme.primary;
 
     if (!_isInitialized) {
-      // Usar exactamente el mismo fondo degradado con animaciones que el resto de la aplicación
+      // Usar exactamente el mismo fondo degradado que el resto de la aplicación
       // para mantener una experiencia visual consistente durante la carga
       return Stack(
         children: [
-          // Fondo degradado centralizado con todas sus características
+          // Fondo degradado centralizado con la misma configuración estándar
           GlamGradientBackground(
             primaryColor: gradientColor,
             opacity: widget.gradientOpacity,
-            showBouncingCircle: true, // Mantenemos los círculos animados para consistencia
-            showDecorationElements: true, // Mantenemos los elementos decorativos si están habilitados
-            diagonalStripWidth: 0.25, // Mantenemos la configuración estándar
-            diagonalAngle: 60, // Mantenemos el ángulo estándar
+            // Usamos la misma configuración que en otras páginas, dejando los demás parámetros
+            // con sus valores por defecto para mantener consistencia visual
           ),
           // Indicador de carga centrado con estilo consistente
           Center(
             child: CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(gradientColor),
-              backgroundColor: Colors.white.withOpacity(0.2),
+              backgroundColor: Colors.white.withValues(alpha: 0.2),
             ),
           ),
         ],

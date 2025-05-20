@@ -184,10 +184,10 @@ class _GlamGradientBackgroundState extends State<GlamGradientBackground>
     // Determinar colores principales
     final Color effectivePrimaryColor = widget.primaryColor ?? kPrimaryColor;
     final Color effectiveSecondaryColor = widget.secondaryColor ?? 
-        kBackgroundColor.withOpacity(widget.opacity);
+        kBackgroundColor.withValues(alpha: widget.opacity);
     // Usamos un color azul más claro que armonice con el degradado en lugar del dorado
     final Color effectiveAccentColor = widget.accentColor ?? 
-        kPrimaryColorLight.withOpacity(0.25); // Usando un azul más claro de la paleta
+        kPrimaryColorLight.withValues(alpha: 0.25); // Usando un azul más claro de la paleta
     
     return Stack(
       children: [
@@ -199,7 +199,7 @@ class _GlamGradientBackgroundState extends State<GlamGradientBackground>
               end: Alignment.bottomCenter,
               colors: [
                 effectivePrimaryColor,
-                effectivePrimaryColor.withOpacity(0.85),
+                effectivePrimaryColor.withValues(alpha: 0.85),
                 effectiveSecondaryColor,
               ],
               stops: const [0.0, 0.4, 1.0],
@@ -257,7 +257,7 @@ class _GlamGradientBackgroundState extends State<GlamGradientBackground>
                 );
               },
             );
-          }).toList(),
+          }),
       ],
     );
   }
@@ -304,8 +304,8 @@ class DiagonalStripPainter extends CustomPainter {
       end: Alignment.bottomLeft,
       colors: [
         // Usando colores de la paleta azul que armonicen con el fondo
-        kPrimaryColor.withOpacity(0.3),
-        kPrimaryColorDark.withOpacity(0.05),
+        kPrimaryColor.withValues(alpha: 0.3),
+        kPrimaryColorDark.withValues(alpha: 0.05),
       ],
     );
     

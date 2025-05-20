@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'app_theme_constants.dart';
 
 class AppTheme {
@@ -152,7 +152,7 @@ class AppTheme {
     ),
 
     // Tarjetas
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       elevation: 4,
       shadowColor: kBlackWithOpacity,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -162,7 +162,7 @@ class AppTheme {
     ),
 
     // Diálogos
-    dialogTheme: DialogTheme(
+    dialogTheme: DialogThemeData(
       backgroundColor: kSurfaceColor,
       elevation: 8,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),

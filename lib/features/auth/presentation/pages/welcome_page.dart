@@ -1,8 +1,8 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
+import 'package:app_agenda_glam/core/widgets/glam_icon_container.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_scissors_icon.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_video_background.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -119,10 +119,12 @@ class _WelcomePageState extends State<WelcomePage> {
                 children: [
                   SizedBox(height: size.height * 0.05),
 
-                  // Ícono de tijera con animación de rotación y zoom
-                  const GlamScissorsIcon(
+                  // Ícono de tijera simplificado, sin animaciones de movimiento
+                  const GlamIconContainer(
+                    icon: Icons.content_cut,
                     size: 100, // Mantener el mismo tamaño estándar
-                    animate: true, // Habilitar animaciones de rotación y zoom
+                    enableShimmer: true, // Mantener el efecto brillante
+                    animateEntry: true, // Conservar la animación de entrada
                   ),
                   
                   // Título de la aplicación

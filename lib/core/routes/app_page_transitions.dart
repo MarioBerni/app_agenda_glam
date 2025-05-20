@@ -58,7 +58,7 @@ class AppPageTransitions {
   }) {
     // Determinar tipo de transición
     final effectiveTransitionType =
-        transitionType ?? getTransitionType(state.location);
+        transitionType ?? getTransitionType(state.uri.path);
 
     // Crear transición basada en el tipo
     return CustomTransitionPage<void>(

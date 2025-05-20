@@ -5,7 +5,6 @@ import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.d
 import 'package:app_agenda_glam/features/auth/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:go_router_plus/go_router_plus.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 /// Define las rutas de la aplicación utilizando go_router
@@ -26,73 +25,73 @@ class AppRouter {
       // Pantalla de splash
       GoRoute(
         path: splash,
-        pageBuilder:
-            (context, state) => AppPageTransitions.buildTransitionPage(
-              context: context,
-              state: state,
-              child: const SplashScreen(),
-              transitionType: TransitionType.fade,
-            ),
+        builder: (context, state) => const SplashScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const SplashScreen(),
+          transitionType: TransitionType.fade,
+        ),
       ),
 
       // Pantalla de bienvenida/selector (login/registro)
       GoRoute(
         path: welcome,
-        pageBuilder:
-            (context, state) => AppPageTransitions.buildTransitionPage(
-              context: context,
-              state: state,
-              child: const WelcomePage(),
-              transitionType: TransitionType.defaultTransition,
-            ),
+        builder: (context, state) => const WelcomePage(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const WelcomePage(),
+          transitionType: TransitionType.defaultTransition,
+        ),
       ),
 
       // Pantalla de login
       GoRoute(
         path: login,
-        pageBuilder:
-            (context, state) => AppPageTransitions.buildTransitionPage(
-              context: context,
-              state: state,
-              child: const LoginPage(),
-              transitionType: TransitionType.authForward,
-            ),
+        builder: (context, state) => const LoginPage(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const LoginPage(),
+          transitionType: TransitionType.authForward,
+        ),
       ),
 
       // Pantalla de registro
       GoRoute(
         path: register,
-        pageBuilder:
-            (context, state) => AppPageTransitions.buildTransitionPage(
-              context: context,
-              state: state,
-              child: const RegisterPage(),
-              transitionType: TransitionType.authForward,
-            ),
+        builder: (context, state) => const RegisterPage(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const RegisterPage(),
+          transitionType: TransitionType.authForward,
+        ),
       ),
 
       // Pantalla de recuperación de contraseña
       GoRoute(
         path: recovery,
-        pageBuilder:
-            (context, state) => AppPageTransitions.buildTransitionPage(
-              context: context,
-              state: state,
-              child: const RecoveryPage(),
-              transitionType: TransitionType.authForward,
-            ),
+        builder: (context, state) => const RecoveryPage(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const RecoveryPage(),
+          transitionType: TransitionType.authForward,
+        ),
       ),
 
       // Pantalla de inicio (Home)
       GoRoute(
         path: home,
-        pageBuilder:
-            (context, state) => AppPageTransitions.buildTransitionPage(
-              context: context,
-              state: state,
-              child: const HomeScreen(),
-              transitionType: TransitionType.fade,
-            ),
+        builder: (context, state) => const HomeScreen(),
+        pageBuilder: (context, state) => AppPageTransitions.buildTransitionPage(
+          context: context,
+          state: state,
+          child: const HomeScreen(),
+          transitionType: TransitionType.fade,
+        ),
       ),
     ],
   );
