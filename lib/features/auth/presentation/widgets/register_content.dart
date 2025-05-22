@@ -1,5 +1,6 @@
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_google_button.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_footer.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_header.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_personal_info_step.dart';
@@ -69,12 +70,18 @@ class RegisterContent extends StatelessWidget {
 
   /// Indica si está en estado de carga
   final bool isLoading;
+  
+  /// Indica si el registro con Google está en estado de carga
+  final bool isGoogleLoading;
 
   /// Función para ir al siguiente paso
   final VoidCallback onNextStep;
 
   /// Función para enviar el formulario
   final VoidCallback onRegister;
+  
+  /// Función para registrarse con Google
+  final VoidCallback onGoogleRegister;
 
   const RegisterContent({
     super.key,
@@ -98,8 +105,10 @@ class RegisterContent extends StatelessWidget {
     required this.passwordCriteria,
     required this.doPasswordsMatch,
     required this.isLoading,
+    this.isGoogleLoading = false,
     required this.onNextStep,
     required this.onRegister,
+    required this.onGoogleRegister,
   });
 
   @override
@@ -118,6 +127,39 @@ class RegisterContent extends StatelessWidget {
             totalSteps: totalSteps,
           ),
           const SizedBox(height: 24),
+          
+          // Si estamos en el primer paso, mostrar opción de registro con Google
+          if (currentStep == 1) ...[            
+            // Botón de registro con Google
+            GlamGoogleButton(
+              text: 'Registrarse con Google',
+              onPressed: onGoogleRegister,
+              isLoading: isGoogleLoading,
+              disabled: isLoading,
+            ),
+            
+            const SizedBox(height: 16),
+            
+            // Separador "o"
+            Row(
+              children: [
+                const Expanded(child: Divider(color: Colors.white30)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Text(
+                    'o',
+                    style: TextStyle(
+                      color: Colors.white.withOpacity(0.7),
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                const Expanded(child: Divider(color: Colors.white30)),
+              ],
+            ),
+            
+            const SizedBox(height: 16),
+          ],
           
           // Formulario por pasos
           _buildCurrentStep(),

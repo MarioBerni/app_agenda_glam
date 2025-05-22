@@ -1,278 +1,41 @@
 # Agenda Glam
 
-Aplicación móvil para la gestión de servicios de estética dirigidos al público masculino en Uruguay. Desarrollada con Flutter siguiendo los principios de Clean Architecture.
+**Propósito**: Este documento es el punto de entrada principal para desarrolladores que trabajan en el proyecto Agenda Glam. Proporciona una visión general del proyecto, referencias a documentación detallada y guía para comenzar con el desarrollo.
 
-## ✨ Características Principales
+## 📱 Descripción del Proyecto
+
+Agenda Glam es una aplicación móvil para la gestión de servicios de estética dirigidos al público masculino en Uruguay. Desarrollada con Flutter siguiendo los principios de Clean Architecture.
+
+### ✨ Características Principales
 
 - **Sistema de Autenticación Completo**: Registro, inicio de sesión y recuperación de cuenta
 - **Perfiles por Tipo de Usuario**: Propietario, Empleado y Cliente con funcionalidades específicas
 - **Validación Robusta**: Verificación de correo electrónico y número de teléfono
 - **Interfaz Elegante**: Diseño intuitivo con tema oscuro y animaciones fluidas
 
-## 📋 Documentación del Proyecto
+## 📚 Ecosistema de Documentación
 
-### Documentos Principales
-
-| Documento | Descripción |
+| Documento | Propósito |
 |-----------|-------------|
-| [**PLANNING.MD**](./PLANNING.MD) | Visión general, alcance, público objetivo, funcionalidades clave y directrices de desarrollo del proyecto. Documento de referencia principal para entender el propósito y enfoque global. |
-| [**ARCHITECTURE.MD**](./ARCHITECTURE.MD) | Arquitectura técnica detallada, estructura del proyecto, patrones de diseño, y sistemas clave (BLoC/Cubit, GetIt, Routing). Guía de referencia para decisiones de implementación. |
+| [**README.md**](./README.md) | **Este documento** - Punto de entrada y visión general del proyecto |
+| [**PLANNING.MD**](./PLANNING.MD) | Visión general, alcance, público objetivo y directrices de desarrollo |
+| [**ARCHITECTURE.MD**](./ARCHITECTURE.MD) | Arquitectura técnica detallada, patrones de diseño y sistemas clave |
+| [**STRUCTURE.md**](./STRUCTURE.md) | Estructura completa de directorios y archivos del proyecto |
+| [**TESTING.MD**](./TESTING.MD) | Estrategia y directrices para pruebas (unitarias, widget, integración) |
+| [**UI_COMPONENTS.md**](./UI_COMPONENTS.md) | Catálogo de componentes de UI reutilizables |
 
-### Tareas y Progreso
+### 📋 Tareas y Progreso
 
-Las tareas específicas se documentan en la carpeta `/tasks/` con archivos `TASK_nombre_tarea.MD`. Cada archivo detalla los objetivos, pasos, consideraciones y progreso de una funcionalidad o módulo específico.
+Las tareas específicas se documentan en la carpeta `/tasks/` con archivos `TASK_nombre_tarea.MD`. Cada archivo detalla los objetivos, pasos y progreso de una funcionalidad específica.
 
 | Tarea Completada | Descripción |
 |------------------|-------------|
-| [**TASK_ConfiguracionInicial.MD**](./tasks/TASK_ConfiguracionInicial.MD) | Configuración base del proyecto, dependencias, estructura de carpetas y tema. |
-| [**TASK_DiseñoAutenticacionUI.MD**](./tasks/TASK_DiseñoAutenticacionUI.MD) | Refinamiento visual del flujo de autenticación, animaciones y experiencia de usuario. |
-| [**TASK_FlujoAutenticacionUI.MD**](./tasks/TASK_FlujoAutenticacionUI.MD) | Implementación de pantallas y lógica UI para el proceso de autenticación. |
-| [**TASK_MejoraRegistroUsuarios.MD**](./tasks/TASK_MejoraRegistroUsuarios.MD) | Implementación de selección de tipo de usuario (Propietario, Empleado, Cliente) y campo de teléfono en el registro. |
+| [**TASK_ConfiguracionInicial.MD**](./tasks/TASK_ConfiguracionInicial.MD) | Configuración base del proyecto y tema |
+| [**TASK_DiseñoAutenticacionUI.MD**](./tasks/TASK_DiseñoAutenticacionUI.MD) | Refinamiento visual del flujo de autenticación |
+| [**TASK_FlujoAutenticacionUI.MD**](./tasks/TASK_FlujoAutenticacionUI.MD) | Implementación de pantallas de autenticación |
+| [**TASK_MejoraRegistroUsuarios.MD**](./tasks/TASK_MejoraRegistroUsuarios.MD) | Selección de tipo de usuario y teléfono en registro |
 
-## 🗂️ Estructura del Proyecto
 
-```
-Directory structure:
-└── marioberni-app_agenda_glam/
-    ├── README.md
-    ├── analysis_options.yaml
-    ├── ARCHITECTURE.MD
-    ├── PLANNING.MD
-    ├── pubspec.lock
-    ├── pubspec.yaml
-    ├── TOOLS_AND_COMMANDS.md
-    ├── update_deprecated_apis.ps1
-    ├── .metadata
-    ├── .windsurfrules
-    ├── android/
-    │   ├── build.gradle.kts
-    │   ├── gradle.properties
-    │   ├── settings.gradle.kts
-    │   ├── .gitignore
-    │   ├── app/
-    │   │   ├── build.gradle.kts
-    │   │   └── src/
-    │   │       ├── debug/
-    │   │       │   └── AndroidManifest.xml
-    │   │       ├── main/
-    │   │       │   ├── AndroidManifest.xml
-    │   │       │   ├── kotlin/
-    │   │       │   │   └── com/
-    │   │       │   │       └── example/
-    │   │       │   │           └── app_agenda_glam/
-    │   │       │   │               └── MainActivity.kt
-    │   │       │   └── res/
-    │   │       │       ├── drawable/
-    │   │       │       │   └── launch_background.xml
-    │   │       │       ├── drawable-v21/
-    │   │       │       │   └── launch_background.xml
-    │   │       │       ├── mipmap-hdpi/
-    │   │       │       ├── mipmap-mdpi/
-    │   │       │       ├── mipmap-xhdpi/
-    │   │       │       ├── mipmap-xxhdpi/
-    │   │       │       ├── mipmap-xxxhdpi/
-    │   │       │       ├── values/
-    │   │       │       │   └── styles.xml
-    │   │       │       └── values-night/
-    │   │       │           └── styles.xml
-    │   │       └── profile/
-    │   │           └── AndroidManifest.xml
-    │   └── gradle/
-    │       └── wrapper/
-    │           └── gradle-wrapper.properties
-    ├── assets/
-    │   ├── images/
-    │   │   └── auth/
-    │   └── videos/
-    ├── ios/
-    │   ├── .gitignore
-    │   ├── Flutter/
-    │   │   ├── AppFrameworkInfo.plist
-    │   │   ├── Debug.xcconfig
-    │   │   └── Release.xcconfig
-    │   ├── Runner/
-    │   │   ├── AppDelegate.swift
-    │   │   ├── Info.plist
-    │   │   ├── Runner-Bridging-Header.h
-    │   │   ├── Assets.xcassets/
-    │   │   │   ├── AppIcon.appiconset/
-    │   │   │   │   └── Contents.json
-    │   │   │   └── LaunchImage.imageset/
-    │   │   │       ├── README.md
-    │   │   │       └── Contents.json
-    │   │   └── Base.lproj/
-    │   │       ├── LaunchScreen.storyboard
-    │   │       └── Main.storyboard
-    │   ├── Runner.xcodeproj/
-    │   │   ├── project.pbxproj
-    │   │   ├── project.xcworkspace/
-    │   │   │   ├── contents.xcworkspacedata
-    │   │   │   └── xcshareddata/
-    │   │   │       ├── IDEWorkspaceChecks.plist
-    │   │   │       └── WorkspaceSettings.xcsettings
-    │   │   └── xcshareddata/
-    │   │       └── xcschemes/
-    │   │           └── Runner.xcscheme
-    │   ├── Runner.xcworkspace/
-    │   │   ├── contents.xcworkspacedata
-    │   │   └── xcshareddata/
-    │   │       ├── IDEWorkspaceChecks.plist
-    │   │       └── WorkspaceSettings.xcsettings
-    │   └── RunnerTests/
-    │       └── RunnerTests.swift
-    ├── lib/
-    │   ├── main.dart
-    │   ├── core/
-    │   │   ├── animations/
-    │   │   │   └── animation_presets.dart
-    │   │   ├── di/
-    │   │   │   └── service_locator.dart
-    │   │   ├── routes/
-    │   │   │   ├── app_page_transitions.dart
-    │   │   │   └── app_router.dart
-    │   │   ├── theme/
-    │   │   │   ├── app_theme.dart
-    │   │   │   └── app_theme_constants.dart
-    │   │   ├── utils/
-    │   │   │   └── color_extensions.dart
-    │   │   └── widgets/
-    │   │       ├── glam_divider.dart
-    │   │       ├── glam_icon_container.dart
-    │   │       ├── glam_scaffold.dart
-    │   │       ├── glam_text_field.dart
-    │   │       └── glam_ui.dart
-    │   └── features/
-    │       └── auth/
-    │           ├── data/
-    │           │   ├── datasources/
-    │           │   │   └── auth_mock_datasource.dart
-    │           │   ├── models/
-    │           │   │   └── user_model.dart
-    │           │   └── repositories/
-    │           │       └── auth_repository_impl.dart
-    │           ├── domain/
-    │           │   ├── entities/
-    │           │   │   ├── credentials.dart
-    │           │   │   └── user.dart
-    │           │   ├── repositories/
-    │           │   │   └── auth_repository.dart
-    │           │   └── validators/
-    │           │       ├── recovery_validator.dart
-    │           │       └── register_validator.dart
-    │           └── presentation/
-    │               ├── bloc/
-    │               │   ├── auth_cubit.dart
-    │               │   └── auth_state.dart
-    │               ├── controllers/
-    │               │   ├── recovery_controller.dart
-    │               │   └── register_controller.dart
-    │               ├── pages/
-    │               │   ├── login_page.dart
-    │               │   ├── recovery_page.dart
-    │               │   ├── register_page.dart
-    │               │   └── welcome_page.dart
-    │               └── widgets/
-    │                   ├── glam_background.dart
-    │                   ├── glam_button.dart
-    │                   ├── glam_logo.dart
-    │                   ├── glam_password_field.dart
-    │                   ├── glam_scissors_icon.dart
-    │                   ├── glam_text_field.dart
-    │                   ├── glam_video_background.dart
-    │                   ├── login_form.dart
-    │                   ├── login_header.dart
-    │                   ├── password_strength_indicator.dart
-    │                   ├── recovery_confirmation.dart
-    │                   ├── recovery_content.dart
-    │                   ├── recovery_header.dart
-    │                   ├── recovery_scaffold.dart
-    │                   ├── register_content.dart
-    │                   ├── register_footer.dart
-    │                   ├── register_header.dart
-    │                   ├── register_password_step.dart
-    │                   ├── register_personal_info_step.dart
-    │                   ├── register_scaffold.dart
-    │                   └── register_step_indicator.dart
-    ├── linux/
-    │   ├── CMakeLists.txt
-    │   ├── .gitignore
-    │   ├── flutter/
-    │   │   ├── CMakeLists.txt
-    │   │   ├── generated_plugin_registrant.cc
-    │   │   ├── generated_plugin_registrant.h
-    │   │   └── generated_plugins.cmake
-    │   └── runner/
-    │       ├── CMakeLists.txt
-    │       ├── main.cc
-    │       ├── my_application.cc
-    │       └── my_application.h
-    ├── macos/
-    │   ├── .gitignore
-    │   ├── Flutter/
-    │   │   ├── Flutter-Debug.xcconfig
-    │   │   ├── Flutter-Release.xcconfig
-    │   │   └── GeneratedPluginRegistrant.swift
-    │   ├── Runner/
-    │   │   ├── AppDelegate.swift
-    │   │   ├── DebugProfile.entitlements
-    │   │   ├── Info.plist
-    │   │   ├── MainFlutterWindow.swift
-    │   │   ├── Release.entitlements
-    │   │   ├── Assets.xcassets/
-    │   │   │   └── AppIcon.appiconset/
-    │   │   │       └── Contents.json
-    │   │   ├── Base.lproj/
-    │   │   │   └── MainMenu.xib
-    │   │   └── Configs/
-    │   │       ├── AppInfo.xcconfig
-    │   │       ├── Debug.xcconfig
-    │   │       ├── Release.xcconfig
-    │   │       └── Warnings.xcconfig
-    │   ├── Runner.xcodeproj/
-    │   │   ├── project.pbxproj
-    │   │   ├── project.xcworkspace/
-    │   │   │   └── xcshareddata/
-    │   │   │       └── IDEWorkspaceChecks.plist
-    │   │   └── xcshareddata/
-    │   │       └── xcschemes/
-    │   │           └── Runner.xcscheme
-    │   ├── Runner.xcworkspace/
-    │   │   ├── contents.xcworkspacedata
-    │   │   └── xcshareddata/
-    │   │       └── IDEWorkspaceChecks.plist
-    │   └── RunnerTests/
-    │       └── RunnerTests.swift
-    ├── tasks/
-    │   ├── TASK_ConfiguracionInicial.MD
-    │   ├── TASK_DiseñoAutenticacionUI.MD
-    │   └── TASK_FlujoAutenticacionUI.MD
-    ├── web/
-    │   ├── index.html
-    │   ├── manifest.json
-    │   └── icons/
-    └── windows/
-        ├── CMakeLists.txt
-        ├── .gitignore
-        ├── flutter/
-        │   ├── CMakeLists.txt
-        │   ├── generated_plugin_registrant.cc
-        │   ├── generated_plugin_registrant.h
-        │   └── generated_plugins.cmake
-        └── runner/
-            ├── CMakeLists.txt
-            ├── flutter_window.cpp
-            ├── flutter_window.h
-            ├── main.cpp
-            ├── resource.h
-            ├── runner.exe.manifest
-            ├── Runner.rc
-            ├── utils.cpp
-            ├── utils.h
-            ├── win32_window.cpp
-            ├── win32_window.h
-            └── resources/
-
-```
 
 ## 🚀 Comenzando con el Desarrollo
 

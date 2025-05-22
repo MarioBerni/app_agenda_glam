@@ -1,12 +1,6 @@
-# Estructura y Arquitectura del Proyecto: Agenda Glam
+# Arquitectura Técnica: Agenda Glam
 
-## 1. Introducción
-
-### 1.1. Propósito de este Documento
-Este documento describe la arquitectura de software, la estructura del proyecto y las directrices de desarrollo para la aplicación "Agenda Glam". Su objetivo es servir como guía central para todos los desarrolladores, asegurando una comprensión común, la coherencia en el desarrollo y la mantenibilidad del código a lo largo del ciclo de vida del proyecto.
-
-### 1.2. Visión General de Agenda Glam
-Agenda Glam es una plataforma diseñada para la gestión de servicios de estética dirigidos al público masculino en Uruguay. Busca simplificar la reserva de citas para los clientes y ofrecer herramientas de gestión robustas para los proveedores de servicios.
+**Propósito**: Este documento detalla la arquitectura técnica, patrones de diseño y sistemas clave del proyecto Agenda Glam. Sirve como guía de referencia para decisiones de implementación y proporciona una visión técnica detallada para desarrolladores.
 
 ## 2. Principios Fundamentales de Desarrollo
 

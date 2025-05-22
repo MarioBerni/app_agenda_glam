@@ -1,8 +1,10 @@
-# Estrategia y Estándares de Testing: Agenda Glam
+# Estrategia de Pruebas: Agenda Glam
+
+**Propósito**: Este documento establece la estrategia, principios y estándares para pruebas en el proyecto Agenda Glam. Sirve como guía para implementar pruebas efectivas que equilibren la cobertura con la velocidad de desarrollo.
 
 ## 1. Filosofía y Principios de Testing
 
-Este documento establece un enfoque pragmático y estandarizado para testing en Agenda Glam, equilibrando la cobertura de pruebas con la velocidad de desarrollo para asegurar un producto de calidad sin sacrificar la agilidad.
+Nuestro enfoque de pruebas es pragmático y estandarizado, buscando asegurar un producto de calidad sin sacrificar la agilidad del desarrollo.
 
 ### 1.1. Principios Fundamentales
 

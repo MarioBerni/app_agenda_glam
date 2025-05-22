@@ -1,4 +1,4 @@
-﻿import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +92,10 @@ class PasswordStrengthIndicator extends StatelessWidget {
             AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               height: 6,
-              width: strength * 100.0.clamp(0, 100),
+              // Modificado: Forzar 100% cuando todos los criterios se cumplen
+              width: (strength >= 1.0) 
+                  ? double.infinity 
+                  : (strength * 100.0).clamp(0, 100),
               decoration: BoxDecoration(
                 color: barColor,
                 borderRadius: BorderRadius.circular(3),

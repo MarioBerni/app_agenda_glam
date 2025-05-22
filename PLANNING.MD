@@ -1,9 +1,10 @@
-# Planificación General del Proyecto: Agenda Glam
+# Planificación Estratégica: Agenda Glam
 
-## 1. Visión General del Proyecto: Agenda Glam
+**Propósito**: Este documento establece la visión estratégica, alcance, público objetivo y enfoque de desarrollo del proyecto Agenda Glam. Sirve como guía para alinear todas las decisiones con los objetivos generales del proyecto.
 
-**Propósito y Alcance:**
-Agenda Glam es una plataforma innovadora diseñada para revolucionar la gestión de servicios de estética dirigidos al público masculino en Uruguay. El proyecto busca simplificar el proceso de reserva de citas para los clientes finales y, al mismo tiempo, ofrecer herramientas de gestión comercial robustas y eficientes para los proveedores de servicios (negocios de estética, barberías, etc.). El objetivo es desarrollar la aplicación completa con todas sus funcionalidades previstas.
+## 1. Visión Estratégica
+
+Agenda Glam es una plataforma innovadora diseñada para revolucionar la gestión de servicios de estética dirigidos al público masculino en Uruguay. El proyecto busca simplificar el proceso de reserva de citas para los clientes y ofrecer herramientas de gestión comercial robustas para los proveedores de servicios.
 
 **Público Objetivo:**
 El proyecto se enfoca en tres grupos de usuarios principales:

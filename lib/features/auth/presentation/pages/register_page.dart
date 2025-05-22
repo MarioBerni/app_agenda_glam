@@ -42,6 +42,7 @@ class _RegisterPageState extends State<RegisterPage>
   int _currentStep = 1;
   final int _totalSteps = 2;
   bool _isLoading = false;
+  bool _isGoogleLoading = false;
 
   // Controladores
   late final AnimationController _animController;
@@ -186,6 +187,36 @@ class _RegisterPageState extends State<RegisterPage>
       );
     }
   }
+  
+  // Manejar registro con Google
+  void _handleGoogleRegister() {
+    setState(() {
+      _isGoogleLoading = true;
+    });
+    
+    // Simula un proceso de registro con Google
+    Future.delayed(const Duration(seconds: 2), () {
+      // Aquí se implementaría la integración real con Firebase Auth o Google Sign-In
+      // usando el BLoC/Cubit y los casos de uso
+      
+      debugPrint('Registrando con Google - Tipo de usuario: $_userType');
+      
+      // En un escenario real, después de autenticar con Google, necesitaríamos
+      // verificar si es un usuario nuevo o existente y posiblemente solicitar
+      // información adicional como el tipo de usuario.
+      
+      if (mounted) {
+        setState(() {
+          _isGoogleLoading = false;
+        });
+        
+        // Para este ejemplo, simplemente navegamos a Home
+        // En una implementación real, podríamos mostrar un diálogo para seleccionar
+        // el tipo de usuario si es necesario
+        CircleNavigation.goToHome(context);
+      }
+    });
+  }
 
   /// Métodos de validación en tiempo real
   void _validateNameRealtime() {
@@ -316,8 +347,10 @@ class _RegisterPageState extends State<RegisterPage>
                         passwordCriteria: _passwordCriteria,
                         doPasswordsMatch: _doPasswordsMatch,
                         isLoading: _isLoading,
+                        isGoogleLoading: _isGoogleLoading,
                         onNextStep: _nextStep,
                         onRegister: _register,
+                        onGoogleRegister: _handleGoogleRegister,
                       ),
                     ),
                   ),

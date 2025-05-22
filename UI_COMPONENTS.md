@@ -1,6 +1,6 @@
-# Guía de Componentes UI: Agenda Glam
+# Catálogo de Componentes UI: Agenda Glam
 
-Esta documentación proporciona una descripción detallada de los componentes UI reutilizables disponibles en el proyecto Agenda Glam. Utiliza esta guía como referencia para mantener la consistencia visual y funcional en toda la aplicación.
+**Propósito**: Este documento cataloga y describe los componentes de interfaz de usuario reutilizables disponibles en el proyecto Agenda Glam. Sirve como referencia visual y técnica para mantener la consistencia de diseño y facilitar el desarrollo de nuevas pantallas.
 
 ## Índice
 
