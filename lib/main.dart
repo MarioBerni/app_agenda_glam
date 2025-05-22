@@ -1,5 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:app_agenda_glam/core/di/service_locator.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme.dart';
@@ -45,6 +46,17 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.appTheme,
         routerConfig: AppRouter.router,
+        // Configuración de localización
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('es', 'ES'), // Español
+          Locale('en', 'US'), // Inglés (fallback)
+        ],
+        locale: const Locale('es', 'ES'), // Forzar español como idioma predeterminado
       ),
     );
   }

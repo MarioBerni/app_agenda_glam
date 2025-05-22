@@ -16,16 +16,24 @@ class RegisterHeader extends StatelessWidget {
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
-    final String title =
-        currentStep == 1 ? 'Crear Cuenta' : 'Configurar Contraseña';
-
-    final String description =
-        currentStep == 1
-            ? 'Completa tus datos para registrarte y agendar tus citas'
-            : 'Elige una contraseña segura para proteger tu cuenta';
-
-    final IconData iconData =
-        currentStep == 1 ? Icons.person_add_outlined : Icons.lock_outline;
+    String title;
+    String description;
+    IconData iconData;
+    
+    // Determinar título, descripción e icono según el paso actual
+    if (currentStep == 0) {
+      title = 'Crear Cuenta';
+      description = 'Elige cómo quieres registrarte en Agenda Glam';
+      iconData = Icons.app_registration_rounded;
+    } else if (currentStep == 1) {
+      title = 'Información Personal';
+      description = 'Completa tus datos para registrarte y agendar tus citas';
+      iconData = Icons.person_add_outlined;
+    } else {
+      title = 'Configurar Contraseña';
+      description = 'Elige una contraseña segura para proteger tu cuenta';
+      iconData = Icons.lock_outline;
+    }
 
     return Column(
       children: [

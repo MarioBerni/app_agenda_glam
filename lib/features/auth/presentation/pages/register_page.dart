@@ -6,6 +6,7 @@ import 'package:app_agenda_glam/features/auth/domain/validators/register_validat
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:app_agenda_glam/features/auth/presentation/controllers/register_controller.dart';
+import 'package:app_agenda_glam/features/auth/presentation/controllers/register_google_handler.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,14 +40,15 @@ class _RegisterPageState extends State<RegisterPage>
   String _userType = 'Cliente'; // Valor por defecto
 
   // Estado del registro
-  int _currentStep = 1;
-  final int _totalSteps = 2;
+  int _currentStep = 0; // Iniciamos en el paso 0 (selección de método)
+  final int _totalSteps = 2; // Los pasos 1 y 2 son los del flujo tradicional
   bool _isLoading = false;
   bool _isGoogleLoading = false;
 
   // Controladores
   late final AnimationController _animController;
   late final RegisterController _registerController;
+  late final RegisterGoogleHandler _googleHandler;
 
   // Errores de validación
   String? _nameError;
@@ -84,6 +86,15 @@ class _RegisterPageState extends State<RegisterPage>
       animationController: _animController,
       onFieldError: _showFieldError,
     );
+    
+    // Inicializar controlador de registro con Google
+    _googleHandler = RegisterGoogleHandler(
+      onLoadingChanged: (isLoading) {
+        if (mounted) {
+          setState(() => _isGoogleLoading = isLoading);
+        }
+      },
+    );
 
     // Escuchar cambios en los campos para validación en tiempo real
     _nameController.addListener(_validateNameRealtime);
@@ -114,26 +125,36 @@ class _RegisterPageState extends State<RegisterPage>
   }
 
   /// Navegar al siguiente paso del registro
-  void _nextStep() async {
-    await _registerController.nextStep(
-      _currentStep,
-      () => setState(() => _currentStep++),
-      () => [
-        // Validar campos del paso actual
-        _validateCurrentStepFields(),
-      ].expand((element) => element).toList(),
-    );
+  void _nextStep() {
+    // Si estamos en el paso 0 (selección de método), simplemente avanzar
+    if (_currentStep == 0) {
+      setState(() {
+        _currentStep = 1; // Avanzar al paso de información personal
+      });
+      return;
+    }
+    
+    // Para los demás pasos, validar campos antes de avanzar
+    if (!_validateCurrentStepFields()) {
+      return;
+    }
+
+    // Avanzar al siguiente paso
+    setState(() {
+      _currentStep++;
+    });
   }
 
   /// Validar campos según el paso actual del formulario
-  List<String?> _validateCurrentStepFields() {
+  bool _validateCurrentStepFields() {
     if (_currentStep == 1) {
       setState(() {
         _nameError = RegisterValidator.validateName(_nameController.text);
         _emailError = RegisterValidator.validateEmail(_emailController.text);
         _phoneError = RegisterValidator.validatePhone(_phoneController.text);
       });
-      return [_nameError, _emailError, _phoneError];
+      // Verificar que todos los errores sean null (campos válidos)
+      return _nameError == null && _emailError == null && _phoneError == null;
     } else {
       setState(() {
         _passwordError = RegisterValidator.validatePassword(
@@ -145,20 +166,27 @@ class _RegisterPageState extends State<RegisterPage>
           _confirmPasswordController.text,
         );
       });
-      return [_passwordError, _confirmPasswordError];
+      // Verificar que todos los errores sean null (campos válidos)
+      return _passwordError == null && _confirmPasswordError == null;
     }
   }
 
   /// Navegar al paso anterior o volver a la pantalla de login
-  void _previousStep() async {
-    await _registerController.previousStep(
-      _currentStep,
-      () => setState(() => _currentStep--),
-      () {
-        // Usar la navegación centralizada con transición circular hacia atrás
-        CircleNavigation.goToWelcome(context);
-      },
-    );
+  void _previousStep() {
+    if (_currentStep > 1) {
+      // Si estamos después del paso 1, retroceder normalmente
+      setState(() {
+        _currentStep--;
+      });
+    } else if (_currentStep == 1) {
+      // Si estamos en el paso 1, volver al paso de selección de método
+      setState(() {
+        _currentStep = 0;
+      });
+    } else {
+      // Si estamos en el paso 0, volver a la pantalla de login
+      Navigator.of(context).pop();
+    }
   }
 
   /// Mostrar efecto visual para campos con error
@@ -176,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage>
 
   /// Enviar datos de registro al backend (mock)
   void _register() {
-    if (_validateCurrentStepFields().every((error) => error == null)) {
+    if (_validateCurrentStepFields()) {
       context.read<AuthCubit>().register(
         name: _nameController.text,
         email: _emailController.text,
@@ -188,34 +216,10 @@ class _RegisterPageState extends State<RegisterPage>
     }
   }
   
-  // Manejar registro con Google
+  /// Maneja el registro con una cuenta de Google
+  /// Delega la implementación al controlador especializado RegisterGoogleHandler
   void _handleGoogleRegister() {
-    setState(() {
-      _isGoogleLoading = true;
-    });
-    
-    // Simula un proceso de registro con Google
-    Future.delayed(const Duration(seconds: 2), () {
-      // Aquí se implementaría la integración real con Firebase Auth o Google Sign-In
-      // usando el BLoC/Cubit y los casos de uso
-      
-      debugPrint('Registrando con Google - Tipo de usuario: $_userType');
-      
-      // En un escenario real, después de autenticar con Google, necesitaríamos
-      // verificar si es un usuario nuevo o existente y posiblemente solicitar
-      // información adicional como el tipo de usuario.
-      
-      if (mounted) {
-        setState(() {
-          _isGoogleLoading = false;
-        });
-        
-        // Para este ejemplo, simplemente navegamos a Home
-        // En una implementación real, podríamos mostrar un diálogo para seleccionar
-        // el tipo de usuario si es necesario
-        CircleNavigation.goToHome(context);
-      }
-    });
+    _googleHandler.handleGoogleRegister(context);
   }
 
   /// Métodos de validación en tiempo real

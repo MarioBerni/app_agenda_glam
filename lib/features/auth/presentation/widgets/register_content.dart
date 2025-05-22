@@ -1,6 +1,9 @@
+// import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
+import 'package:app_agenda_glam/features/auth/presentation/pages/phone_register_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_google_button.dart';
+// import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_google_button.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/register_auth_method_step.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_footer.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_header.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_personal_info_step.dart';
@@ -10,12 +13,29 @@ import 'package:flutter/material.dart';
 
 /// Widget principal de contenido para la pantalla de registro
 /// Organiza todos los componentes visuales en la estructura de la página
+/// Enumeración para identificar el método de autenticación seleccionado
+enum AuthMethod {
+  /// Método tradicional con email y contraseña
+  traditional,
+  
+  /// Método usando cuenta de Google
+  google,
+  
+  /// Método usando verificación por SMS
+  phone
+}
+
+/// Widget principal de contenido para la pantalla de registro
+/// Organiza todos los componentes visuales en la estructura de la página
 class RegisterContent extends StatelessWidget {
   /// Paso actual del registro
   final int currentStep;
 
   /// Total de pasos del registro
   final int totalSteps;
+  
+  /// Método de autenticación seleccionado
+  final AuthMethod authMethod;
 
   /// Controlador para el campo de nombre
   final TextEditingController nameController;
@@ -109,6 +129,7 @@ class RegisterContent extends StatelessWidget {
     required this.onNextStep,
     required this.onRegister,
     required this.onGoogleRegister,
+    this.authMethod = AuthMethod.traditional,
   });
 
   @override
@@ -116,73 +137,44 @@ class RegisterContent extends StatelessWidget {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch, // Cambiado a stretch para consistencia
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           // Encabezado con título, icono y descripción
           RegisterHeader(currentStep: currentStep),
           
-          // Indicador de progreso
-          RegisterStepIndicator(
-            currentStep: currentStep,
-            totalSteps: totalSteps,
-          ),
-          const SizedBox(height: 24),
-          
-          // Si estamos en el primer paso, mostrar opción de registro con Google
-          if (currentStep == 1) ...[            
-            // Botón de registro con Google
-            GlamGoogleButton(
-              text: 'Registrarse con Google',
-              onPressed: onGoogleRegister,
-              isLoading: isGoogleLoading,
-              disabled: isLoading,
+          // Indicador de progreso (solo se muestra en el flujo tradicional después del paso 0)
+          if (currentStep > 0) ...[  
+            RegisterStepIndicator(
+              currentStep: currentStep,
+              totalSteps: totalSteps,
             ),
-            
-            const SizedBox(height: 16),
-            
-            // Separador "o"
-            Row(
-              children: [
-                const Expanded(child: Divider(color: Colors.white30)),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Text(
-                    'o',
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.7),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                const Expanded(child: Divider(color: Colors.white30)),
-              ],
-            ),
-            
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
           ],
           
           // Formulario por pasos
-          _buildCurrentStep(),
+          _buildCurrentStep(context),
 
           const SizedBox(height: 24),
 
-          // Botón de acción principal
-          Hero(
-            tag: 'register_button', // Usar Hero para efecto similar al login_button
-            child: GlamButton(
-              text: currentStep == 1 ? 'Continuar' : 'Crear Cuenta',
-              onPressed: isLoading
-                  ? null
-                  : (currentStep == 1 ? onNextStep : onRegister),
-              isLoading: isLoading,
-              icon: currentStep == 1 ? Icons.arrow_forward : Icons.person_add_outlined,
-              withShimmer: true,
+          // Botón de acción principal (solo se muestra si no estamos en el paso de selección de método)
+          if (currentStep != 0) ...[  
+            Hero(
+              tag: 'register_button',
+              child: GlamButton(
+                text: currentStep == 1 ? 'Continuar' : 'Crear Cuenta',
+                onPressed: isLoading
+                    ? null
+                    : (currentStep == 1 ? onNextStep : onRegister),
+                isLoading: isLoading,
+                icon: currentStep == 1 ? Icons.arrow_forward : Icons.person_add_outlined,
+                withShimmer: true,
+              ),
             ),
-          ),
+            
+            const SizedBox(height: 24),
+          ],
           
-          const SizedBox(height: 24),
-          
-          // Divisor dorado elegante (mismo estilo que en LoginPage)
+          // Divisor dorado elegante
           const GlamDivider(
             widthFactor: 0.8,
             primaryOpacity: 0.5,
@@ -201,7 +193,7 @@ class RegisterContent extends StatelessWidget {
   }
 
   /// Construye el paso actual del formulario con animación
-  Widget _buildCurrentStep() {
+  Widget _buildCurrentStep(BuildContext context) {
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
       transitionBuilder: (Widget child, Animation<double> animation) {
@@ -216,30 +208,57 @@ class RegisterContent extends StatelessWidget {
           ),
         );
       },
-      child:
-          currentStep == 1
-              ? RegisterPersonalInfoStep(
-                nameController: nameController,
-                emailController: emailController,
-                phoneController: phoneController,
-                userType: userType,
-                onUserTypeChanged: onUserTypeChanged,
-                nameError: nameError,
-                emailError: emailError,
-                phoneError: phoneError,
-                isNameValid: isNameValid,
-                isEmailValid: isEmailValid,
-                isPhoneValid: isPhoneValid,
-              )
-              : RegisterPasswordStep(
-                passwordController: passwordController,
-                confirmPasswordController: confirmPasswordController,
-                passwordError: passwordError,
-                confirmPasswordError: confirmPasswordError,
-                passwordCriteria: passwordCriteria,
-                doPasswordsMatch: doPasswordsMatch,
-                onEditingComplete: onRegister,
-              ),
+      child: _getStepContent(context),
     );
+  }
+  
+  /// Determina el contenido a mostrar según el paso actual y el método de autenticación
+  Widget _getStepContent(BuildContext context) {
+    // Paso 0: Selección del método de autenticación
+    if (currentStep == 0) {
+      return RegisterAuthMethodStep(
+        onGoogleRegister: onGoogleRegister,
+        onPhoneRegister: () {
+          // Navegar a la página consolidada de registro por teléfono
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const PhoneRegisterPage(),
+            ),
+          );
+        },
+        isGoogleLoading: isGoogleLoading,
+      );
+    }
+    
+    // Si estamos en el flujo tradicional (email/contraseña)
+    if (authMethod == AuthMethod.traditional) {
+      return currentStep == 1
+          ? RegisterPersonalInfoStep(
+              nameController: nameController,
+              emailController: emailController,
+              phoneController: phoneController,
+              userType: userType,
+              onUserTypeChanged: onUserTypeChanged,
+              nameError: nameError,
+              emailError: emailError,
+              phoneError: phoneError,
+              isNameValid: isNameValid,
+              isEmailValid: isEmailValid,
+              isPhoneValid: isPhoneValid,
+            )
+          : RegisterPasswordStep(
+              passwordController: passwordController,
+              confirmPasswordController: confirmPasswordController,
+              passwordError: passwordError,
+              confirmPasswordError: confirmPasswordError,
+              passwordCriteria: passwordCriteria,
+              doPasswordsMatch: doPasswordsMatch,
+              onEditingComplete: onRegister,
+            );
+    }
+    
+    // Para los otros métodos de autenticación, este paso no debería mostrarse
+    // ya que se redirige a otras pantallas
+    return const SizedBox.shrink();
   }
 }

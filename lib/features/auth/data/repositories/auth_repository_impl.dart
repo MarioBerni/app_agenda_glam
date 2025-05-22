@@ -73,4 +73,27 @@ class AuthRepositoryImpl implements AuthRepository {
       rethrow;
     }
   }
+  
+  @override
+  Future<User> registerWithGoogle({
+    required String name,
+    required String email,
+    required String phone,
+    required String userType,
+  }) async {
+    try {
+      // En una implementación real, usaríamos diferentes mecanismos para registrar
+      // un usuario que ya se autentiqué con Google. Aquí simulamos usando el mismo
+      // datasource pero con una contraseña generada aleatoriamente (no será utilizada)
+      final user = await _dataSource.registerWithGoogle(
+        name: name,
+        email: email,
+        phone: phone,
+        userType: userType,
+      );
+      return user;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

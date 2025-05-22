@@ -18,6 +18,7 @@
    - [GlamVideoBackground](#glamvideobackground)
    - [PasswordStrengthIndicator](#passwordstrengthindicator)
    - [UserTypeSelector](#usertypeselector)
+   - [GoogleRegisterInfoForm](#googleregisterinfoform)
 4. [Flujos de Registro](#flujos-de-registro)
    - [Selección de Tipo de Usuario](#selección-de-tipo-de-usuario)
    - [Validación de Teléfono](#validación-de-teléfono)
@@ -314,6 +315,37 @@ UserTypeSelector(
       _userType = type;
     });
   },
+)
+```
+
+### GoogleRegisterInfoForm
+
+**Ubicación**: `lib/features/auth/presentation/widgets/google_register_info_form.dart`
+
+**Descripción**: Formulario especializado para recopilar información adicional después de la autenticación con Google. Solicita el tipo de usuario y número de teléfono, proporcionando validación en tiempo real y feedback visual.
+
+**Propiedades clave**:
+- `userName`: Nombre del usuario obtenido de Google.
+- `userEmail`: Email del usuario obtenido de Google.
+- `phoneController`: Controlador para el campo de teléfono con validación en tiempo real.
+- `onSubmit`: Función que se ejecuta al enviar el formulario, recibe tipo de usuario y teléfono.
+- `isLoading`: Indica si el formulario está en estado de carga.
+- `isPhoneValid`: Indicador de validez del teléfono en tiempo real.
+- `onCancel`: Función para cancelar el proceso y volver a la pantalla anterior.
+
+**Ejemplo de uso**:
+```dart
+GoogleRegisterInfoForm(
+  userName: "Mario Berni",
+  userEmail: "mario.berni@gmail.com",
+  phoneController: _phoneController,
+  isPhoneValid: _isPhoneValid,
+  phoneError: _phoneError,
+  isLoading: _isLoading,
+  onSubmit: (userType, phone) {
+    // Procesar la información adicional
+  },
+  onCancel: () => CircleNavigation.goToWelcome(context),
 )
 ```
 

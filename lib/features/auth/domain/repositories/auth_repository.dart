@@ -26,4 +26,13 @@ abstract class AuthRepository {
 
   /// Verifica si hay un usuario actualmente autenticado
   Future<User?> getCurrentUser();
+  
+  /// Registra un usuario que ya se autenticó con Google
+  /// Retorna el [User] creado
+  Future<User> registerWithGoogle({
+    required String name,
+    required String email,
+    required String phone,
+    required String userType,
+  });
 }

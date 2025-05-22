@@ -112,4 +112,60 @@ class AuthMockDataSource {
     await Future.delayed(const Duration(milliseconds: 300));
     return _currentUser;
   }
+  
+  /// Simula el registro de un usuario que ya se autenticó con Google
+  Future<UserModel> registerWithGoogle({
+    required String name,
+    required String email,
+    required String phone,
+    required String userType,
+  }) async {
+    // Simular retraso de red como lo haría una llamada real a Firebase/Google
+    await Future.delayed(const Duration(seconds: 1));
+    
+    // Verifica si ya existe un usuario con ese email
+    final existingUserIndex = _users.indexWhere((user) => user.email == email);
+    
+    // Si el usuario ya existe con ese email (posiblemente de un inicio de sesión anterior con Google)
+    // actualizamos sus datos con la nueva información
+    if (existingUserIndex >= 0) {
+      final updatedUser = _users[existingUserIndex].copyWith(
+        phone: phone,
+        userType: userType,
+        isAuthenticated: true,
+      );
+      
+      // Actualiza el usuario en la "base de datos"
+      _users[existingUserIndex] = updatedUser;
+      
+      // Establece como usuario actual
+      _currentUser = updatedUser;
+      
+      return updatedUser;
+    }
+    
+    // Si es un usuario completamente nuevo, verificamos el teléfono
+    final existingPhone = _users.any((user) => user.phone == phone);
+    if (existingPhone) {
+      throw Exception('El número de teléfono ya está registrado');
+    }
+
+    // Crea un nuevo usuario con los datos de Google
+    final newUser = UserModel(
+      id: 'google_${DateTime.now().millisecondsSinceEpoch}',
+      name: name,
+      email: email,
+      phone: phone,
+      userType: userType,
+      isAuthenticated: true,
+    );
+
+    // Añade el usuario a la "base de datos"
+    _users.add(newUser);
+
+    // Establece como usuario actual
+    _currentUser = newUser;
+
+    return newUser;
+  }
 }

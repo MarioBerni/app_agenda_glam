@@ -138,6 +138,62 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  /// Registra un usuario que ya se autenticó con Google
+  ///
+  /// Este método completa el registro de un usuario que ya pasó por el flujo de
+  /// autenticación de Google, agregando la información adicional necesaria:
+  /// - Tipo de usuario (cliente, propietario, empleado)
+  /// - Número de teléfono
+  Future<void> registerWithGoogle({
+    required String name,
+    required String email,
+    required String phone,
+    required String userType,
+  }) async {
+    emit(AuthState.loading());
+    try {
+      // Validaciones básicas
+      if (name.isEmpty) {
+        emit(AuthState.error('El nombre no puede estar vacío'));
+        return;
+      }
+
+      if (!_isValidEmail(email)) {
+        emit(AuthState.error('El formato del email no es válido'));
+        return;
+      }
+      
+      if (phone.isEmpty) {
+        emit(AuthState.error('El número de teléfono no puede estar vacío'));
+        return;
+      }
+      
+      // Validar formato de teléfono (básico)
+      if (!RegExp(r'^[0-9]{8,}$').hasMatch(phone)) {
+        emit(AuthState.error('El formato del teléfono no es válido'));
+        return;
+      }
+      
+      if (userType.isEmpty) {
+        emit(AuthState.error('Debes seleccionar un tipo de usuario'));
+        return;
+      }
+
+      // En un caso real, aquí se utilizaría la información de la cuenta de Google
+      // junto con los datos adicionales para completar el registro
+      // En nuestra simulación, simplemente creamos un usuario con los datos proporcionados
+      final user = await _authRepository.registerWithGoogle(
+        name: name,
+        email: email,
+        phone: phone,
+        userType: userType,
+      );
+      emit(AuthState.authenticated(user));
+    } catch (e) {
+      emit(AuthState.error(e.toString()));
+    }
+  }
+
   /// Valida el formato del email utilizando una expresión regular
   bool _isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
