@@ -1,4 +1,4 @@
-﻿import 'package:app_agenda_glam/features/auth/data/models/user_model.dart';
+import 'package:app_agenda_glam/features/auth/data/models/user_model.dart';
 
 /// Fuente de datos mock para autenticación (sin Firebase)
 /// Esta clase simula la interacción con una API o backend
@@ -9,6 +9,8 @@ class AuthMockDataSource {
       id: '1',
       name: 'Usuario Demo',
       email: 'demo@ejemplo.com',
+      phone: '12345678',
+      userType: 'Cliente',
       isAuthenticated: false,
     ),
   ];
@@ -45,6 +47,8 @@ class AuthMockDataSource {
     required String name,
     required String email,
     required String password,
+    required String phone,
+    required String userType,
   }) async {
     // Simular retraso de red
     await Future.delayed(const Duration(seconds: 1));
@@ -54,12 +58,20 @@ class AuthMockDataSource {
     if (existingUser) {
       throw Exception('El email ya está registrado');
     }
+    
+    // Verifica si ya existe un usuario con ese teléfono
+    final existingPhone = _users.any((user) => user.phone == phone);
+    if (existingPhone) {
+      throw Exception('El número de teléfono ya está registrado');
+    }
 
     // Crea un nuevo usuario
     final newUser = UserModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: name,
       email: email,
+      phone: phone,
+      userType: userType,
       isAuthenticated: true,
     );
 

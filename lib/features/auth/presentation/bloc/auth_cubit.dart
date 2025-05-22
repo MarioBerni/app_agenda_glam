@@ -1,4 +1,4 @@
-﻿import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
+import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
 import 'package:app_agenda_glam/features/auth/domain/repositories/auth_repository.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,6 +55,8 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
     required String confirmPassword,
+    required String phone,
+    required String userType,
   }) async {
     emit(AuthState.loading());
     try {
@@ -66,6 +68,22 @@ class AuthCubit extends Cubit<AuthState> {
 
       if (!_isValidEmail(email)) {
         emit(AuthState.error('El formato del email no es válido'));
+        return;
+      }
+      
+      if (phone.isEmpty) {
+        emit(AuthState.error('El número de teléfono no puede estar vacío'));
+        return;
+      }
+      
+      // Validar formato de teléfono (básico)
+      if (!RegExp(r'^[0-9]{8,}$').hasMatch(phone)) {
+        emit(AuthState.error('El formato del teléfono no es válido'));
+        return;
+      }
+      
+      if (userType.isEmpty) {
+        emit(AuthState.error('Debes seleccionar un tipo de usuario'));
         return;
       }
 
@@ -83,6 +101,8 @@ class AuthCubit extends Cubit<AuthState> {
         name: name,
         email: email,
         password: password,
+        phone: phone,
+        userType: userType,
       );
       emit(AuthState.authenticated(user));
     } catch (e) {

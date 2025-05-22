@@ -1,4 +1,3 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/widgets/glam_text_field.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/password_strength_indicator.dart';
 import 'package:flutter/material.dart';
@@ -41,75 +40,63 @@ class RegisterPasswordStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch, // Cambio a stretch como en LoginForm
       key: const ValueKey('password_step'),
       children: [
-        // Campo de contraseña con animación (mismo estilo que LoginForm)
-        GlamAnimations.applyEntryEffect(
-          GlamTextField(
-            controller: passwordController,
-            label: 'Contraseña',
-            prefixIcon: Icons.lock,
-            isPassword: true, // Parámetro que activa la funcionalidad de contraseña
-            validator: (value) => null, // La validación ya se maneja en otro lugar
-            textInputAction: TextInputAction.next,
-            errorText: passwordError,
-          ),
-          slideDistance: 0.2, // Ajustado para coincidir con LoginForm
+        // Campo de contraseña (mismo estilo que LoginForm)
+        GlamTextField(
+          controller: passwordController,
+          label: 'Contraseña',
+          prefixIcon: Icons.lock,
+          isPassword: true,
+          validator: (value) => null, // La validación ya se maneja en otro lugar
+          textInputAction: TextInputAction.next,
+          errorText: passwordError,
         ),
 
-        const SizedBox(height: 20), // Ajustado para mantener coherencia con LoginForm
+        const SizedBox(height: 20),
 
-        // Indicador de fortaleza de contraseña (con la misma animación que otros elementos)
-        GlamAnimations.applyEntryEffect(
-          PasswordStrengthIndicator(criteria: passwordCriteria),
-          slideDistance: 0.2, // Ajustado para mantener coherencia
+        // Indicador de fortaleza de contraseña
+        PasswordStrengthIndicator(criteria: passwordCriteria),
+
+        const SizedBox(height: 20),
+
+        // Campo de confirmar contraseña
+        GlamTextField(
+          controller: confirmPasswordController,
+          label: 'Confirmar contraseña',
+          prefixIcon: Icons.lock,
+          isPassword: true,
+          validator: (value) => null, // La validación ya se maneja en otro lugar
+          textInputAction: TextInputAction.done,
+          errorText: confirmPasswordError,
+          onFieldSubmitted: (_) => onEditingComplete?.call(),
         ),
 
-        const SizedBox(height: 20), // Ajustado para mantener coherencia con LoginForm
-
-        // Campo de confirmar contraseña con animación (mismo estilo que LoginForm)
-        GlamAnimations.applyEntryEffect(
-          GlamTextField(
-            controller: confirmPasswordController,
-            label: 'Confirmar contraseña',
-            prefixIcon: Icons.lock,
-            isPassword: true, // Parámetro que activa la funcionalidad de contraseña
-            validator: (value) => null, // La validación ya se maneja en otro lugar
-            textInputAction: TextInputAction.done,
-            errorText: confirmPasswordError,
-            onFieldSubmitted: (_) => onEditingComplete?.call(),
-          ),
-          slideDistance: 0.2, // Ajustado para coincidir con LoginForm
-        ),
-
-        // Texto informativo sobre seguridad (con animación coherente con LoginPage)
+        // Texto informativo sobre seguridad
         const SizedBox(height: 16),
-        GlamAnimations.applyEntryEffect(
-          Padding(
-            padding: const EdgeInsets.only(left: 12),
-            child: Row(
-              children: [
-                Icon(
-                  Icons.security,
-                  size: 14,
-                  color: Colors.white.withValues(alpha: 0.6),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Text(
-                    'Crea una contraseña segura usando caracteres especiales y combinando mayúsculas y números',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white.withValues(alpha: 0.6),
-                      fontStyle: FontStyle.italic,
-                    ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.security,
+                size: 14,
+                color: Colors.white.withValues(alpha: 0.7),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Crea una contraseña segura usando caracteres especiales y combinando mayúsculas y números',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.white.withValues(alpha: 0.7),
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-          slideDistance: 0.25, // Ajustado para coincidir con LoginPage
         ),
       ],
     );

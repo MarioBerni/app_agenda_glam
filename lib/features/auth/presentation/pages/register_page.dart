@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Página de registro de nuevos usuarios con flujo por pasos
 ///
 /// Esta página implementa un proceso de registro dividido en dos pasos:
-/// 1. Información personal (nombre y email)
+/// 1. Información personal (tipo de usuario, nombre, teléfono y email)
 /// 2. Configuración de contraseña (contraseña y confirmación)
 ///
 /// La arquitectura está modularizada utilizando componentes independientes
@@ -30,9 +30,13 @@ class _RegisterPageState extends State<RegisterPage>
   // Controladores de texto
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
+  final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  
+  // Tipo de usuario
+  String _userType = 'Cliente'; // Valor por defecto
 
   // Estado del registro
   int _currentStep = 1;
@@ -46,12 +50,14 @@ class _RegisterPageState extends State<RegisterPage>
   // Errores de validación
   String? _nameError;
   String? _emailError;
+  String? _phoneError;
   String? _passwordError;
   String? _confirmPasswordError;
 
   // Estado de validación en tiempo real
   bool _isNameValid = false;
   bool _isEmailValid = false;
+  bool _isPhoneValid = false;
   bool _isPasswordValid = false;
   bool _doPasswordsMatch = false;
 
@@ -81,6 +87,7 @@ class _RegisterPageState extends State<RegisterPage>
     // Escuchar cambios en los campos para validación en tiempo real
     _nameController.addListener(_validateNameRealtime);
     _emailController.addListener(_validateEmailRealtime);
+    _phoneController.addListener(_validatePhoneRealtime);
     _passwordController.addListener(_validatePasswordRealtime);
     _confirmPasswordController.addListener(_validateConfirmPasswordRealtime);
   }
@@ -90,12 +97,14 @@ class _RegisterPageState extends State<RegisterPage>
     // Eliminar listeners
     _nameController.removeListener(_validateNameRealtime);
     _emailController.removeListener(_validateEmailRealtime);
+    _phoneController.removeListener(_validatePhoneRealtime);
     _passwordController.removeListener(_validatePasswordRealtime);
     _confirmPasswordController.removeListener(_validateConfirmPasswordRealtime);
 
     // Dispose de controllers
     _nameController.dispose();
     _emailController.dispose();
+    _phoneController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     _animController.dispose();
@@ -121,8 +130,9 @@ class _RegisterPageState extends State<RegisterPage>
       setState(() {
         _nameError = RegisterValidator.validateName(_nameController.text);
         _emailError = RegisterValidator.validateEmail(_emailController.text);
+        _phoneError = RegisterValidator.validatePhone(_phoneController.text);
       });
-      return [_nameError, _emailError];
+      return [_nameError, _emailError, _phoneError];
     } else {
       setState(() {
         _passwordError = RegisterValidator.validatePassword(
@@ -155,6 +165,13 @@ class _RegisterPageState extends State<RegisterPage>
     // Esta función se puede ampliar para mostrar efectos visuales
     // específicos para diferentes campos con error
   }
+  
+  /// Actualizar el tipo de usuario seleccionado
+  void _updateUserType(String type) {
+    setState(() {
+      _userType = type;
+    });
+  }
 
   /// Enviar datos de registro al backend (mock)
   void _register() {
@@ -162,6 +179,8 @@ class _RegisterPageState extends State<RegisterPage>
       context.read<AuthCubit>().register(
         name: _nameController.text,
         email: _emailController.text,
+        phone: _phoneController.text,
+        userType: _userType,
         password: _passwordController.text,
         confirmPassword: _confirmPasswordController.text,
       );
@@ -182,6 +201,14 @@ class _RegisterPageState extends State<RegisterPage>
         RegisterValidator.validateEmail(_emailController.text) == null;
     if (_isEmailValid != isValid) {
       setState(() => _isEmailValid = isValid);
+    }
+  }
+  
+  void _validatePhoneRealtime() {
+    final isValid =
+        RegisterValidator.validatePhone(_phoneController.text) == null;
+    if (_isPhoneValid != isValid) {
+      setState(() => _isPhoneValid = isValid);
     }
   }
 
@@ -268,31 +295,29 @@ class _RegisterPageState extends State<RegisterPage>
                     key: _formKey,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          
-                          // Contenido del formulario según paso actual
-                          RegisterContent(
-                            currentStep: _currentStep,
-                            totalSteps: _totalSteps,
-                            nameController: _nameController,
-                            emailController: _emailController,
-                            passwordController: _passwordController,
-                            confirmPasswordController: _confirmPasswordController,
-                            nameError: _nameError,
-                            emailError: _emailError,
-                            passwordError: _passwordError,
-                            confirmPasswordError: _confirmPasswordError,
-                            isNameValid: _isNameValid,
-                            isEmailValid: _isEmailValid,
-                            passwordCriteria: _passwordCriteria,
-                            doPasswordsMatch: _doPasswordsMatch,
-                            isLoading: _isLoading,
-                            onNextStep: _nextStep,
-                            onRegister: _register,
-                          ),
-                        ],
+                      child: RegisterContent(
+                        currentStep: _currentStep,
+                        totalSteps: _totalSteps,
+                        nameController: _nameController,
+                        emailController: _emailController,
+                        phoneController: _phoneController,
+                        passwordController: _passwordController,
+                        confirmPasswordController: _confirmPasswordController,
+                        userType: _userType,
+                        onUserTypeChanged: _updateUserType,
+                        nameError: _nameError,
+                        emailError: _emailError,
+                        phoneError: _phoneError,
+                        passwordError: _passwordError,
+                        confirmPasswordError: _confirmPasswordError,
+                        isNameValid: _isNameValid,
+                        isEmailValid: _isEmailValid,
+                        isPhoneValid: _isPhoneValid,
+                        passwordCriteria: _passwordCriteria,
+                        doPasswordsMatch: _doPasswordsMatch,
+                        isLoading: _isLoading,
+                        onNextStep: _nextStep,
+                        onRegister: _register,
                       ),
                     ),
                   ),

@@ -1,4 +1,4 @@
-﻿import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
+import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
 import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
 
 /// Define las operaciones relacionadas con la autenticación
@@ -14,6 +14,8 @@ abstract class AuthRepository {
     required String name,
     required String email,
     required String password,
+    required String phone,
+    required String userType,
   });
 
   /// Cierra la sesión del usuario actual

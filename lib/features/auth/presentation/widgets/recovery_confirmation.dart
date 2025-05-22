@@ -1,19 +1,25 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
-import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-/// Widget que muestra la confirmación de que se ha enviado el email
+/// Widget que muestra la confirmación de que se ha enviado el email o SMS
 /// de recuperación de contraseña con animaciones visuales.
 class RecoveryConfirmation extends StatelessWidget {
-  /// Email al que se envió el correo de recuperación
-  final String email;
+  /// Identificador (email o teléfono) al que se envió la recuperación
+  final String identifier;
+  
+  /// Indica si el identificador es un email (true) o teléfono (false)
+  final bool isEmail;
 
   /// Constructor
-  const RecoveryConfirmation({super.key, required this.email});
+  const RecoveryConfirmation({
+    super.key, 
+    required this.identifier, 
+    required this.isEmail
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +30,14 @@ class RecoveryConfirmation extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Icono animado de correo enviado
-              _buildEmailSentAnimation(),
+              // Icono animado de correo o SMS enviado
+              _buildSentAnimation(),
 
               const SizedBox(height: 32),
 
               // Título con animación
               Text(
-                'Email Enviado',
+                isEmail ? 'Email Enviado' : 'SMS Enviado',
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -46,7 +52,9 @@ class RecoveryConfirmation extends StatelessWidget {
 
               // Mensaje de confirmación
               Text(
-                'Hemos enviado instrucciones para restablecer tu contraseña a:',
+                isEmail 
+                  ? 'Hemos enviado instrucciones para restablecer tu contraseña a:'
+                  : 'Hemos enviado un código de verificación al número:',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -59,27 +67,29 @@ class RecoveryConfirmation extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              // Email del usuario
+              // Identificador del usuario
               Text(
-                    email,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: kAccentColor,
-                    ),
-                  )
-                  .glamEntry(
-                    duration: const Duration(milliseconds: 900),
-                    offset: const Offset(0, 0.15),
-                  )
-                  .glamShimmer(),
+                identifier,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: kAccentColor,
+                ),
+              )
+              .glamEntry(
+                duration: const Duration(milliseconds: 900),
+                offset: const Offset(0, 0.15),
+              )
+              .glamShimmer(),
 
               const SizedBox(height: 24),
 
               // Mensaje adicional
               Text(
-                'Revisa tu bandeja de entrada y sigue las instrucciones para recuperar el acceso a tu cuenta.',
+                isEmail
+                  ? 'Revisa tu bandeja de entrada y sigue las instrucciones para recuperar el acceso a tu cuenta.'
+                  : 'Revisa tus mensajes SMS y utiliza el código recibido para restablecer tu contraseña.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
@@ -102,7 +112,7 @@ class RecoveryConfirmation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Â¿No recibiste el correo?',
+                    isEmail ? 'No recibí el email' : 'No recibí el SMS',
                     style: TextStyle(
                       fontSize: 14,
                       color: Colors.white.withValues(alpha: 0.7),
@@ -138,13 +148,25 @@ class RecoveryConfirmation extends StatelessWidget {
     );
   }
 
-  /// Construye la animación de "correo enviado"
-  Widget _buildEmailSentAnimation() {
-    return const GlamIconContainer(
-      icon: Icons.mark_email_read_outlined,
-      size: 120,
-      enableShimmer: true,
-      animateEntry: true,
+  /// Construye la animación de sobre de correo o teléfono
+  Widget _buildSentAnimation() {
+    return Container(
+      width: 120,
+      height: 120,
+      decoration: BoxDecoration(
+        color: kAccentColor.withOpacity(0.15),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Icon(
+          isEmail ? Icons.mark_email_read : Icons.sms_outlined,
+          size: 64,
+          color: kAccentColor,
+        ),
+      ),
+    ).glamEntry(
+      duration: const Duration(milliseconds: 800),
+      offset: const Offset(0, 0.1),
     );
   }
 

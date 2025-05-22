@@ -17,8 +17,12 @@ Esta documentación proporciona una descripción detallada de los componentes UI
    - [GlamPasswordField](#glampasswordfield)
    - [GlamVideoBackground](#glamvideobackground)
    - [PasswordStrengthIndicator](#passwordstrengthindicator)
-4. [Patrones de Animación](#patrones-de-animación)
-5. [Mejores Prácticas](#mejores-prácticas)
+   - [UserTypeSelector](#usertypeselector)
+4. [Flujos de Registro](#flujos-de-registro)
+   - [Selección de Tipo de Usuario](#selección-de-tipo-de-usuario)
+   - [Validación de Teléfono](#validación-de-teléfono)
+5. [Patrones de Animación](#patrones-de-animación)
+6. [Mejores Prácticas](#mejores-prácticas)
 
 ---
 
@@ -287,6 +291,76 @@ Column(
       showText: true,
     ),
   ],
+)
+```
+
+### UserTypeSelector
+
+**Ubicación**: `lib/features/auth/presentation/widgets/user_type_selector.dart`
+
+**Descripción**: Componente que permite al usuario seleccionar su rol en el sistema (Propietario, Empleado o Cliente) mediante botones con iconos y texto. Muestra visualmente la opción seleccionada con cambio de color y borde.
+
+**Propiedades clave**:
+- `selectedType`: Tipo de usuario actualmente seleccionado.
+- `onTypeSelected`: Función llamada cuando se selecciona un tipo de usuario.
+- `types`: Lista de tipos de usuario disponibles (por defecto: Propietario, Empleado, Cliente).
+
+**Ejemplo de uso**:
+```dart
+UserTypeSelector(
+  selectedType: _userType,
+  onTypeSelected: (type) {
+    setState(() {
+      _userType = type;
+    });
+  },
+)
+```
+
+---
+
+## Flujos de Registro
+
+### Selección de Tipo de Usuario
+
+**Ubicación**: `lib/features/auth/presentation/widgets/register_personal_info_step.dart`
+
+**Descripción**: El flujo de registro comienza permitiendo al usuario seleccionar su rol en el sistema mediante el componente `UserTypeSelector`. Esta selección determina qué funcionalidades estarán disponibles para el usuario después del registro.
+
+**Implementación**:
+```dart
+Column(
+  children: [
+    Text('Selecciona tu rol', style: TextStyle(fontSize: 16)),
+    const SizedBox(height: 12),
+    UserTypeSelector(
+      selectedType: userType,
+      onTypeSelected: onUserTypeChanged,
+    ),
+  ],
+)
+```
+
+### Validación de Teléfono
+
+**Ubicación**: `lib/features/auth/domain/validators/register_validator.dart`
+
+**Descripción**: El proceso de registro incluye validación de número de teléfono para asegurar que se ingresen datos correctos. La validación verifica que el teléfono:
+
+1. No esté vacío
+2. Contenga solo dígitos numéricos
+3. Tenga al menos 8 dígitos
+
+**Implementación**:
+```dart
+// Campo de teléfono con validación
+GlamTextField(
+  controller: phoneController,
+  label: 'Teléfono',
+  prefixIcon: Icons.phone,
+  keyboardType: TextInputType.phone,
+  validator: RegisterValidator.validatePhone,
+  errorText: phoneError,
 )
 ```
 

@@ -2,6 +2,13 @@
 
 Aplicación móvil para la gestión de servicios de estética dirigidos al público masculino en Uruguay. Desarrollada con Flutter siguiendo los principios de Clean Architecture.
 
+## ✨ Características Principales
+
+- **Sistema de Autenticación Completo**: Registro, inicio de sesión y recuperación de cuenta
+- **Perfiles por Tipo de Usuario**: Propietario, Empleado y Cliente con funcionalidades específicas
+- **Validación Robusta**: Verificación de correo electrónico y número de teléfono
+- **Interfaz Elegante**: Diseño intuitivo con tema oscuro y animaciones fluidas
+
 ## 📋 Documentación del Proyecto
 
 ### Documentos Principales
@@ -20,6 +27,7 @@ Las tareas específicas se documentan en la carpeta `/tasks/` con archivos `TASK
 | [**TASK_ConfiguracionInicial.MD**](./tasks/TASK_ConfiguracionInicial.MD) | Configuración base del proyecto, dependencias, estructura de carpetas y tema. |
 | [**TASK_DiseñoAutenticacionUI.MD**](./tasks/TASK_DiseñoAutenticacionUI.MD) | Refinamiento visual del flujo de autenticación, animaciones y experiencia de usuario. |
 | [**TASK_FlujoAutenticacionUI.MD**](./tasks/TASK_FlujoAutenticacionUI.MD) | Implementación de pantallas y lógica UI para el proceso de autenticación. |
+| [**TASK_MejoraRegistroUsuarios.MD**](./tasks/TASK_MejoraRegistroUsuarios.MD) | Implementación de selección de tipo de usuario (Propietario, Empleado, Cliente) y campo de teléfono en el registro. |
 
 ## 🗂️ Estructura del Proyecto
 
@@ -319,3 +327,14 @@ Al crear un nuevo archivo TASK para una funcionalidad, utiliza la siguiente estr
 - Usar BLoC/Cubit para gestión de estado
 - Desarrollo frontend con datos mock (primera fase)
 - UI masculina elegante con tema oscuro
+- Validación robusta en todos los formularios
+- Soporte para múltiples roles de usuario (Propietario, Empleado, Cliente)
+
+## 🔍 Flujos Principales de Usuario
+
+### Proceso de Registro
+
+1. **Selección de Tipo de Usuario**: El usuario elige entre Propietario, Empleado o Cliente
+2. **Información Personal**: Ingreso de nombre, teléfono y correo electrónico
+3. **Configuración de Contraseña**: Creación de contraseña con validación visual de criterios
+4. **Finalización**: Confirmación y redirección al flujo correspondiente según tipo de usuario

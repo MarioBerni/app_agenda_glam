@@ -33,10 +33,10 @@ Agenda Glam implementa los principios de la Arquitectura Limpia para lograr un s
     * Gestionar el estado de la UI utilizando el patrón BLoC/Cubit.
     * Manejar la navegación entre pantallas (Routing).
 * **Patrón de Componentes Modulares:**
-    * **Pages:** Contenedores principales que solo manejan la composición y estado.
-    * **Componentes Especializados:** Widgets modulares con responsabilidad única.
+    * **Pages:** Contenedores principales que solo manejan la composición y estado (ej. `RegisterPage`, `LoginPage`, `RecoveryPage`).
+    * **Componentes Especializados:** Widgets modulares con responsabilidad única (ej. `UserTypeSelector`, `RegisterPersonalInfoStep`).
     * **Scaffolds:** Proporcionan la estructura básica de la UI (Consistente en todas las pantallas).
-    * **Controllers:** Manejan la lógica de control de flujo separada de la UI.
+    * **Controllers:** Manejan la lógica de control de flujo separada de la UI (ej. `RegisterController`, `RecoveryController`).
 * **Componentes Típicos:** Widgets de Flutter, Pages, Cubits/BLoCs, Controllers, y la configuración de rutas.
 * **Dependencias:** Depende de la Capa de Dominio (a través de interfaces y casos de uso). No conoce los detalles de la Capa de Datos.
 
@@ -45,8 +45,10 @@ Agenda Glam implementa los principios de la Arquitectura Limpia para lograr un s
     * Contener la lógica de negocio central y las reglas de la aplicación.
     * Ser independiente de cualquier framework o detalle de implementación externa (UI, base de datos).
 * **Componentes Típicos:**
-    * **Entidades (Entities):** Objetos de negocio que representan los conceptos fundamentales (ej. `User`, `Appointment`).
-    * **Casos de Uso (Use Cases):** Encapsulan operaciones específicas de la lógica de negocio (ej. `LoginUserUseCase`, `ScheduleAppointmentUseCase`).
+    * **Entidades (Entities):** Objetos de negocio que representan los conceptos fundamentales:
+        * `User`: Contiene información del usuario (id, name, email, phone, userType, profileImage, isAuthenticated).
+        * `Appointment`: Gestiona las citas programadas.
+    * **Casos de Uso (Use Cases):** Encapsulan operaciones específicas de la lógica de negocio (ej. `LoginUserUseCase`, `RegisterUserUseCase`, `ScheduleAppointmentUseCase`).
     * **Interfaces de Repositorio (Repository Interfaces):** Definen los contratos (abstracciones) para las operaciones de datos que la capa de dominio necesita, sin conocer cómo se implementarán.
 * **Dependencias:** No depende de ninguna otra capa. Es el núcleo de la aplicación.
 
@@ -246,6 +248,7 @@ Se aplican los siguientes patrones y estrategias para mantener los archivos por 
 | Fecha       | Versión | Cambios                           | Autor       |
 |-------------|---------|-----------------------------------|-------------|
 | 14-05-2025  | 1.0     | Versión inicial del documento     | Mario Berni |
+| 22-05-2025  | 1.1     | Actualización del modelo de usuario (phone, userType) y flujo de registro | Mario Berni |
 
 ## 10. Conclusión
 

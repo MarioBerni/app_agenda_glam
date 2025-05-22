@@ -1,4 +1,3 @@
-import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_footer.dart';
@@ -22,6 +21,15 @@ class RegisterContent extends StatelessWidget {
 
   /// Controlador para el campo de email
   final TextEditingController emailController;
+  
+  /// Controlador para el campo de teléfono
+  final TextEditingController phoneController;
+  
+  /// Tipo de usuario seleccionado (Propietario, Empleado, Cliente)
+  final String? userType;
+  
+  /// Función para actualizar el tipo de usuario seleccionado
+  final Function(String) onUserTypeChanged;
 
   /// Controlador para el campo de contraseña
   final TextEditingController passwordController;
@@ -34,6 +42,9 @@ class RegisterContent extends StatelessWidget {
 
   /// Error del campo de email
   final String? emailError;
+  
+  /// Error del campo de teléfono
+  final String? phoneError;
 
   /// Error del campo de contraseña
   final String? passwordError;
@@ -46,6 +57,9 @@ class RegisterContent extends StatelessWidget {
 
   /// Indica si el email es válido
   final bool isEmailValid;
+  
+  /// Indica si el teléfono es válido
+  final bool isPhoneValid;
 
   /// Criterios para la validación de contraseña
   final Map<String, bool> passwordCriteria;
@@ -68,14 +82,19 @@ class RegisterContent extends StatelessWidget {
     required this.totalSteps,
     required this.nameController,
     required this.emailController,
+    required this.phoneController,
     required this.passwordController,
     required this.confirmPasswordController,
+    this.userType,
+    required this.onUserTypeChanged,
     required this.nameError,
     required this.emailError,
+    this.phoneError,
     required this.passwordError,
     required this.confirmPasswordError,
     required this.isNameValid,
     required this.isEmailValid,
+    this.isPhoneValid = false,
     required this.passwordCriteria,
     required this.doPasswordsMatch,
     required this.isLoading,
@@ -87,60 +106,54 @@ class RegisterContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            // Encabezado con título, icono y descripción
-            RegisterHeader(currentStep: currentStep),
-            
-            // Indicador de progreso (con la misma animación y estilo que otros elementos)
-            GlamAnimations.applyEntryEffect(
-              RegisterStepIndicator(
-                currentStep: currentStep,
-                totalSteps: totalSteps,
-              ),
-              slideDistance: 0.15, // Ajustado para consistencia con loginHeader
-            ),
-            const SizedBox(height: 24),
-            
-            // Formulario por pasos (con animación)
-            _buildCurrentStep(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch, // Cambiado a stretch para consistencia
+        children: [
+          // Encabezado con título, icono y descripción
+          RegisterHeader(currentStep: currentStep),
+          
+          // Indicador de progreso
+          RegisterStepIndicator(
+            currentStep: currentStep,
+            totalSteps: totalSteps,
+          ),
+          const SizedBox(height: 24),
+          
+          // Formulario por pasos
+          _buildCurrentStep(),
 
-            const SizedBox(height: 24),
+          const SizedBox(height: 24),
 
-            // Botón de acción principal (con los mismos parámetros que en LoginForm)
-            GlamAnimations.applyEntryEffect(
-              GlamButton(
-                text: currentStep == 1 ? 'Continuar' : 'Crear Cuenta',
-                onPressed: isLoading
-                    ? null
-                    : (currentStep == 1 ? onNextStep : onRegister),
-                isLoading: isLoading,
-                icon: currentStep == 1 ? Icons.arrow_forward : Icons.person_add_outlined,
-                withShimmer: true,
-              ),
-              slideDistance: 0.2, // Ajustado para coincidir con LoginForm
+          // Botón de acción principal
+          Hero(
+            tag: 'register_button', // Usar Hero para efecto similar al login_button
+            child: GlamButton(
+              text: currentStep == 1 ? 'Continuar' : 'Crear Cuenta',
+              onPressed: isLoading
+                  ? null
+                  : (currentStep == 1 ? onNextStep : onRegister),
+              isLoading: isLoading,
+              icon: currentStep == 1 ? Icons.arrow_forward : Icons.person_add_outlined,
+              withShimmer: true,
             ),
-            
-            const SizedBox(height: 24),
-            
-            // Divisor dorado elegante (mismo estilo que en LoginPage)
-            const GlamDivider(
-              widthFactor: 0.8, // 80% del ancho disponible
-              primaryOpacity: 0.5, // Sutilmente visible
-              animate: true, // Con animación de aparición
-            ),
-            
-            const SizedBox(height: 24),
-            
-            // Pie de página con enlace a login
-            const RegisterFooter(),
-            
-            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-          ],
-        ),
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Divisor dorado elegante (mismo estilo que en LoginPage)
+          const GlamDivider(
+            widthFactor: 0.8,
+            primaryOpacity: 0.5,
+            animate: true,
+          ),
+          
+          const SizedBox(height: 24),
+          
+          // Pie de página con enlace a login
+          const RegisterFooter(),
+          
+          SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+        ],
       ),
     );
   }
@@ -166,10 +179,15 @@ class RegisterContent extends StatelessWidget {
               ? RegisterPersonalInfoStep(
                 nameController: nameController,
                 emailController: emailController,
+                phoneController: phoneController,
+                userType: userType,
+                onUserTypeChanged: onUserTypeChanged,
                 nameError: nameError,
                 emailError: emailError,
+                phoneError: phoneError,
                 isNameValid: isNameValid,
                 isEmailValid: isEmailValid,
+                isPhoneValid: isPhoneValid,
               )
               : RegisterPasswordStep(
                 passwordController: passwordController,

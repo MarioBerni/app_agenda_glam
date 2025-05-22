@@ -1,4 +1,4 @@
-﻿import 'package:app_agenda_glam/features/auth/data/datasources/auth_mock_datasource.dart';
+import 'package:app_agenda_glam/features/auth/data/datasources/auth_mock_datasource.dart';
 import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
 import 'package:app_agenda_glam/features/auth/domain/entities/user.dart';
 import 'package:app_agenda_glam/features/auth/domain/repositories/auth_repository.dart';
@@ -30,12 +30,16 @@ class AuthRepositoryImpl implements AuthRepository {
     required String name,
     required String email,
     required String password,
+    required String phone,
+    required String userType,
   }) async {
     try {
       final user = await _dataSource.register(
         name: name,
         email: email,
         password: password,
+        phone: phone,
+        userType: userType,
       );
       return user;
     } catch (e) {

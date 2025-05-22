@@ -15,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Pantalla para recuperación de contraseña con flujo visual completo
 ///
 /// Implementa un proceso de recuperación de contraseña con dos estados principales:
-/// 1. Formulario para ingresar el email
+/// 1. Formulario para ingresar el email o teléfono
 /// 2. Confirmación de envío con animación
 ///
 /// Sigue el patrón de arquitectura limpia con separación de:
@@ -31,8 +31,11 @@ class RecoveryPage extends StatefulWidget {
 
 class _RecoveryPageState extends State<RecoveryPage>
     with SingleTickerProviderStateMixin {
-  // Controlador de texto para el campo de email
-  final _emailController = TextEditingController();
+  // Controlador de texto para el campo de identificador (email o teléfono)
+  final _identifierController = TextEditingController();
+  
+  // Para rastrear si se está usando email o teléfono
+  bool _isEmailMode = true;
 
   // Estado de la página
   bool _isLoading = false;
@@ -65,7 +68,7 @@ class _RecoveryPageState extends State<RecoveryPage>
 
   @override
   void dispose() {
-    _emailController.dispose();
+    _identifierController.dispose();
     _animController.dispose();
     _recoveryController.dispose();
     super.dispose();
@@ -77,7 +80,14 @@ class _RecoveryPageState extends State<RecoveryPage>
     setState(() => _error = null);
 
     // Iniciar proceso de recuperación usando el controlador
-    _recoveryController.recoverPassword(_emailController.text);
+    _recoveryController.recoverPassword(_identifierController.text, _isEmailMode);
+  }
+  
+  /// Actualiza el modo de identificación (email o teléfono)
+  void _onIdentifierModeChanged(bool isEmail) {
+    setState(() {
+      _isEmailMode = isEmail;
+    });
   }
 
   /// Callback cuando hay un error
@@ -136,8 +146,8 @@ class _RecoveryPageState extends State<RecoveryPage>
             SafeArea(
               child: SingleChildScrollView(
                 child: _emailSent
-                  // Si se envió el email, mostrar confirmación
-                  ? RecoveryConfirmation(email: _emailController.text)
+                  // Si se envió el email o SMS, mostrar confirmación
+                  ? RecoveryConfirmation(identifier: _identifierController.text, isEmail: _isEmailMode)
                   // Si no, mostrar formulario
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -152,9 +162,10 @@ class _RecoveryPageState extends State<RecoveryPage>
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 24.0),
                           child: RecoveryContent(
-                            emailController: _emailController,
+                            identifierController: _identifierController,
                             isLoading: _isLoading,
                             onRecoverPassword: _recoverPassword,
+                            onIdentifierTypeChanged: _onIdentifierModeChanged,
                             error: _error,
                           ),
                         ),

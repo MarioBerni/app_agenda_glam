@@ -1,5 +1,6 @@
-﻿/// Clase utilitaria para manejar las validaciones del formulario de registro.
+/// Clase utilitaria para manejar las validaciones del formulario de registro.
 /// Separa la lógica de validación de la interfaz de usuario.
+/// Incluye validaciones para nombre, email, teléfono y contraseña.
 class RegisterValidator {
   /// Valida el nombre de usuario
   static String? validateName(String value) {
@@ -21,6 +22,21 @@ class RegisterValidator {
       return 'Ingresa un email válido';
     }
 
+    return null;
+  }
+  
+  /// Valida el número de teléfono del usuario
+  static String? validatePhone(String value) {
+    if (value.isEmpty) {
+      return 'El número de teléfono es requerido';
+    }
+    
+    // Validación básica de formato de teléfono (solo números y mínimo 8 dígitos)
+    final phoneRegex = RegExp(r'^[0-9]{8,}$');
+    if (!phoneRegex.hasMatch(value)) {
+      return 'Ingresa un número de teléfono válido (mínimo 8 dígitos)';
+    }
+    
     return null;
   }
 

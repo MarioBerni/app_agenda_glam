@@ -6,12 +6,14 @@
 Agenda Glam es una plataforma innovadora diseñada para revolucionar la gestión de servicios de estética dirigidos al público masculino en Uruguay. El proyecto busca simplificar el proceso de reserva de citas para los clientes finales y, al mismo tiempo, ofrecer herramientas de gestión comercial robustas y eficientes para los proveedores de servicios (negocios de estética, barberías, etc.). El objetivo es desarrollar la aplicación completa con todas sus funcionalidades previstas.
 
 **Público Objetivo:**
-El proyecto se enfoca en dos grupos de usuarios principales:
+El proyecto se enfoca en tres grupos de usuarios principales:
 1.  **Clientes:** Hombres en Uruguay que buscan descubrir, comparar y reservar servicios de estética de manera fácil y rápida.
-2.  **Proveedores de Servicios:** Dueños de negocios y empleados del sector de la estética masculina que necesitan una herramienta para gestionar sus agendas, servicios, clientes y personal.
+2.  **Propietarios:** Dueños de negocios del sector de la estética masculina que necesitan una herramienta completa para gestionar su negocio.
+3.  **Empleados:** Profesionales que trabajan en establecimientos y requieren acceso a su agenda y clientes asignados.
 
 **Funcionalidades Clave (Aplicación Completa):**
 *   **Para Clientes:**
+    *   Registro con perfil personalizado (nombre, email, teléfono y tipo de usuario).
     *   Búsqueda y descubrimiento de proveedores de servicios.
     *   Visualización de perfiles de negocios, servicios ofrecidos, precios y disponibilidad.
     *   Reserva y gestión de citas online.
@@ -237,3 +239,24 @@ final ThemeData appTheme = ThemeData(
 ```
 
 Este documento de planificación general establece las bases para el desarrollo de la aplicación completa Agenda Glam, integrando un flujo de trabajo moderno y definiendo claramente el estilo visual y las directrices de codificación para maximizar la eficiencia y la calidad del software.
+
+## 4. Flujos Principales de Usuario
+
+### 4.1. Proceso de Registro
+
+1. **Selección de Tipo de Usuario:**
+   * El usuario selecciona su rol en el sistema: Propietario, Empleado o Cliente
+   * Cada tipo de usuario tendrá acceso a diferentes funcionalidades según su rol
+
+2. **Información Personal:**
+   * Nombre completo del usuario
+   * Número de teléfono (formato validado)
+   * Correo electrónico (formato validado)
+
+3. **Configuración de Credenciales:**
+   * Creación de contraseña segura (con criterios de validación visual)
+   * Confirmación de contraseña
+
+4. **Verificación:**
+   * Validación del correo electrónico o número de teléfono según configuración
+   * Creación de cuenta y redirección al flujo correspondiente según tipo de usuario

@@ -22,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   // Estado del formulario
   bool _isLoading = false;
+  bool _isGoogleLoading = false;
   String? _errorMessage;
 
   @override
@@ -29,8 +30,8 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  // Función para manejar el inicio de sesión
-  void _handleLogin(String email, String password) {
+  // Función para manejar el inicio de sesión con email o teléfono
+  void _handleLogin(String identifier, String password, bool isEmail) {
     setState(() {
       _isLoading = true;
       _errorMessage = null;
@@ -41,8 +42,11 @@ class _LoginPageState extends State<LoginPage> {
       // Aquí se implementaría la lógica real de autenticación
       // usando el BLoC/Cubit y los casos de uso
       
+      // Logueamos el tipo de identificador usado para debugging
+      debugPrint('Iniciando sesión con ${isEmail ? "email" : "teléfono"}: $identifier');
+      
       // Por ahora, simulamos un error para mostrar la UI
-      if (email == 'error@example.com') {
+      if (isEmail && identifier == 'error@example.com') {
         setState(() {
           _isLoading = false;
           _errorMessage = 'Credenciales incorrectas. Intenta nuevamente.';
@@ -61,6 +65,32 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
+  // Función para manejar el inicio de sesión con Google
+  void _handleGoogleLogin() {
+    setState(() {
+      _isGoogleLoading = true;
+      _errorMessage = null;
+    });
+    
+    // Simula un proceso de inicio de sesión con Google
+    Future.delayed(const Duration(seconds: 2), () {
+      // Aquí se implementaría la integración real con Firebase Auth o Google Sign-In
+      // usando el BLoC/Cubit y los casos de uso
+      
+      debugPrint('Iniciando sesión con Google');
+      
+      // Login exitoso, navegar a la pantalla principal
+      if (mounted) {
+        setState(() {
+          _isGoogleLoading = false;
+        });
+        
+        // Usar navegación centralizada para ir a Home
+        CircleNavigation.goToHome(context);
+      }
+    });
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +131,9 @@ class _LoginPageState extends State<LoginPage> {
                     // Formulario de login
                     LoginForm(
                       onLogin: _handleLogin,
+                      onGoogleLogin: _handleGoogleLogin,
                       isLoading: _isLoading,
+                      isGoogleLoading: _isGoogleLoading,
                       errorMessage: _errorMessage,
                     ),
                     
