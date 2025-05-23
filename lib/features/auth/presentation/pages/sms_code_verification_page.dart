@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
+import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -167,17 +168,7 @@ class _SMSCodeVerificationPageState extends State<SMSCodeVerificationPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GlamAnimations.applyEntryEffect(
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-      ),
+      // No usamos AppBar aquí, en su lugar incorporamos el encabezado directamente en el contenido
       body: Stack(
         children: [
           // Fondo degradado
@@ -195,29 +186,18 @@ class _SMSCodeVerificationPageState extends State<SMSCodeVerificationPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
-                    
-                    // Título y subtítulo
+                    // Encabezado unificado con botón de retroceso dorado
                     GlamAnimations.applyEntryEffect(
-                      Text(
-                        'Verificación por SMS',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    GlamAnimations.applyEntryEffect(
-                      Text(
-                        'Ingresa el código enviado al número ${widget.phoneNumber}',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.8),
-                        ),
+                      GlamUI.buildHeader(
+                        context,
+                        title: 'Verificación por SMS',
+                        subtitle: 'Ingresa el código enviado al número ${widget.phoneNumber}',
+                        onBackPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
                     
-                    const SizedBox(height: 40),
+                    // Espaciado estandarizado (32px) después del encabezado - igual que en todas las páginas
+                    const SizedBox(height: 32),
                     
                     // Campos para el código
                     GlamAnimations.applyEntryEffect(
@@ -246,7 +226,8 @@ class _SMSCodeVerificationPageState extends State<SMSCodeVerificationPage> {
                       _buildResendOption(),
                     ),
                     
-                    const SizedBox(height: 40),
+                    // Espaciado estandarizado (32px) después del encabezado - igual que en todas las páginas
+                    const SizedBox(height: 32),
                     
                     // Botón de verificación
                     GlamAnimations.applyEntryEffect(

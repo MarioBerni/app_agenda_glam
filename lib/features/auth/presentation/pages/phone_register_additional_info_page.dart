@@ -163,17 +163,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GlamAnimations.applyEntryEffect(
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-      ),
+      // No usamos AppBar aquí, en su lugar incorporamos el encabezado directamente en el contenido
       body: Stack(
         children: [
           // Fondo degradado
@@ -191,29 +181,18 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
-                    
-                    // Título y subtítulo
+                    // Encabezado unificado con botón de retroceso dorado
                     GlamAnimations.applyEntryEffect(
-                      Text(
-                        'Completar Registro',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    GlamAnimations.applyEntryEffect(
-                      Text(
-                        'Solo unos datos más para terminar',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.8),
-                        ),
+                      GlamUI.buildHeader(
+                        context,
+                        title: 'Completar Registro',
+                        subtitle: 'Solo unos datos más para terminar',
+                        onBackPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
                     
-                    const SizedBox(height: 30),
+                    // Espaciado estandarizado (32px) después del encabezado - igual que en todas las páginas
+                    const SizedBox(height: 32),
                     
                     // Información del teléfono verificado
                     GlamAnimations.applyEntryEffect(
@@ -423,20 +402,20 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         decoration: BoxDecoration(
+          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? kAccentColor : Colors.white24,
-            width: isSelected ? 2 : 1,
+            color: isSelected ? kAccentColor : Colors.transparent,
+            width: 2,
           ),
-          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.transparent,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              color: isSelected ? kAccentColor : Colors.white70,
               size: 28,
+              color: isSelected ? kAccentColor : Colors.grey,
             ),
             const SizedBox(height: 8),
             Text(
@@ -445,7 +424,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? kAccentColor : Colors.white70,
+                color: isSelected ? kAccentColor : Colors.grey,
               ),
             ),
           ],

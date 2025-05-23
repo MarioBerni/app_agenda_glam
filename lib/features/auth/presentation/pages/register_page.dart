@@ -2,6 +2,7 @@ import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
+import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/domain/validators/register_validator.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
@@ -303,17 +304,7 @@ class _RegisterPageState extends State<RegisterPage>
           backgroundColor: Colors.transparent,
           // Controla el redimensionamiento cuando aparece el teclado
           resizeToAvoidBottomInset: false,
-          extendBodyBehindAppBar: true,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: GlamAnimations.applyEntryEffect(
-              IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-                onPressed: _previousStep,
-              ),
-            ),
-          ),
+          // No usamos AppBar, usaremos nuestro encabezado unificado
           body: Stack(
             children: [
               // Fondo degradado centralizado
@@ -330,31 +321,50 @@ class _RegisterPageState extends State<RegisterPage>
                     key: _formKey,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                      child: RegisterContent(
-                        currentStep: _currentStep,
-                        totalSteps: _totalSteps,
-                        nameController: _nameController,
-                        emailController: _emailController,
-                        phoneController: _phoneController,
-                        passwordController: _passwordController,
-                        confirmPasswordController: _confirmPasswordController,
-                        userType: _userType,
-                        onUserTypeChanged: _updateUserType,
-                        nameError: _nameError,
-                        emailError: _emailError,
-                        phoneError: _phoneError,
-                        passwordError: _passwordError,
-                        confirmPasswordError: _confirmPasswordError,
-                        isNameValid: _isNameValid,
-                        isEmailValid: _isEmailValid,
-                        isPhoneValid: _isPhoneValid,
-                        passwordCriteria: _passwordCriteria,
-                        doPasswordsMatch: _doPasswordsMatch,
-                        isLoading: _isLoading,
-                        isGoogleLoading: _isGoogleLoading,
-                        onNextStep: _nextStep,
-                        onRegister: _register,
-                        onGoogleRegister: _handleGoogleRegister,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Encabezado unificado con botón de retroceso dorado
+                          GlamAnimations.applyEntryEffect(
+                            GlamUI.buildHeader(
+                              context,
+                              title: 'Crear Cuenta',
+                              subtitle: 'Completa tu información para registrarte',
+                              onBackPressed: _previousStep,
+                            ),
+                          ),
+                          
+                          // Espaciado estandarizado (32px) después del encabezado - igual que en todas las páginas
+                          const SizedBox(height: 32),
+                          
+                          // Contenido principal del registro
+                          RegisterContent(
+                            currentStep: _currentStep,
+                            totalSteps: _totalSteps,
+                            nameController: _nameController,
+                            emailController: _emailController,
+                            phoneController: _phoneController,
+                            passwordController: _passwordController,
+                            confirmPasswordController: _confirmPasswordController,
+                            userType: _userType,
+                            onUserTypeChanged: _updateUserType,
+                            nameError: _nameError,
+                            emailError: _emailError,
+                            phoneError: _phoneError,
+                            passwordError: _passwordError,
+                            confirmPasswordError: _confirmPasswordError,
+                            isNameValid: _isNameValid,
+                            isEmailValid: _isEmailValid,
+                            isPhoneValid: _isPhoneValid,
+                            passwordCriteria: _passwordCriteria,
+                            doPasswordsMatch: _doPasswordsMatch,
+                            isLoading: _isLoading,
+                            isGoogleLoading: _isGoogleLoading,
+                            onNextStep: _nextStep,
+                            onRegister: _register,
+                            onGoogleRegister: _handleGoogleRegister,
+                          ),
+                        ],
                       ),
                     ),
                   ),

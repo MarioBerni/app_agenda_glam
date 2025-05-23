@@ -105,17 +105,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     return Scaffold(
       backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GlamAnimations.applyEntryEffect(
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-        ),
-      ),
+      // No usamos AppBar aquí, en su lugar incorporamos el encabezado directamente en el contenido
       body: Stack(
         children: [
           // Fondo degradado
@@ -133,25 +123,13 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
-                    
-                    // Título y subtítulo
+                    // Encabezado unificado con botón de retroceso dorado
                     GlamAnimations.applyEntryEffect(
-                      Text(
-                        'Verificación por Teléfono',
-                        style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    GlamAnimations.applyEntryEffect(
-                      Text(
-                        'Ingresa tu número para recibir un código de verificación',
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withValues(alpha: 0.8),
-                        ),
+                      GlamUI.buildHeader(
+                        context,
+                        title: 'Verificación por Teléfono',
+                        subtitle: 'Ingresa tu número para recibir un código de verificación',
+                        onBackPressed: () => Navigator.of(context).pop(),
                       ),
                     ),
                     

@@ -3,9 +3,19 @@ import 'package:app_agenda_glam/core/widgets/glam_icon_container.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que encapsula el encabezado de la página de login
-/// Incluye el logo, título y descripción
+/// Incluye el logo, título (opcional) y descripción
 class LoginHeader extends StatelessWidget {
-  const LoginHeader({super.key});
+  /// Si debe mostrar el título "Iniciar Sesión"
+  final bool showTitle;
+  
+  /// Constructor que permite controlar la visibilidad del título
+  /// 
+  /// Si [showTitle] es false, solo se mostrará el icono y la descripción,
+  /// lo que permite usar este componente con encabezados personalizados.
+  const LoginHeader({
+    super.key,
+    this.showTitle = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,22 +24,24 @@ class LoginHeader extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(height: size.height * 0.05),
+        SizedBox(height: size.height * 0.02),
         
-        // Título de la página
-        GlamAnimations.applyEntryEffect(
-          Text(
-            'Iniciar Sesión',
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: 0.5,
+        // Título de la página (opcional)
+        if (showTitle) ...[  
+          GlamAnimations.applyEntryEffect(
+            Text(
+              'Iniciar Sesión',
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 0.5,
+              ),
             ),
+            slideDistance: 0.1,
           ),
-          slideDistance: 0.1,
-        ),
-        
-        const SizedBox(height: 24),
+          
+          const SizedBox(height: 24),
+        ],
         
         // Icono representativo de login
         const GlamIconContainer(
@@ -41,18 +53,7 @@ class LoginHeader extends StatelessWidget {
         
         const SizedBox(height: 24),
         
-        // Descripción
-        GlamAnimations.applyEntryEffect(
-          Text(
-            'Accede a tu cuenta para gestionar tus citas y servicios',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.9),
-            ),
-            textAlign: TextAlign.center,
-          ),
-          slideDistance: 0.15,
-
-        ),
+        // Ya no mostramos la descripción aquí, ahora está en el encabezado unificado
         
         SizedBox(height: size.height * 0.06),
       ],

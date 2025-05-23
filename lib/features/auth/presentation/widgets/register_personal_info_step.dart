@@ -195,20 +195,20 @@ class RegisterPersonalInfoStep extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         decoration: BoxDecoration(
+          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
-            color: isSelected ? kAccentColor : Colors.white24,
-            width: isSelected ? 2 : 1,
+            color: isSelected ? kAccentColor : Colors.transparent,
+            width: 2,
           ),
-          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.transparent,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              color: isSelected ? kAccentColor : Colors.white70,
               size: 28,
+              color: isSelected ? kAccentColor : Colors.grey,
             ),
             const SizedBox(height: 8),
             Text(
@@ -217,7 +217,7 @@ class RegisterPersonalInfoStep extends StatelessWidget {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? kAccentColor : Colors.white70,
+                color: isSelected ? kAccentColor : Colors.grey,
               ),
             ),
           ],

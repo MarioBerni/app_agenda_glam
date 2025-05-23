@@ -2,7 +2,7 @@ import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
-import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
+import 'package:app_agenda_glam/core/widgets/glam_ui.dart'; // Para usar GlamUI.buildHeader
 import 'package:app_agenda_glam/features/auth/presentation/widgets/login_form.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/login_header.dart';
 import 'package:flutter/material.dart';
@@ -98,17 +98,7 @@ class _LoginPageState extends State<LoginPage> {
       // Controla el redimensionamiento cuando aparece el teclado
       // false: el contenido no se redimensiona (el fondo permanece estable)
       resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: GlamAnimations.applyEntryEffect(
-          IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-            onPressed: () => CircleNavigation.goToWelcome(context),
-          ),
-        ),
-      ),
+      // No usamos AppBar aquí, en su lugar incorporamos el encabezado directamente en el contenido
       body: Stack(
         children: [
           // Fondo degradado centralizado
@@ -125,8 +115,22 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Encabezado con logo y título
-                    const LoginHeader(),
+                    // Encabezado unificado con botón de retroceso dorado y espaciado superior integrado
+                    GlamAnimations.applyEntryEffect(
+                      GlamUI.buildHeader(
+                        context,
+                        title: 'Iniciar Sesión',
+                        subtitle: 'Accede a tu cuenta para gestionar tus citas y servicios',
+                        onBackPressed: () => CircleNavigation.goToWelcome(context),
+                        // El espaciado superior ahora está integrado en el componente
+                        // con un valor predeterminado de 0.04
+                      ),
+                    ),
+                    
+                    const SizedBox(height: 32),
+                    
+                    // Logo y elementos visuales adicionales
+                    const LoginHeader(showTitle: false),
                     
                     // Formulario de login
                     LoginForm(

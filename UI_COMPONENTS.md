@@ -4,41 +4,49 @@
 
 ## Índice
 
-1. [Estructura y Organización](#estructura-y-organización)
-2. [Componentes Globales](#componentes-globales)
-   - [GlamScaffold](#glamscaffold)
-   - [GlamGradientBackground](#glamgradientbackground)
-   - [GlamDivider](#glamdivider)
-   - [GlamTextField](#glamtextfield)
-   - [GlamIconContainer](#glamiconcontainer)
-3. [Componentes de Autenticación](#componentes-de-autenticación)
-   - [GlamButton](#glambutton)
-   - [GlamLogo](#glamlogo)
-   - [GlamPasswordField](#glampasswordfield)
-   - [GlamVideoBackground](#glamvideobackground)
-   - [PasswordStrengthIndicator](#passwordstrengthindicator)
-   - [UserTypeSelector](#usertypeselector)
-   - [GoogleRegisterInfoForm](#googleregisterinfoform)
-4. [Flujos de Registro](#flujos-de-registro)
+1. [Estándares de Diseño](#estándares-de-diseño)
+   - [Espaciado Estándar](#espaciado-estándar)
+   - [Estilos Visuales](#estilos-visuales)
+2. [Componentes Principales](#componentes-principales)
+   - [Componentes Globales](#componentes-globales)
+   - [Componentes de Autenticación](#componentes-de-autenticación)
+3. [Patrones de Implementación](#patrones-de-implementación)
    - [Selección de Tipo de Usuario](#selección-de-tipo-de-usuario)
-   - [Validación de Teléfono](#validación-de-teléfono)
-5. [Patrones de Animación](#patrones-de-animación)
-6. [Mejores Prácticas](#mejores-prácticas)
+   - [Validación de Entrada](#validación-de-entrada)
+4. [Mejores Prácticas](#mejores-prácticas)
 
 ---
 
-## Estructura y Organización
+## Estándares de Diseño
 
-Los componentes UI de Agenda Glam están organizados siguiendo estos principios:
+### Espaciado Estándar
 
-1. **Componentes Globales**: Ubicados en `lib/core/widgets/`, son utilizables en toda la aplicación.
-2. **Componentes de Feature**: Ubicados en `lib/features/<feature>/presentation/widgets/`, específicos para cada funcionalidad.
+Para mantener una coherencia visual en toda la aplicación, se han establecido los siguientes estándares de espaciado:
 
-Esta estructura refleja la arquitectura modular del proyecto y facilita la reutilización de código.
+- **Espaciado después del encabezado unificado**: 32px en todas las páginas de autenticación
+- **Espaciado entre elementos de formulario**: 16px estándar, 24px para separaciones mayores
+- **Espaciado interno de tarjetas**: padding vertical de 16px, horizontal según contexto
+
+Este espaciado consistente mejora la experiencia visual y facilita el mantenimiento del código.
+
+### Estilos Visuales
+
+Los componentes siguen estos patrones de estilo estandarizados:
+
+- **Tarjetas seleccionables**: Fondo negro semitransparente (alpha 0.3) cuando no están seleccionadas, fondo dorado semitransparente (kAccentColor con alpha 0.15) cuando están seleccionadas
+- **Botones de acción**: Fondo amarillo dorado (kAccentColor) con efecto shimmer
+- **Campos de texto**: Fondo semitransparente con bordes redondeados y efectos de foco
 
 ---
 
-## Componentes Globales
+## Componentes Principales
+
+### Organización de Componentes
+
+- **Componentes Globales**: `lib/core/widgets/` - Utilizables en toda la aplicación
+- **Componentes de Feature**: `lib/features/<feature>/presentation/widgets/` - Específicos para cada funcionalidad
+
+### Componentes Globales
 
 ### GlamScaffold
 
@@ -351,45 +359,33 @@ GoogleRegisterInfoForm(
 
 ---
 
-## Flujos de Registro
+## Patrones de Implementación
 
 ### Selección de Tipo de Usuario
 
-**Ubicación**: `lib/features/auth/presentation/widgets/register_personal_info_step.dart`
+**Descripción**: Implementación estandarizada para la selección del rol del usuario (Propietario, Empleado, Cliente).
 
-**Descripción**: El flujo de registro comienza permitiendo al usuario seleccionar su rol en el sistema mediante el componente `UserTypeSelector`. Esta selección determina qué funcionalidades estarán disponibles para el usuario después del registro.
+**Características clave**:
+- Sin selección por defecto para forzar una elección consciente del usuario
+- Estilo visual consistente en todas las páginas (fondo negro semitransparente para opciones no seleccionadas)
+- Retroalimentación visual clara mediante colores e iconos
 
-**Implementación**:
+**Implementación simplificada**:
 ```dart
-Column(
-  children: [
-    Text('Selecciona tu rol', style: TextStyle(fontSize: 16)),
-    const SizedBox(height: 12),
-    UserTypeSelector(
-      selectedType: userType,
-      onTypeSelected: onUserTypeChanged,
-    ),
-  ],
+UserTypeSelector(
+  selectedUserType: userType,  // Tipo null inicialmente (sin selección por defecto)
+  onUserTypeSelected: updateUserType,
 )
 ```
 
-### Validación de Teléfono
+### Validación de Entrada
 
-**Ubicación**: `lib/features/auth/domain/validators/register_validator.dart`
+**Descripción**: Sistema unificado de validación para todos los campos de entrada, con retroalimentación visual inmediata.
 
-**Descripción**: El proceso de registro incluye validación de número de teléfono para asegurar que se ingresen datos correctos. La validación verifica que el teléfono:
-
-1. No esté vacío
-2. Contenga solo dígitos numéricos
-3. Tenga al menos 8 dígitos
-
-**Implementación**:
-```dart
-// Campo de teléfono con validación
-GlamTextField(
-  controller: phoneController,
-  label: 'Teléfono',
-  prefixIcon: Icons.phone,
+**Reglas estándar**:
+- **Teléfono**: Mínimo 8 dígitos, solo caracteres numéricos
+- **Contraseña**: Longitud mínima, combinación de caracteres, indicador visual de fortaleza
+- **Email**: Formato válido mediante expresiones regulares
   keyboardType: TextInputType.phone,
   validator: RegisterValidator.validatePhone,
   errorText: phoneError,

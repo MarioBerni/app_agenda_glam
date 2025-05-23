@@ -123,17 +123,7 @@ class _RecoveryPageState extends State<RecoveryPage>
       child: Scaffold(
         backgroundColor: Colors.transparent,
         resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: GlamAnimations.applyEntryEffect(
-            IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-              onPressed: () => CircleNavigation.goBackToLogin(context),
-            ),
-          ),
-        ),
+        // No usamos AppBar aquí, en su lugar incorporamos el encabezado directamente en el contenido
         body: Stack(
           children: [
             // Fondo degradado elegante
@@ -152,11 +142,26 @@ class _RecoveryPageState extends State<RecoveryPage>
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        // Encabezado con icono y título
-                        const RecoveryHeader(),
+                        // Encabezado unificado con botón de retroceso dorado
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                          child: GlamAnimations.applyEntryEffect(
+                            GlamUI.buildHeader(
+                              context,
+                              title: 'Recuperar Contraseña',
+                              subtitle: '¿Olvidaste tu contraseña? No te preocupes, te ayudaremos a recuperarla',
+                              onBackPressed: () => CircleNavigation.goBackToLogin(context),
+                            ),
+                          ),
+                        ),
                         
-                        // Espacio entre header y formulario
+                        // Espacio estandarizado antes del componente visual (igual que en login_page)
                         const SizedBox(height: 32),
+                        
+                        // Componente visual de recuperación (ajustado para mostrar solo la parte visual)
+                        const RecoveryHeader(showTitle: false),
+                        
+                        // No es necesario un espacio adicional aquí, el RecoveryHeader ya incluye su propio espaciado
                         
                         // Formulario de recuperación (ahora sin padding innecesario)
                         Padding(

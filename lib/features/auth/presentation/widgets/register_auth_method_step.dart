@@ -34,32 +34,11 @@ class RegisterAuthMethodStep extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       key: const ValueKey('auth_method_step'),
       children: [
-        // Título de bienvenida
-        GlamAnimations.applyEntryEffect(
-          Text(
-            '¡Bienvenido a Agenda Glam!',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
+        // Ya no mostramos el título ni el subtítulo aquí para mantener la consistencia con las demás páginas
+        // La información relevante ya está incluida en el encabezado unificado
         
-        const SizedBox(height: 12),
-        
-        // Subtítulo descriptivo
-        GlamAnimations.applyEntryEffect(
-          Text(
-            'Elige cómo quieres crear tu cuenta',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Colors.white.withValues(alpha: 0.8),
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        
-        const SizedBox(height: 40),
+        // Espaciado estandarizado (32px) para mantener la coherencia con las demás páginas
+        const SizedBox(height: 32),
         
         // Opción de registro con Google
         GlamAnimations.applyEntryEffect(

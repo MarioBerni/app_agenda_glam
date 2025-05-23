@@ -289,33 +289,12 @@ class _GoogleRegisterContent extends StatelessWidget {
   
   /// Construye el encabezado de la página
   Widget _buildHeader(BuildContext context) {
-    return Row(
-      children: [
-        // Importar GlamUI en el ámbito local
-        Builder(builder: (context) => GlamUI.buildBackButton(context)),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Completar Registro',
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Hola $userName, solo necesitamos unos datos más',
-                style: TextStyle(
-                  color: Colors.white.withValues(alpha: 0.7),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
+    return GlamUI.buildHeader(
+      context,
+      title: 'Completar Registro',
+      subtitle: 'Hola $userName, solo necesitamos unos datos más',
+      onBackPressed: () => Navigator.of(context).pop(),
+      includeTopSpacing: false, // Ya está dentro de un padding
     );
   }
   

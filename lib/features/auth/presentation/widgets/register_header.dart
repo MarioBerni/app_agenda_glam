@@ -22,8 +22,10 @@ class RegisterHeader extends StatelessWidget {
     
     // Determinar título, descripción e icono según el paso actual
     if (currentStep == 0) {
-      title = 'Crear Cuenta';
-      description = 'Elige cómo quieres registrarte en Agenda Glam';
+      // En el paso 0, ya no mostramos título ni descripción duplicados
+      // Solo mostramos el icono
+      title = ''; // Título vacío para el paso 0
+      description = ''; // Descripción vacía para el paso 0
       iconData = Icons.app_registration_rounded;
     } else if (currentStep == 1) {
       title = 'Información Personal';
@@ -39,20 +41,22 @@ class RegisterHeader extends StatelessWidget {
       children: [
         SizedBox(height: size.height * 0.05),
         
-        // Título de la página
-        GlamAnimations.applyEntryEffect(
-          Text(
-            title,
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: 0.5,
+        // Título de la página (solo para pasos posteriores al inicial)
+        if (currentStep > 0) ...[  
+          GlamAnimations.applyEntryEffect(
+            Text(
+              title,
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 0.5,
+              ),
             ),
+            slideDistance: 0.1,
           ),
-          slideDistance: 0.1,
-        ),
-        
-        const SizedBox(height: 24),
+          
+          const SizedBox(height: 24),
+        ],
         
         // Icono representativo con el mismo tamaño y efectos que LoginHeader
         GlamIconContainer(
@@ -64,19 +68,12 @@ class RegisterHeader extends StatelessWidget {
         
         const SizedBox(height: 24),
         
-        // Descripción con el mismo estilo que LoginHeader
-        GlamAnimations.applyEntryEffect(
-          Text(
-            description,
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.9),
-            ),
-            textAlign: TextAlign.center,
-          ),
-          slideDistance: 0.15,
-        ),
+        // Ya no mostramos la descripción después del icono para mantener consistencia con las demás páginas
         
-        SizedBox(height: size.height * 0.06),
+        // Ajustamos el espaciado final según el paso actual para mantener la coherencia visual
+        // En el paso 0, eliminamos este espaciado ya que genera una inconsistencia visual
+        if (currentStep > 0)
+          SizedBox(height: size.height * 0.06),
       ],
     );
   }

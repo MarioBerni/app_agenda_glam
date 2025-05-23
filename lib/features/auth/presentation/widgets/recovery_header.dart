@@ -3,9 +3,19 @@ import 'package:app_agenda_glam/core/widgets/glam_icon_container.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que encapsula el encabezado de la página de recuperación de contraseña
-/// Incluye el logo, título y descripción
+/// Incluye el logo, título (opcional) y descripción
 class RecoveryHeader extends StatelessWidget {
-  const RecoveryHeader({super.key});
+  /// Si debe mostrar el título "Recuperar contraseña"
+  final bool showTitle;
+  
+  /// Constructor que permite controlar la visibilidad del título
+  /// 
+  /// Si [showTitle] es false, solo se mostrará el icono y la descripción,
+  /// lo que permite usar este componente con encabezados personalizados.
+  const RecoveryHeader({
+    super.key,
+    this.showTitle = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,22 +24,24 @@ class RecoveryHeader extends StatelessWidget {
 
     return Column(
       children: [
-        SizedBox(height: size.height * 0.05),
+        SizedBox(height: size.height * 0.02),
         
-        // Título de la página
-        GlamAnimations.applyEntryEffect(
-          Text(
-            'Recuperar contraseña',
-            style: theme.textTheme.headlineMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-              letterSpacing: 0.5,
+        // Título de la página (opcional)
+        if (showTitle) ...[  
+          GlamAnimations.applyEntryEffect(
+            Text(
+              'Recuperar contraseña',
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 0.5,
+              ),
             ),
+            slideDistance: 0.1,
           ),
-          slideDistance: 0.1,
-        ),
-        
-        const SizedBox(height: 24),
+          
+          const SizedBox(height: 24),
+        ],
         
         // Icono representativo de recuperación
         const GlamIconContainer(
@@ -41,17 +53,7 @@ class RecoveryHeader extends StatelessWidget {
         
         const SizedBox(height: 24),
         
-        // Descripción
-        GlamAnimations.applyEntryEffect(
-          Text(
-            'Ingresa tu correo electrónico para recibir instrucciones de recuperación',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: Colors.white.withValues(alpha: 0.9),
-            ),
-            textAlign: TextAlign.center,
-          ),
-          slideDistance: 0.15,
-        ),
+        // Ya no mostramos la descripción aquí, ahora está en el encabezado unificado
         
         SizedBox(height: size.height * 0.06),
       ],
