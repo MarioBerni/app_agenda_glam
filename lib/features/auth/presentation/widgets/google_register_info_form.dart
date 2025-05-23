@@ -135,9 +135,9 @@ class _GoogleRegisterInfoFormState extends State<GoogleRegisterInfoForm> {
           const SizedBox(height: kSpaceS),
           Container(
             decoration: BoxDecoration(
-              color: kSurfaceColor.withOpacity(0.5),
+              color: kSurfaceColor.withValues(alpha: 0.5),
               borderRadius: BorderRadius.circular(kBorderRadiusM),
-              border: Border.all(color: kAccentColor.withOpacity(0.3)),
+              border: Border.all(color: kAccentColor.withValues(alpha: 0.3)),
             ),
             padding: const EdgeInsets.symmetric(horizontal: kSpaceS),
             child: DropdownButtonHideUnderline(
@@ -191,17 +191,17 @@ class _GoogleRegisterInfoFormState extends State<GoogleRegisterInfoForm> {
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               hintText: 'Ej: 099123456',
-              hintStyle: TextStyle(color: Colors.white.withOpacity(0.5)),
+              hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
               prefixIcon: const Icon(Icons.phone, color: kAccentColor),
               filled: true,
-              fillColor: kSurfaceColor.withOpacity(0.5),
+              fillColor: kSurfaceColor.withValues(alpha: 0.5),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(kBorderRadiusM),
-                borderSide: BorderSide(color: kAccentColor.withOpacity(0.3)),
+                borderSide: BorderSide(color: kAccentColor.withValues(alpha: 0.3)),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(kBorderRadiusM),
-                borderSide: BorderSide(color: kAccentColor.withOpacity(0.3)),
+                borderSide: BorderSide(color: kAccentColor.withValues(alpha: 0.3)),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(kBorderRadiusM),

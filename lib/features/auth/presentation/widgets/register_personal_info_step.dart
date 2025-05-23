@@ -200,7 +200,7 @@ class RegisterPersonalInfoStep extends StatelessWidget {
             color: isSelected ? kAccentColor : Colors.white24,
             width: isSelected ? 2 : 1,
           ),
-          color: isSelected ? kAccentColor.withOpacity(0.15) : Colors.transparent,
+          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.transparent,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

@@ -99,7 +99,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
               surface: kSurfaceColor,
               onSurface: Colors.white,
             ),
-            dialogBackgroundColor: kSurfaceColor,
+            dialogTheme: DialogThemeData(backgroundColor: kSurfaceColor),
           ),
           child: child!,
         );
@@ -208,7 +208,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
                       Text(
                         'Solo unos datos más para terminar',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
                     ),
@@ -218,10 +218,10 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
                     // Información del teléfono verificado
                     GlamAnimations.applyEntryEffect(
                       Card(
-                        color: kSurfaceColor.withOpacity(0.4),
+                        color: kSurfaceColor.withValues(alpha: 0.4),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(kBorderRadiusM),
-                          side: BorderSide(color: kAccentColor.withOpacity(0.3)),
+                          side: BorderSide(color: kAccentColor.withValues(alpha: 0.3)),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
@@ -299,9 +299,9 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
                                 border: Border.all(
                                   color: _isBirthDateSelected 
                                       ? kAccentColor 
-                                      : Colors.white.withOpacity(0.3),
+                                      : Colors.white.withValues(alpha: 0.3),
                                 ),
-                                color: Colors.white.withOpacity(0.05),
+                                color: Colors.white.withValues(alpha: 0.05),
                               ),
                               child: Row(
                                 children: [
@@ -309,7 +309,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
                                     Icons.calendar_today,
                                     color: _isBirthDateSelected 
                                         ? kAccentColor 
-                                        : Colors.white.withOpacity(0.7),
+                                        : Colors.white.withValues(alpha: 0.7),
                                   ),
                                   const SizedBox(width: 12),
                                   Text(
@@ -319,7 +319,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
                                     style: TextStyle(
                                       color: _isBirthDateSelected 
                                           ? Colors.white 
-                                          : Colors.white.withOpacity(0.5),
+                                          : Colors.white.withValues(alpha: 0.5),
                                     ),
                                   ),
                                   const Spacer(),
@@ -428,7 +428,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
             color: isSelected ? kAccentColor : Colors.white24,
             width: isSelected ? 2 : 1,
           ),
-          color: isSelected ? kAccentColor.withOpacity(0.15) : Colors.transparent,
+          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.transparent,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

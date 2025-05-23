@@ -1,6 +1,5 @@
 import 'package:app_agenda_glam/core/routes/circle_page_route.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/google_register_additional_info_page.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Controlador para gestionar el flujo de registro con Google

@@ -53,7 +53,7 @@ class RegisterAuthMethodStep extends StatelessWidget {
           Text(
             'Elige cómo quieres crear tu cuenta',
             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
             ),
             textAlign: TextAlign.center,
           ),
@@ -83,7 +83,7 @@ class RegisterAuthMethodStep extends StatelessWidget {
                 child: Text(
                   'o',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -116,7 +116,7 @@ class RegisterAuthMethodStep extends StatelessWidget {
               'Al crear una cuenta, aceptas nuestros Términos de Servicio y Política de Privacidad.',
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.white.withOpacity(0.6),
+                color: Colors.white.withValues(alpha: 0.6),
               ),
               textAlign: TextAlign.center,
             ),

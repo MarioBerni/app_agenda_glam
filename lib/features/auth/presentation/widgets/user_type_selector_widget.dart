@@ -86,7 +86,7 @@ class UserTypeSelectorWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
         decoration: BoxDecoration(
-          color: isSelected ? kAccentColor.withOpacity(0.15) : Colors.black.withOpacity(0.3),
+          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.3),
           borderRadius: BorderRadius.circular(8),
           border: Border.all(
             color: isSelected ? kAccentColor : Colors.transparent,

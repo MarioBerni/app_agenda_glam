@@ -150,7 +150,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                       Text(
                         'Ingresa tu número para recibir un código de verificación',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
                     ),
@@ -183,7 +183,7 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
                           'Te enviaremos un código de verificación a este número.',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.white.withOpacity(0.7),
+                            color: Colors.white.withValues(alpha: 0.7),
                           ),
                         ),
                       ),

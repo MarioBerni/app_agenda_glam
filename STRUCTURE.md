@@ -7,13 +7,13 @@
 ```
 Directory structure:
 └── marioberni-app_agenda_glam/
-    ├── README.md                      # Introducción y punto de entrada al proyecto
-    ├── analysis_options.yaml         # Configuración de análisis y linting
-    ├── ARCHITECTURE.MD               # Arquitectura técnica detallada
-    ├── PLANNING.MD                   # Visión y planificación general
-    ├── STRUCTURE.md                  # Este archivo - Estructura del proyecto
-    ├── pubspec.lock                  # Versiones bloqueadas de dependencias
-    ├── pubspec.yaml                  # Definición de dependencias y metadatos
+    ├── README.md
+    ├── analysis_options.yaml
+    ├── ARCHITECTURE.MD
+    ├── PLANNING.MD
+    ├── pubspec.lock
+    ├── pubspec.yaml
+    ├── STRUCTURE.md
     ├── TESTING.MD
     ├── TOOLS_AND_COMMANDS.md
     ├── UI_COMPONENTS.md
@@ -145,32 +145,50 @@ Directory structure:
     │               │   ├── auth_cubit.dart
     │               │   └── auth_state.dart
     │               ├── controllers/
+    │               │   ├── google_register_controller.dart
     │               │   ├── recovery_controller.dart
-    │               │   └── register_controller.dart
+    │               │   ├── register_controller.dart
+    │               │   └── register_google_handler.dart
+    │               ├── helpers/
+    │               │   ├── verification_service.dart
+    │               │   └── verification_timer_helper.dart
     │               ├── pages/
+    │               │   ├── google_register_additional_info_page.dart
     │               │   ├── login_page.dart
+    │               │   ├── phone_register_additional_info_page.dart
+    │               │   ├── phone_register_page.dart
+    │               │   ├── phone_verification_page.dart
     │               │   ├── recovery_page.dart
     │               │   ├── register_page.dart
+    │               │   ├── sms_code_verification_page.dart
     │               │   └── welcome_page.dart
     │               └── widgets/
+    │                   ├── action_buttons_widget.dart
     │                   ├── glam_button.dart
+    │                   ├── glam_google_button.dart
     │                   ├── glam_logo.dart
     │                   ├── glam_password_field.dart
     │                   ├── glam_scissors_icon.dart
     │                   ├── glam_text_field.dart
     │                   ├── glam_video_background.dart
+    │                   ├── google_register_header_widget.dart
+    │                   ├── google_register_info_form.dart
     │                   ├── login_form.dart
     │                   ├── login_header.dart
     │                   ├── password_strength_indicator.dart
+    │                   ├── phone_input_widget.dart
     │                   ├── recovery_confirmation.dart
     │                   ├── recovery_content.dart
     │                   ├── recovery_header.dart
+    │                   ├── register_auth_method_step.dart
     │                   ├── register_content.dart
     │                   ├── register_footer.dart
     │                   ├── register_header.dart
     │                   ├── register_password_step.dart
     │                   ├── register_personal_info_step.dart
-    │                   └── register_step_indicator.dart
+    │                   ├── register_step_indicator.dart
+    │                   ├── user_type_selector_widget.dart
+    │                   └── verification_code_input_widget.dart
     ├── linux/
     │   ├── CMakeLists.txt
     │   ├── .gitignore
@@ -224,7 +242,8 @@ Directory structure:
     │   ├── TASK_ConfiguracionInicial.MD
     │   ├── TASK_DiseñoAutenticacionUI.MD
     │   ├── TASK_FlujoAutenticacionUI.MD
-    │   └── TASK_OptimizacionComponentesVisuales.MD
+    │   ├── TASK_OptimizacionComponentesVisuales.MD
+    │   └── TASK_RegistroGoogleMejorado.MD
     ├── web/
     │   ├── index.html
     │   ├── manifest.json

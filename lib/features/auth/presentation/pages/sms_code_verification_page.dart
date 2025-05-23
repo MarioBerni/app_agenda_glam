@@ -212,7 +212,7 @@ class _SMSCodeVerificationPageState extends State<SMSCodeVerificationPage> {
                       Text(
                         'Ingresa el código enviado al número ${widget.phoneNumber}',
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Colors.white.withOpacity(0.8),
+                          color: Colors.white.withValues(alpha: 0.8),
                         ),
                       ),
                     ),
@@ -304,10 +304,10 @@ class _SMSCodeVerificationPageState extends State<SMSCodeVerificationPage> {
           counterText: '',
           contentPadding: EdgeInsets.zero,
           filled: true,
-          fillColor: Colors.white.withOpacity(0.1),
+          fillColor: Colors.white.withValues(alpha: 0.1),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: kAccentColor.withOpacity(0.3)),
+            borderSide: BorderSide(color: kAccentColor.withValues(alpha: 0.3)),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
@@ -342,7 +342,7 @@ class _SMSCodeVerificationPageState extends State<SMSCodeVerificationPage> {
         Text(
           '¿No recibiste el código? ',
           style: TextStyle(
-            color: Colors.white.withOpacity(0.7),
+            color: Colors.white.withValues(alpha: 0.7),
             fontSize: 14,
           ),
         ),

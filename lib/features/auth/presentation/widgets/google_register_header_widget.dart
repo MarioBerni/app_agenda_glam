@@ -34,7 +34,7 @@ class GoogleRegisterHeaderWidget extends StatelessWidget {
                 Text(
                   'Hola $userName, solo necesitamos unos datos más',
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                   ),
                 ),
               ],
