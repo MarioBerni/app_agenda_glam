@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/core/widgets/glam_text_field.dart';
@@ -366,8 +367,8 @@ class _PhoneRegisterPageState extends State<PhoneRegisterPage> {
                       GlamUI.buildHeader(
                         context,
                         title: 'Registro con Teléfono',
-                        subtitle: 'Completa tus datos para registrarte en Agenda Glam',
-                        onBackPressed: () => Navigator.of(context).pop(),
+                        subtitle: 'Completa todos los campos',
+                        onBackPressed: () => CircleNavigation.goBackToRegister(context),
                       ),
                     ),
                     

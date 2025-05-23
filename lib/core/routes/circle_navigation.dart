@@ -4,6 +4,7 @@ import 'package:app_agenda_glam/features/auth/presentation/pages/login_page.dart
 import 'package:app_agenda_glam/features/auth/presentation/pages/recovery_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/welcome_page.dart';
+import 'package:app_agenda_glam/features/auth/presentation/pages/phone_register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -67,6 +68,30 @@ class CircleNavigation {
   /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
   static void goBackToLogin(BuildContext context) {
     context.popCircle(const LoginPage());
+  }
+  
+  /// Navega a la página de registro con teléfono con efecto circular
+  /// El círculo se expande desde la esquina inferior izquierda (navegación hacia adelante)
+  static void goToPhoneRegister(BuildContext context) {
+    context.pushCircle(const PhoneRegisterPage());
+  }
+  
+  /// Navega desde PhoneRegisterPage de vuelta a RegisterPage con efecto circular
+  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  static void goBackToRegister(BuildContext context) {
+    context.popCircle(const RegisterPage());
+  }
+  
+  /// Navega desde GoogleRegisterAdditionalInfoPage de vuelta a RegisterPage con efecto circular
+  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  static void goBackFromGoogleAdditionalInfo(BuildContext context) {
+    context.popCircle(const RegisterPage());
+  }
+  
+  /// Navega desde PhoneRegisterAdditionalInfoPage de vuelta a PhoneRegisterPage con efecto circular
+  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  static void goBackFromPhoneAdditionalInfo(BuildContext context) {
+    context.popCircle(const PhoneRegisterPage());
   }
   
   /// Navega a la página de inicio con el router estándar

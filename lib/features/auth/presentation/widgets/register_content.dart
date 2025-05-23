@@ -1,4 +1,4 @@
-// import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/phone_register_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
@@ -219,12 +219,8 @@ class RegisterContent extends StatelessWidget {
       return RegisterAuthMethodStep(
         onGoogleRegister: onGoogleRegister,
         onPhoneRegister: () {
-          // Navegar a la página consolidada de registro por teléfono
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const PhoneRegisterPage(),
-            ),
-          );
+          // Navegar a la página consolidada de registro por teléfono usando la transición circular
+          CircleNavigation.goToPhoneRegister(context);
         },
         isGoogleLoading: isGoogleLoading,
       );

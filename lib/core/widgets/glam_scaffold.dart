@@ -1,6 +1,7 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -118,7 +119,16 @@ class GlamScaffold extends StatelessWidget {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.arrow_back_ios, size: 20),
-                    onPressed: onBackPressed ?? () => context.pop(),
+                    onPressed: onBackPressed ?? () {
+                      // Si estamos en una ruta que conocemos
+                      if (context.canPop()) {
+                        // Usamos Navigator.of(context).pop() que mantendrá la transición establecida
+                        Navigator.of(context).pop();
+                      } else {
+                        // Fallback a la página de bienvenida si no podemos determinar a dónde volver
+                        CircleNavigation.goToWelcome(context);
+                      }
+                    },
                     color: kAccentColor, // Icono dorado para consistencia con el diseño preferido
                   ).glamEntry(duration: GlamAnimations.shortDuration),
                   if (title != null && directContent == null)

@@ -187,7 +187,7 @@ class _PhoneRegisterAdditionalInfoPageState extends State<PhoneRegisterAdditiona
                         context,
                         title: 'Completar Registro',
                         subtitle: 'Solo unos datos más para terminar',
-                        onBackPressed: () => Navigator.of(context).pop(),
+                        onBackPressed: () => CircleNavigation.goBackFromPhoneAdditionalInfo(context),
                       ),
                     ),
                     

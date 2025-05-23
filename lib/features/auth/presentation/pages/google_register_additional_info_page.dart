@@ -293,7 +293,7 @@ class _GoogleRegisterContent extends StatelessWidget {
       context,
       title: 'Completar Registro',
       subtitle: 'Hola $userName, solo necesitamos unos datos más',
-      onBackPressed: () => Navigator.of(context).pop(),
+      onBackPressed: () => CircleNavigation.goBackFromGoogleAdditionalInfo(context),
       includeTopSpacing: false, // Ya está dentro de un padding
     );
   }

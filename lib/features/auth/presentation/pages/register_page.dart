@@ -185,8 +185,9 @@ class _RegisterPageState extends State<RegisterPage>
         _currentStep = 0;
       });
     } else {
-      // Si estamos en el paso 0, volver a la pantalla de login
-      Navigator.of(context).pop();
+      // Si estamos en el paso 0, volver a la pantalla de login con efecto circular
+      // Usar CircleNavigation para mantener consistencia en todas las transiciones
+      CircleNavigation.goToWelcome(context);
     }
   }
 
