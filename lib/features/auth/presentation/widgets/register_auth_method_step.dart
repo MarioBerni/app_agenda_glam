@@ -1,6 +1,9 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
+import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_google_button.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_terms_dialog.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que representa el paso de selección del método de autenticación
@@ -87,17 +90,50 @@ class RegisterAuthMethodStep extends StatelessWidget {
         
         const SizedBox(height: 24),
         
-        // Texto informativo sobre privacidad
+        // Texto informativo sobre privacidad con enlaces interactivos
         GlamAnimations.applyEntryEffect(
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text(
-              'Al crear una cuenta, aceptas nuestros Términos de Servicio y Política de Privacidad.',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.white.withValues(alpha: 0.6),
-              ),
+            child: RichText(
               textAlign: TextAlign.center,
+              text: TextSpan(
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.white.withValues(alpha: 0.6),
+                ),
+                children: [
+                  const TextSpan(text: 'Al crear una cuenta, aceptas nuestros '),
+                  TextSpan(
+                    text: 'Términos de Servicio',
+                    style: TextStyle(
+                      color: kAccentColor,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // Mostrar el diálogo de términos y condiciones
+                        GlamTermsDialog.show(context);
+                      },
+                  ),
+                  const TextSpan(text: ' y '),
+                  TextSpan(
+                    text: 'Política de Privacidad',
+                    style: TextStyle(
+                      color: kAccentColor,
+                      fontWeight: FontWeight.bold,
+                      decoration: TextDecoration.underline,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        // Por ahora, ambos enlaces abren el mismo diálogo
+                        // En el futuro se podría implementar un diálogo específico para políticas de privacidad
+                        GlamTermsDialog.show(context);
+                      },
+                  ),
+                  const TextSpan(text: '.'),
+                ],
+              ),
             ),
           ),
         ),

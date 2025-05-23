@@ -45,6 +45,7 @@ class _RegisterPageState extends State<RegisterPage>
   final int _totalSteps = 2; // Los pasos 1 y 2 son los del flujo tradicional
   bool _isLoading = false;
   bool _isGoogleLoading = false;
+  bool _termsAccepted = false; // Estado de aceptación de términos
 
   // Controladores
   late final AnimationController _animController;
@@ -57,6 +58,7 @@ class _RegisterPageState extends State<RegisterPage>
   String? _phoneError;
   String? _passwordError;
   String? _confirmPasswordError;
+  String? _termsError;
 
   // Estado de validación en tiempo real
   bool _isNameValid = false;
@@ -149,27 +151,42 @@ class _RegisterPageState extends State<RegisterPage>
   /// Validar campos según el paso actual del formulario
   bool _validateCurrentStepFields() {
     if (_currentStep == 1) {
+      // Validar nombre, email y teléfono
+      final nameError = RegisterValidator.validateName(_nameController.text);
+      final emailError = RegisterValidator.validateEmail(_emailController.text);
+      final phoneError = RegisterValidator.validatePhone(_phoneController.text);
+      
       setState(() {
-        _nameError = RegisterValidator.validateName(_nameController.text);
-        _emailError = RegisterValidator.validateEmail(_emailController.text);
-        _phoneError = RegisterValidator.validatePhone(_phoneController.text);
+        _nameError = nameError;
+        _emailError = emailError;
+        _phoneError = phoneError;
       });
-      // Verificar que todos los errores sean null (campos válidos)
-      return _nameError == null && _emailError == null && _phoneError == null;
-    } else {
+      
+      return nameError == null && emailError == null && phoneError == null;
+    } else if (_currentStep == 2) {
+      // Validar contraseña, confirmación y aceptación de términos
+      final passwordError = RegisterValidator.validatePassword(_passwordController.text, _passwordCriteria);
+      
+      String? confirmError;
+      if (_passwordController.text != _confirmPasswordController.text) {
+        confirmError = 'Las contraseñas no coinciden';
+      }
+      
+      String? termsError;
+      if (!_termsAccepted) {
+        termsError = 'Debes aceptar los términos y condiciones';
+      }
+      
       setState(() {
-        _passwordError = RegisterValidator.validatePassword(
-          _passwordController.text,
-          _passwordCriteria,
-        );
-        _confirmPasswordError = RegisterValidator.validateConfirmPassword(
-          _passwordController.text,
-          _confirmPasswordController.text,
-        );
+        _passwordError = passwordError;
+        _confirmPasswordError = confirmError;
+        _termsError = termsError;
       });
-      // Verificar que todos los errores sean null (campos válidos)
-      return _passwordError == null && _confirmPasswordError == null;
+      
+      return passwordError == null && confirmError == null && termsError == null;
     }
+    
+    return true; // Paso 0 o cualquier otro paso no requiere validación
   }
 
   /// Navegar al paso anterior o volver a la pantalla de login
@@ -354,11 +371,21 @@ class _RegisterPageState extends State<RegisterPage>
                             phoneError: _phoneError,
                             passwordError: _passwordError,
                             confirmPasswordError: _confirmPasswordError,
+                            termsError: _termsError,
                             isNameValid: _isNameValid,
                             isEmailValid: _isEmailValid,
                             isPhoneValid: _isPhoneValid,
                             passwordCriteria: _passwordCriteria,
                             doPasswordsMatch: _doPasswordsMatch,
+                            termsAccepted: _termsAccepted,
+                            onTermsAcceptedChanged: (accepted) {
+                              setState(() {
+                                _termsAccepted = accepted;
+                                if (accepted) {
+                                  _termsError = null;
+                                }
+                              });
+                            },
                             isLoading: _isLoading,
                             isGoogleLoading: _isGoogleLoading,
                             onNextStep: _nextStep,

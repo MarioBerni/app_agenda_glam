@@ -149,7 +149,7 @@ class GlamScaffold extends StatelessWidget {
                               subtitle!,
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.white.withOpacity(0.7),
+                                color: Colors.white.withValues(alpha: 0.7),
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),

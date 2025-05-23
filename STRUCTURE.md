@@ -269,5 +269,3 @@ Directory structure:
             ├── win32_window.cpp
             ├── win32_window.h
             └── resources/
-
-```

@@ -1,6 +1,6 @@
 import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
-import 'package:app_agenda_glam/features/auth/presentation/pages/phone_register_page.dart';
+
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 // import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_google_button.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/register_auth_method_step.dart';
@@ -72,6 +72,9 @@ class RegisterContent extends StatelessWidget {
 
   /// Error del campo de confirmación de contraseña
   final String? confirmPasswordError;
+  
+  /// Error relacionado con los términos y condiciones
+  final String? termsError;
 
   /// Indica si el nombre es válido
   final bool isNameValid;
@@ -87,6 +90,12 @@ class RegisterContent extends StatelessWidget {
 
   /// Indica si las contraseñas coinciden
   final bool doPasswordsMatch;
+  
+  /// Indica si los términos y condiciones han sido aceptados
+  final bool termsAccepted;
+  
+  /// Callback para cuando cambia el estado de aceptación de términos
+  final ValueChanged<bool>? onTermsAcceptedChanged;
 
   /// Indica si está en estado de carga
   final bool isLoading;
@@ -119,11 +128,14 @@ class RegisterContent extends StatelessWidget {
     this.phoneError,
     required this.passwordError,
     required this.confirmPasswordError,
+    this.termsError,
     required this.isNameValid,
     required this.isEmailValid,
     this.isPhoneValid = false,
     required this.passwordCriteria,
     required this.doPasswordsMatch,
+    this.termsAccepted = false,
+    this.onTermsAcceptedChanged,
     required this.isLoading,
     this.isGoogleLoading = false,
     required this.onNextStep,
@@ -247,8 +259,11 @@ class RegisterContent extends StatelessWidget {
               confirmPasswordController: confirmPasswordController,
               passwordError: passwordError,
               confirmPasswordError: confirmPasswordError,
+              termsError: termsError,
               passwordCriteria: passwordCriteria,
               doPasswordsMatch: doPasswordsMatch,
+              termsAccepted: termsAccepted,
+              onTermsAcceptedChanged: onTermsAcceptedChanged,
               onEditingComplete: onRegister,
             );
     }

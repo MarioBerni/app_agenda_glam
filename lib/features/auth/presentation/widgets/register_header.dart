@@ -17,7 +17,6 @@ class RegisterHeader extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     String title;
-    String description;
     IconData iconData;
     
     // Determinar título, descripción e icono según el paso actual
@@ -25,15 +24,12 @@ class RegisterHeader extends StatelessWidget {
       // En el paso 0, ya no mostramos título ni descripción duplicados
       // Solo mostramos el icono
       title = ''; // Título vacío para el paso 0
-      description = ''; // Descripción vacía para el paso 0
       iconData = Icons.app_registration_rounded;
     } else if (currentStep == 1) {
       title = 'Información Personal';
-      description = 'Completa tus datos para registrarte y agendar tus citas';
       iconData = Icons.person_add_outlined;
     } else {
       title = 'Configurar Contraseña';
-      description = 'Elige una contraseña segura para proteger tu cuenta';
       iconData = Icons.lock_outline;
     }
 

@@ -6,7 +6,8 @@
 1. [Estándares de Diseño](#estándares-de-diseño)
 2. [Componentes Globales](#componentes-globales)
 3. [Componentes de Autenticación](#componentes-de-autenticación)
-4. [Patrones de Implementación](#patrones-de-implementación)
+4. [Sistema de Navegación](#sistema-de-navegación)
+5. [Patrones de Implementación](#patrones-de-implementación)
 
 ## Estándares de Diseño
 
@@ -91,15 +92,32 @@ Ubicados en `lib/features/auth/presentation/widgets/`
 **Descripción**: Formulario para información adicional tras autenticación con Google.  
 **Props**: `userName`, `userEmail`, `phoneController`, `onSubmit`, `isLoading`, `isPhoneValid`, `onCancel`
 
+### TermsCheckbox
+**Ubicación**: `terms_checkbox.dart`  
+**Descripción**: Checkbox estilizado para aceptar términos y condiciones con texto clickeable.  
+**Props**: `isAccepted`, `onChanged`, `onTermsLinkTap`, `errorText`
+
+### GlamTermsDialog
+**Ubicación**: `glam_terms_dialog.dart`  
+**Descripción**: Diálogo modal que muestra los términos y condiciones con animación de deslizamiento.  
+**Props**: `onAccept`, `onClose`  
+**Métodos Estáticos**: `show(BuildContext context)` - Muestra el diálogo con animación
+
 ## Patrones de Implementación
 
 ### Selección de Tipo de Usuario
 - Sin selección por defecto para forzar elección consciente
 - Estilo visual consistente con feedback claro mediante colores e iconos
 
+### Términos y Condiciones
+- Accesibles desde múltiples puntos de la aplicación (pantalla inicial y paso final de registro)
+- Diálogo con animación de deslizamiento desde abajo para una experiencia visual fluida
+- Validación explícita mediante checkbox para asegurar conformidad legal
+
 ### Validación de Entrada
 - **Teléfono**: Mínimo 8 dígitos, solo numéricos
 - **Contraseña**: Longitud mínima, combinación de caracteres, indicador visual
+- **Términos**: Validación obligatoria con mensaje de error si no se aceptan
 - **Email**: Validación mediante expresiones regulares
 
 ### Animaciones
@@ -107,6 +125,46 @@ Definidas en `lib/core/animations/animation_presets.dart`:
 - **Entrada**: Fade + slide, duración 600ms, curva easeOutCubic
 - **Presión**: Scale down + brightness change, duración 200ms
 - **Shimmer**: Efecto de brillo con loop infinito
+
+## Sistema de Navegación
+
+Agenda Glam implementa un sistema de navegación personalizado con transiciones circulares para proporcionar una experiencia de usuario fluida y elegante.
+
+### CirclePageRoute
+**Ubicación**: `lib/core/routes/circle_page_route.dart`  
+**Descripción**: Ruta personalizada que crea un efecto de círculo expandéndose para las transiciones.  
+**Props**: `page`, `circleColor`, `alignment`
+
+### CircleNavigation
+**Ubicación**: `lib/core/routes/circle_navigation.dart`  
+**Descripción**: Clase utilitaria que centraliza la navegación con transiciones circulares.  
+**Métodos principales**:
+- `goToWelcome`: Navega hacia atrás a la página de bienvenida (desde bottomRight)
+- `goToLogin`: Navega hacia adelante a la página de inicio de sesión (desde bottomLeft)
+- `goToRegister`: Navega hacia adelante a la página de registro (desde bottomLeft)
+- `goToPhoneRegister`: Navega hacia adelante a la página de registro con teléfono (desde bottomLeft)
+- `goBackToRegister`: Navega hacia atrás a la página de registro (desde bottomRight)
+- `goBackFromGoogleAdditionalInfo`: Navega hacia atrás desde la página de información adicional de Google (desde bottomRight)
+- `goBackFromPhoneAdditionalInfo`: Navega hacia atrás desde la página de información adicional de teléfono (desde bottomRight)
+
+### Patrones de Navegación
+
+- **Navegación hacia adelante**: El círculo se expande desde la esquina inferior izquierda (bottomLeft)
+- **Navegación hacia atrás**: El círculo se expande desde la esquina inferior derecha (bottomRight)
+- **Duración de transición**: 1100ms para una experiencia visual óptima
+
+**Ejemplo de uso**:
+```dart
+// Navegación hacia adelante
+CircleNavigation.goToLogin(context);
+
+// Navegación hacia atrás
+CircleNavigation.goToWelcome(context);
+
+// Extensiones de contexto (alternativa)
+context.pushCircle(const LoginPage()); // Hacia adelante
+context.popCircle(const WelcomePage()); // Hacia atrás
+```
 
 ### Mejores Prácticas
 1. Mantener coherencia visual con la paleta definida
@@ -152,3 +210,8 @@ CircleNavigation.goToWelcome(context);
 6. **Consistencia Visual**:
    - Utilizar constantes de tema desde `app_theme_constants.dart`.
    - Mantener coherencia en espaciados, radios y sombras.
+
+7. **Navegación Consistente**:
+   - Usar siempre `CircleNavigation` para transiciones entre páginas.
+   - Mantener la dirección correcta de las animaciones: bottomLeft para avanzar, bottomRight para retroceder.
+   - Evitar el uso directo de `Navigator.push()` o `Navigator.pop()` para mantener la experiencia visual coherente.

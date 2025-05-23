@@ -3,7 +3,7 @@ import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
-import 'package:app_agenda_glam/core/widgets/glam_text_field.dart';
+
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:app_agenda_glam/features/auth/domain/validators/register_validator.dart';

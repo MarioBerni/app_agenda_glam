@@ -1,5 +1,7 @@
 import 'package:app_agenda_glam/core/widgets/glam_text_field.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_terms_dialog.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/password_strength_indicator.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/terms_checkbox.dart';
 import 'package:flutter/material.dart';
 
 /// Widget que representa el segundo paso del registro donde se configura
@@ -17,11 +19,20 @@ class RegisterPasswordStep extends StatelessWidget {
   /// Mensaje de error para el campo de confirmar contraseña (si existe)
   final String? confirmPasswordError;
 
+  /// Mensaje de error para el checkbox de términos (si existe)
+  final String? termsError;
+
   /// Mapa de criterios de fortaleza de contraseña
   final Map<String, bool> passwordCriteria;
 
   /// Indica si las contraseñas coinciden
   final bool doPasswordsMatch;
+
+  /// Indica si los términos han sido aceptados
+  final bool termsAccepted;
+
+  /// Callback para cuando cambia el estado de aceptación de términos
+  final ValueChanged<bool>? onTermsAcceptedChanged;
 
   /// Acción a ejecutar al completar la edición
   final VoidCallback? onEditingComplete;
@@ -33,7 +44,10 @@ class RegisterPasswordStep extends StatelessWidget {
     required this.passwordCriteria,
     this.passwordError,
     this.confirmPasswordError,
+    this.termsError,
     this.doPasswordsMatch = false,
+    this.termsAccepted = false,
+    this.onTermsAcceptedChanged,
     this.onEditingComplete,
   });
 
@@ -97,6 +111,27 @@ class RegisterPasswordStep extends StatelessWidget {
               ),
             ],
           ),
+        ),
+        
+        // Espaciado antes del checkbox de términos
+        const SizedBox(height: 24),
+        
+        // Checkbox de términos y condiciones
+        TermsCheckbox(
+          isAccepted: termsAccepted,
+          errorText: termsError,
+          onChanged: (value) {
+            if (onTermsAcceptedChanged != null) {
+              onTermsAcceptedChanged!(value);
+            }
+          },
+          onTermsLinkTap: () async {
+            // Mostrar diálogo de términos y condiciones
+            final accepted = await GlamTermsDialog.show(context);
+            if (accepted == true && onTermsAcceptedChanged != null) {
+              onTermsAcceptedChanged!(true);
+            }
+          },
         ),
       ],
     );

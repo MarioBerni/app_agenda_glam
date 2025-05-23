@@ -165,15 +165,57 @@ Se aplican los siguientes patrones y estrategias para mantener los archivos por 
 
 ### 6.3. Sistema de Navegación (Go Router y Transiciones Circulares)
 * **Propósito:** Manejar las rutas y la navegación entre pantallas de manera declarativa y con transiciones suaves, proporcionando una experiencia visual coherente con transiciones circulares personalizadas.
-* **Componentes:**
-    * **GoRouter (`app_router.dart`):** Define la estructura de navegación y rutas de la aplicación.
-    * **CirclePageRoute (`circle_page_route.dart`):** Implementa una transición personalizada con efecto circular expandible.
-    * **CircleNavigation (`circle_navigation.dart`):** Centraliza los métodos de navegación y garantiza la coherencia en las transiciones.
-* **Integración:** La instancia de `GoRouter` se pasa a `MaterialApp.router` en `main.dart`.
-* **Navegación:** 
-    * Se recomienda usar los métodos de `CircleNavigation` para todas las navegaciones (ej. `CircleNavigation.goToLogin(context)`).
-    * La transición circular se expande desde `bottomLeft` al avanzar y desde `bottomRight` al retroceder.
-    * La duración de la transición es de 1200ms para una apreciación visual óptima.
+
+* **Arquitectura del Sistema de Navegación:**
+    * **Capa Base:** Utiliza `go_router` como framework de navegación declarativa subyacente.
+    * **Capa de Personalización:** Implementa transiciones personalizadas mediante `PageRouteBuilder` y animaciones personalizadas.
+    * **Capa de Abstracción:** Ofrece métodos estandarizados a través de `CircleNavigation` para simplificar el uso por parte de los desarrolladores.
+
+* **Componentes Principales:**
+    * **GoRouter (`app_router.dart`):** 
+        * Define la estructura de navegación y rutas de la aplicación.
+        * Configura rutas con nombres y parámetros.
+        * Maneja la navegación anidada para flujos complejos como el registro y la autenticación.
+
+    * **CirclePageRoute (`circle_page_route.dart`):** 
+        * Extiende `PageRouteBuilder` para implementar una transición personalizada con efecto circular expandible.
+        * Utiliza animaciones personalizadas para controlar la expansión del círculo.
+        * Paramentros clave:
+            * `page`: Widget de destino
+            * `alignment`: Posición desde donde se expande el círculo (`bottomLeft` o `bottomRight`)
+            * `circleColor`: Color del círculo durante la transición (por defecto, negro)
+            * `duration`: Duración de la animación (1100ms)
+
+    * **CircleNavigation (`circle_navigation.dart`):** 
+        * Centraliza los métodos de navegación y garantiza la coherencia en las transiciones.
+        * Proporciona métodos específicos para cada tipo de navegación:
+            * `goToWelcome`: Navegación a la página de bienvenida
+            * `goToLogin`: Navegación a la página de inicio de sesión
+            * `goToRegister`: Navegación a la página de registro
+            * `goToPhoneRegister`: Navegación a la página de registro con teléfono
+            * `goBackToRegister`: Navegación de regreso a la página de registro
+            * `goBackFromGoogleAdditionalInfo`: Navegación de regreso desde la página de información adicional de Google
+            * `goBackFromPhoneAdditionalInfo`: Navegación de regreso desde la página de información adicional de teléfono
+        * Ofrece extensiones para el contexto: `pushCircle()` y `popCircle()`
+
+    * **Extensiones de BuildContext (`context_extensions.dart`):**
+        * Facilitan el uso de las transiciones circulares mediante métodos directos en el contexto.
+        * Implementan los métodos `pushCircle()` para navegación hacia adelante y `popCircle()` para navegación hacia atrás.
+
+* **Integración:** 
+    * La instancia de `GoRouter` se configura en `app_router.dart` y se pasa a `MaterialApp.router` en `main.dart`.
+    * Las rutas se definen de forma declarativa, lo que facilita la comprensión del flujo de navegación.
+
+* **Patrones de Navegación:** 
+    * **Navegación hacia adelante:** Utiliza transiciones circulares que se expanden desde la esquina inferior izquierda (`bottomLeft`).
+    * **Navegación hacia atrás:** Utiliza transiciones circulares que se expanden desde la esquina inferior derecha (`bottomRight`).
+    * **Duración estándar:** 1100ms para permitir una apreciación visual óptima del efecto.
+
+* **Mejores Prácticas:**
+    * Utilizar siempre los métodos de `CircleNavigation` en lugar de navegación directa con `Navigator`.
+    * Mantener la coherencia visual utilizando `bottomLeft` para avanzar y `bottomRight` para retroceder.
+    * Para flujos complejos, crear métodos específicos en `CircleNavigation` en lugar de implementar lógica de transición ad-hoc.
+    * Consultar la documentación en `NAVIGATION_GUIDE.md` para implementaciones detalladas y ejemplos.
 
 ### 6.4. Sistema de Tema (Theme System)
 * **Propósito:** Asegurar una apariencia visual consistente en toda la aplicación.
