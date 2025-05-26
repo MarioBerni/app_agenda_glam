@@ -5,6 +5,7 @@ import 'package:app_agenda_glam/features/auth/presentation/pages/recovery_page.d
 import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/welcome_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/phone_register_page.dart';
+import 'package:app_agenda_glam/features/explore/presentation/pages/explore_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -99,5 +100,23 @@ class CircleNavigation {
   /// ya que es una transición especial que marca el ingreso a la aplicación
   static void goToHome(BuildContext context) {
     context.go(AppRouter.home);
+  }
+  
+  /// Navega a la página de exploración sin registro con efecto circular
+  /// El círculo se expande desde la esquina inferior izquierda (navegación hacia adelante)
+  static void goToExplore(BuildContext context) {
+    context.pushCircle(const ExplorePage());
+  }
+  
+  /// Versión segura para operaciones asíncronas que navega a la página de exploración
+  /// Utiliza NavigatorState y ThemeData capturados antes de la operación asíncrona
+  static void goToExploreWithState(NavigatorState navigator, ThemeData theme) {
+    navigator.push(
+      CirclePageRoute(
+        page: const ExplorePage(),
+        circleColor: theme.primaryColor,
+        alignment: Alignment.bottomLeft,
+      ),
+    );
   }
 }

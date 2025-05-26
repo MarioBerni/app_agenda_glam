@@ -18,6 +18,11 @@
   - Botones: Fondo dorado (kAccentColor) con efecto shimmer
   - Campos: Fondo semitransparente con bordes redondeados
 
+### Proporciones y Layout
+- **Carruseles**: Tarjetas con viewportFraction de 0.75 y proporciones más cuadradas para imágenes
+- **Scroll**: Uso de SingleChildScrollView para evitar problemas de desbordamiento
+- **Modularidad**: Componentes de UI divididos en widgets pequeños y reutilizables
+
 ## Componentes Globales
 Ubicados en `lib/core/widgets/`
 
@@ -25,6 +30,11 @@ Ubicados en `lib/core/widgets/`
 **Ubicación**: `glam_scaffold.dart`  
 **Descripción**: Base unificada para todas las pantallas con fondo degradado y encabezado.  
 **Props**: `title`, `subtitle`, `content`/`directContent`, `showBackButton`, `primaryColor`, `backgroundIntensity`
+
+### ParallaxBackground
+**Ubicación**: `lib/features/auth/presentation/pages/welcome_page.dart`  
+**Descripción**: Implementa un efecto parallax sutil para fondos, respondiendo a eventos de navegación.  
+**Props**: `child`, `controller`
 
 ```dart
 GlamScaffold(
@@ -53,6 +63,31 @@ GlamScaffold(
 **Ubicación**: `glam_icon_container.dart`  
 **Descripción**: Contenedor circular para iconos con estilo visual consistente.  
 **Props**: `icon`, `size`, `color`, `onTap`
+
+## Componentes Modulares de la Página de Bienvenida
+Ubicados en `lib/features/auth/presentation/widgets/`
+
+### WelcomeHeader
+**Ubicación**: `welcome_header.dart`  
+**Descripción**: Muestra el encabezado de la página de bienvenida con logo, título y tagline.  
+**Comportamiento**: Implementa animaciones de entrada para una experiencia visual atractiva.
+
+### FeaturedPartnersSection
+**Ubicación**: `featured_partners_section.dart`  
+**Descripción**: Sección que muestra un carrusel de tarjetas de socios destacados.  
+**Comportamiento**: Implementa desplazamiento automático y transiciones fluidas entre tarjetas.
+
+### ActionCard
+**Ubicación**: `action_card.dart`  
+**Descripción**: Componente que muestra texto informativo y botones de acción (iniciar sesión y registro).  
+**Props**: `parallaxController`  
+**Comportamiento**: Controla la navegación con efecto parallax hacia las páginas de login y registro.
+
+### PartnersCarousel
+**Ubicación**: `lib/features/partners/presentation/widgets/partners_carousel.dart`  
+**Descripción**: Carrusel automático de tarjetas de socios con animaciones y proporciones optimizadas.  
+**Props**: `partners`, `autoScrollDuration`, `height`  
+**Optimizaciones**: Implementa un viewportFraction de 0.75 y proporciones más cuadradas para las imágenes.
 
 ## Componentes de Autenticación
 Ubicados en `lib/features/auth/presentation/widgets/`

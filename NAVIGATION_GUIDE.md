@@ -72,6 +72,9 @@ class CircleNavigation {
     context.pushCircle(const PhoneRegisterPage());
   }
   
+  // Nota: La navegación a ExplorePage desde WelcomePage ha sido eliminada
+  // debido a la integración de elementos de exploración en la página de bienvenida
+  
   // Navegación hacia atrás (bottomRight)
   static void goToWelcome(BuildContext context) {
     context.popCircle(const WelcomePage());
@@ -212,6 +215,15 @@ El flujo de registro utiliza varios patrones de navegación:
    CircleNavigation.goBackFromPhoneAdditionalInfo(context);
    ```
 
+### Cambios en el Flujo de Exploración
+
+**Nota Importante**: El flujo "Experimentar sin registro" ha sido eliminado debido a una decisión de diseño para simplificar la interfaz. Los elementos clave de la página de exploración ahora están integrados directamente en la página de bienvenida, eliminando la necesidad de navegación adicional.
+
+**Implementación Actual**:
+- El carrusel de socios se muestra directamente en la página de bienvenida
+- Se ha eliminado la navegación a ExplorePage
+- La página de bienvenida utiliza `SingleChildScrollView` para resolver problemas de desbordamiento
+
 ### Reglas Visuales
 
 Para mantener una experiencia coherente:
@@ -235,6 +247,12 @@ La duración estándar de las transiciones es de 1100ms, lo que proporciona un e
 **Problema**: La pantalla se vuelve completamente negra durante la transición circular.
 
 **Solución**: Asegúrate de que el `circleColor` en `CirclePageRoute` coincida con el color de fondo de tu aplicación o pantalla.
+
+### Resolución de Problemas de Desbordamiento
+
+**Problema**: La interfaz presenta errores de desbordamiento ("RenderFlex overflowed") en ciertas pantallas.
+
+**Solución**: Utiliza `SingleChildScrollView` como contenedor principal para permitir el desplazamiento del contenido cuando sea necesario. Esto se ha implementado en la página de bienvenida para resolver el problema de desbordamiento de 26 píxeles.
 
 ### Dirección Incorrecta de la Animación
 
