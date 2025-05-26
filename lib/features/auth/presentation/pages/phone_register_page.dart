@@ -3,6 +3,7 @@ import 'package:app_agenda_glam/core/animations/animation_presets.dart';
 import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/user_type_selector_widget.dart';
 
 import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:flutter/services.dart';
@@ -458,13 +459,17 @@ class _PhoneRegisterPageState extends State<PhoneRegisterPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Tipo de Usuario',
+                            'Selecciona cómo utilizarás la App',
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: Colors.white,
                             ),
                           ),
                           const SizedBox(height: 12),
-                          _buildUserTypeSelector(),
+                          UserTypeSelectorWidget(
+                            selectedUserType: _userType ?? '',
+                            onUserTypeSelected: _updateUserType,
+                            showTitle: false, // No mostrar el título del componente ya que lo mostramos arriba
+                          ),
                         ],
                       ),
                     ),
@@ -614,80 +619,6 @@ class _PhoneRegisterPageState extends State<PhoneRegisterPage> {
     );
   }
   
-  /// Construye el selector de tipo de usuario con diseño atractivo
-  Widget _buildUserTypeSelector() {
-    return Row(
-      children: [
-        // Opción Propietario
-        Expanded(
-          child: _buildUserTypeOption(
-            'Propietario',
-            Icons.business,
-            'Propietario',
-          ),
-        ),
-        const SizedBox(width: 8),
-        
-        // Opción Empleado
-        Expanded(
-          child: _buildUserTypeOption(
-            'Empleado',
-            Icons.work,
-            'Empleado',
-          ),
-        ),
-        const SizedBox(width: 8),
-        
-        // Opción Cliente
-        Expanded(
-          child: _buildUserTypeOption(
-            'Cliente',
-            Icons.person,
-            'Cliente',
-          ),
-        ),
-      ],
-    );
-  }
-  
-  /// Construye una opción individual del selector de tipo de usuario
-  Widget _buildUserTypeOption(String type, IconData icon, String label) {
-    final bool isSelected = _userType != null && _userType == type;
-    
-    return InkWell(
-      onTap: () => _updateUserType(type),
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        decoration: BoxDecoration(
-          color: isSelected ? kAccentColor.withValues(alpha: 0.15) : Colors.black.withValues(alpha: 0.3),
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: isSelected ? kAccentColor : Colors.transparent,
-            width: 2,
-          ),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 28,
-              color: isSelected ? kAccentColor : Colors.grey,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 12,
-                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                color: isSelected ? kAccentColor : Colors.grey,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Se eliminaron los métodos _buildUserTypeSelector y _buildUserTypeOption
+  // ahora estamos usando el componente reutilizable UserTypeSelectorWidget
 }

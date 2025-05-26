@@ -24,7 +24,7 @@ class GlamTermsDialog extends StatelessWidget {
       context: context,
       barrierDismissible: true,
       barrierLabel: 'Barrier',
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withValues(alpha: 0.5),
       transitionDuration: const Duration(milliseconds: 400),
       pageBuilder: (_, __, ___) => const SizedBox.shrink(), // No se usa
       transitionBuilder: (context, animation, secondaryAnimation, child) {

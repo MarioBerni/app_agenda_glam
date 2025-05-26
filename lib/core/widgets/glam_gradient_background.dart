@@ -1,6 +1,5 @@
 import 'dart:math' show Random;
 import 'package:flutter/material.dart';
-import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 
 /// Clase para almacenar datos de círculos animados
 class AnimatedCircle {
@@ -24,11 +23,11 @@ class AnimatedCircle {
 }
 
 /// Widget centralizado mejorado que proporciona un fondo con degradado
-/// y elementos diagonales para toda la aplicación.
+/// para toda la aplicación.
 ///
 /// Este componente implementa el fondo estándar mejorado de Agenda Glam,
-/// con degradados sofisticados y elementos visuales diagonales que
-/// mantienen la estética masculina y elegante definida en el tema.
+/// con degradados sofisticados que mantienen la estética masculina y elegante
+/// definida en el tema.
 class GlamGradientBackground extends StatefulWidget {
   /// Color primario para el degradado.
   /// Si no se especifica, usa kPrimaryColor del tema.
@@ -38,18 +37,12 @@ class GlamGradientBackground extends StatefulWidget {
   /// Si no se especifica, se calcula a partir del color primario.
   final Color? secondaryColor;
   
-  /// Color para la franja diagonal.
-  /// Si no se especifica, usa el kAccentColor del tema.
-  final Color? accentColor;
-  
   /// Opacidad del degradado (0.0 - 1.0).
   final double opacity;
   
-  /// Ancho de la franja diagonal como porcentaje del ancho de la pantalla.
-  final double diagonalStripWidth;
-  
-  /// Ángulo de inclinación de la franja diagonal en grados.
-  final double diagonalAngle;
+  /// Color adicional para el degradado.
+  /// Si no se especifica, se calcula a partir del color primario.
+  final Color? accentColor;
   
   /// Determina si se muestran elementos decorativos adicionales.
   final bool showDecorationElements;
@@ -64,8 +57,6 @@ class GlamGradientBackground extends StatefulWidget {
     this.secondaryColor,
     this.accentColor,
     this.opacity = 0.9,
-    this.diagonalStripWidth = 0.25, // 25% del ancho de pantalla
-    this.diagonalAngle = 60, // 60 grados (mayor inclinación)
     this.showDecorationElements = true,
     this.showBouncingCircle = true,
   });
@@ -181,17 +172,18 @@ class _GlamGradientBackgroundState extends State<GlamGradientBackground>
   
   @override
   Widget build(BuildContext context) {
-    // Determinar colores principales
-    final Color effectivePrimaryColor = widget.primaryColor ?? kPrimaryColor;
+    // Determinar colores principales para el degradado más intenso
+    // Usando colores más fuertes y saturados para un impacto visual mayor
+    final Color effectivePrimaryColor = widget.primaryColor ?? 
+        const Color(0xFF001F63); // Azul más intenso para la parte superior
     final Color effectiveSecondaryColor = widget.secondaryColor ?? 
-        kBackgroundColor.withValues(alpha: widget.opacity);
-    // Usamos un color azul más claro que armonice con el degradado en lugar del dorado
+        const Color(0xFF000C33).withValues(alpha: widget.opacity); // Azul muy oscuro casi negro para la base
     final Color effectiveAccentColor = widget.accentColor ?? 
-        kPrimaryColorLight.withValues(alpha: 0.25); // Usando un azul más claro de la paleta
+        const Color(0xFF0031A6).withValues(alpha: 0.95); // Azul medio intenso para contraste
     
     return Stack(
       children: [
-        // Degradado de fondo mejorado
+        // Degradado de fondo con azul intenso y transiciones más marcadas
         Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -199,23 +191,30 @@ class _GlamGradientBackgroundState extends State<GlamGradientBackground>
               end: Alignment.bottomCenter,
               colors: [
                 effectivePrimaryColor,
-                effectivePrimaryColor.withValues(alpha: 0.85),
-                effectiveSecondaryColor,
+                effectiveAccentColor,        // Color intermedio para contraste
+                effectiveSecondaryColor,     // Color más oscuro en la base
               ],
-              stops: const [0.0, 0.4, 1.0],
+              stops: const [0.0, 0.35, 1.0], // Transición más abrupta para un efecto más intenso
             ),
           ),
           width: double.infinity,
           height: double.infinity,
         ),
         
-        // Franja diagonal
-        CustomPaint(
-          size: Size.infinite,
-          painter: DiagonalStripPainter(
-            stripColor: effectiveAccentColor,
-            stripWidth: widget.diagonalStripWidth,
-            angle: widget.diagonalAngle,
+        // Efecto de profundidad sutil con degradado radial
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: const Alignment(0.0, -0.5),  // Centrado en la parte superior
+              radius: 1.2,                         // Radio amplio
+              colors: [
+                Colors.white.withValues(alpha: 0.08),      // Brillo sutil
+                Colors.transparent,                  // Transparente en los bordes
+              ],
+              stops: const [0.0, 0.6],
+            ),
           ),
         ),
         
@@ -263,73 +262,7 @@ class _GlamGradientBackgroundState extends State<GlamGradientBackground>
   }
 }
 
-/// Painter personalizado para dibujar la franja diagonal
-class DiagonalStripPainter extends CustomPainter {
-  final Color stripColor;
-  final double stripWidth;
-  final double angle;
-  
-  DiagonalStripPainter({
-    required this.stripColor,
-    required this.stripWidth,
-    required this.angle,
-  });
-  
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = stripColor
-      ..style = PaintingStyle.fill;
-      
-    // Calcular puntos para la franja diagonal
-    final path = Path();
-    
-    // Nota: El ángulo proporcionado como parámetro determina
-    // la inclinación visual de la franja diagonal, aunque no
-    // lo usemos para cálculos específicos en esta implementación
-    
-    // Crear un path para la franja diagonal con mayor inclinación
-    path.moveTo(size.width * 0.4, 0); // Movido más a la izquierda para aumentar la inclinación
-    path.lineTo(size.width, 0);
-    path.lineTo(size.width * 0.2, size.height); // Mayor inclinación
-    path.lineTo(0, size.height * 0.7); // Ajustado para una línea más diagonal
-    path.close();
-    
-    canvas.drawPath(path, paint);
-    
-    // Añadir un segundo path con degradado para efecto de profundidad sutil
-    // Usando colores de la misma familia de azules para mejor integración
-    final gradient = LinearGradient(
-      begin: Alignment.topRight,
-      end: Alignment.bottomLeft,
-      colors: [
-        // Usando colores de la paleta azul que armonicen con el fondo
-        kPrimaryColor.withValues(alpha: 0.3),
-        kPrimaryColorDark.withValues(alpha: 0.05),
-      ],
-    );
-    
-    final secondPaint = Paint()
-      ..shader = gradient.createShader(Rect.fromLTWH(
-        size.width * 0.5, // Ajustado para la nueva posición
-        0,
-        size.width * 0.5, 
-        size.height,
-      ));
-    
-    path.reset();
-    path.moveTo(size.width * 0.45, 0);    // Ajustado para mayor inclinación
-    path.lineTo(size.width * 0.8, 0);     // No abarca todo el ancho superior
-    path.lineTo(size.width * 0.3, size.height); // Mayor inclinación
-    path.lineTo(0, size.height * 0.5);    // Punto inferior ajustado
-    path.close();
-    
-    canvas.drawPath(path, secondPaint);
-  }
-  
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
-}
+
 
 /// Painter para añadir elementos decorativos sutiles al fondo
 class DecorationElementsPainter extends CustomPainter {

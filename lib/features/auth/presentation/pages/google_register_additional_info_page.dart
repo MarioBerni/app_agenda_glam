@@ -6,8 +6,7 @@ import 'package:app_agenda_glam/core/widgets/glam_ui.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
 import 'package:app_agenda_glam/features/auth/presentation/controllers/google_register_controller.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/action_buttons_widget.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/phone_input_widget.dart';
+import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/user_type_selector_widget.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/verification_code_input_widget.dart';
 import 'package:flutter/material.dart';
@@ -221,25 +220,36 @@ class _GoogleRegisterContent extends StatelessWidget {
                     
                     // Campo de teléfono
                     GlamAnimations.applyEntryEffect(
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Número de Teléfono',
-                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: Colors.white,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          PhoneInputWidget(
-                            phoneController: controller.phoneController,
-                            errorText: controller.phoneError,
-                            isPhoneValid: controller.isPhoneValid,
-                            showInfoText: !controller.isCodeSent,
-                          ),
-                        ],
+                      GlamTextField(
+                        controller: controller.phoneController,
+                        label: 'Número de Teléfono',
+                        prefixIcon: Icons.phone_android,
+                        keyboardType: TextInputType.phone,
+                        textInputAction: TextInputAction.done,
+                        errorText: controller.phoneError,
+                        hintText: '09XXXXXXXX',
+                        suffixIcon: controller.isPhoneValid 
+                            ? const Icon(Icons.check_circle, color: Colors.green) 
+                            : null,
                       ),
                     ),
+                    
+                    if (!controller.isCodeSent) ...[                          
+                      const SizedBox(height: 8),
+                      // Texto informativo
+                      GlamAnimations.applyEntryEffect(
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: Text(
+                            'Te enviaremos un código de verificación a este número.',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.white.withValues(alpha: 0.7),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                     
                     const SizedBox(height: 24),
                     
@@ -289,6 +299,10 @@ class _GoogleRegisterContent extends StatelessWidget {
   
   /// Construye el encabezado de la página
   Widget _buildHeader(BuildContext context) {
+    // Accedemos a los datos del widget padre a través de Provider
+    final parentWidget = context.findAncestorWidgetOfExactType<GoogleRegisterAdditionalInfoPage>();
+    final userName = parentWidget?.userName ?? 'Usuario';
+    
     return GlamUI.buildHeader(
       context,
       title: 'Completar Registro',
@@ -304,14 +318,15 @@ class _GoogleRegisterContent extends StatelessWidget {
     GoogleRegisterController controller,
   ) {
     if (!controller.isCodeSent) {
-      // Mostrar botón de enviar código si aún no se ha enviado
-      return ActionButtonsWidget(
-        primaryButtonText: 'Enviar Código',
-        onPrimaryPressed: controller.isPhoneValid && !controller.isLoading 
+      // Mostrar botón de enviar código si aún no se ha enviado (sin botón Cancelar)
+      return GlamButton(
+        text: 'Enviar Código',
+        onPressed: controller.isPhoneValid && !controller.isLoading 
             ? controller.sendVerificationCode 
             : null,
-        onCancelPressed: () => CircleNavigation.goToWelcome(context),
         isLoading: controller.isLoading,
+        icon: Icons.send,
+        withShimmer: true,
       );
     } else {
       // Mostrar sección de verificación si ya se envió el código
@@ -329,13 +344,25 @@ class _GoogleRegisterContent extends StatelessWidget {
           
           const SizedBox(height: 30),
           
-          ActionButtonsWidget(
-            primaryButtonText: 'Verificar y Completar',
-            onPrimaryPressed: controller.isCodeValid && !controller.isVerifying 
-                ? () => controller.completeRegistration(userName, userEmail)
+          // Utilizamos directamente GlamButton para ser consistente con la página de Registro por teléfono
+          // y eliminar el botón de Cancelar
+          GlamButton(
+            text: 'Verificar y Completar',
+            onPressed: controller.isCodeValid && !controller.isVerifying 
+                ? () {
+                    // Accedemos a los datos del widget padre
+                    final parentWidget = context.findAncestorWidgetOfExactType<GoogleRegisterAdditionalInfoPage>();
+                    if (parentWidget != null) {
+                      controller.completeRegistration(
+                        parentWidget.userName,
+                        parentWidget.userEmail
+                      );
+                    }
+                  }
                 : null,
-            onCancelPressed: () => CircleNavigation.goToWelcome(context),
             isLoading: controller.isLoading || controller.isVerifying,
+            icon: Icons.check_circle_outline,
+            withShimmer: true,
           ),
         ],
       );

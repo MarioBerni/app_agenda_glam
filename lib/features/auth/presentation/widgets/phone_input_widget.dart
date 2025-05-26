@@ -15,6 +15,12 @@ class PhoneInputWidget extends StatelessWidget {
   
   /// Si se muestra el texto informativo sobre envío de código
   final bool showInfoText;
+  
+  /// Si se muestra el label dentro del campo
+  final bool showFieldLabel;
+  
+  /// Título que aparece sobre el campo (opcional)
+  final String? title;
 
   const PhoneInputWidget({
     super.key,
@@ -22,6 +28,8 @@ class PhoneInputWidget extends StatelessWidget {
     this.errorText,
     required this.isPhoneValid,
     this.showInfoText = true,
+    this.showFieldLabel = true,
+    this.title,
   });
 
   @override
@@ -29,10 +37,21 @@ class PhoneInputWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Título opcional sobre el campo
+        if (title != null) ...[  
+          Text(
+            title!,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
+      
         GlamAnimations.applyEntryEffect(
           GlamTextField(
             controller: phoneController,
-            label: 'Número de Teléfono',
+            label: showFieldLabel ? 'Número de Teléfono' : '',
             prefixIcon: Icons.phone_android,
             keyboardType: TextInputType.phone,
             textInputAction: TextInputAction.done,
