@@ -1,5 +1,5 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/app_router.dart';
+import 'package:app_agenda_glam/core/routes/routes/app_routes.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.dart';
 import 'package:flutter/material.dart';
@@ -174,7 +174,7 @@ class RecoveryConfirmation extends StatelessWidget {
   Widget _buildReturnButton(BuildContext context) {
     return GlamButton(
       text: 'Volver al inicio de sesión',
-      onPressed: () => context.go(AppRouter.login),
+      onPressed: () => context.go(AppRoutes.login),
       icon: Icons.login_outlined,
       isSecondary: false,
       withShimmer: true,

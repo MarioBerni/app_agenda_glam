@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                         context,
                         title: 'Iniciar Sesión',
                         subtitle: 'Accede a tu cuenta para gestionar tus citas y servicios',
-                        onBackPressed: () => CircleNavigation.goToWelcome(context),
+                        onBackPressed: () => CircleNavigation.goBackFromLogin(context),
                         // El espaciado superior ahora está integrado en el componente
                         // con un valor predeterminado de 0.04
                       ),

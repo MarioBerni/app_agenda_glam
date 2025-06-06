@@ -1,9 +1,9 @@
-import 'package:app_agenda_glam/core/routes/app_router.dart';
 import 'package:app_agenda_glam/core/routes/circle_page_route.dart';
+import 'package:app_agenda_glam/core/routes/routes/app_routes.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/login_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/recovery_page.dart';
 import 'package:app_agenda_glam/features/auth/presentation/pages/register_page.dart';
-import 'package:app_agenda_glam/features/auth/presentation/pages/welcome_page.dart';
+// Import eliminado por no ser utilizado
 import 'package:app_agenda_glam/features/auth/presentation/pages/phone_register_page.dart';
 import 'package:app_agenda_glam/features/explore/presentation/pages/explore_page.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +17,19 @@ class CircleNavigation {
   /// Prevenir la instanciación
   CircleNavigation._();
   
-  /// Navega a la página de bienvenida con efecto circular
-  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  /// Navega a la página de bienvenida
+  /// Originalmente usaba una transición circular desde la esquina inferior derecha
+  /// Modificado para usar Navigator.pop() para compatibilidad con GoRouter
   static void goToWelcome(BuildContext context) {
-    context.popCircle(const WelcomePage());
+    Navigator.of(context).pop();
+  }
+  
+  /// Navega hacia atrás desde la página de inicio de sesión a la página de bienvenida
+  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  static void goBackFromLogin(BuildContext context) {
+    // Usamos Navigator.pop() para mantener compatibilidad con GoRouter
+    // evitando conflictos de estado al modificar la pila de navegación
+    Navigator.of(context).pop();
   }
   
   /// Navega a la página de inicio de sesión con efecto circular
@@ -65,10 +74,11 @@ class CircleNavigation {
     context.pushCircle(const RecoveryPage());
   }
   
-  /// Navega desde la página de recuperación a la página de login con efecto circular
-  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  /// Navega hacia atrás desde la página de recovery a la página de login
+  /// Originalmente usaba una transición circular desde la esquina inferior derecha
+  /// Modificado para usar Navigator.pop() para compatibilidad con GoRouter
   static void goBackToLogin(BuildContext context) {
-    context.popCircle(const LoginPage());
+    Navigator.of(context).pop();
   }
   
   /// Navega a la página de registro con teléfono con efecto circular
@@ -77,29 +87,32 @@ class CircleNavigation {
     context.pushCircle(const PhoneRegisterPage());
   }
   
-  /// Navega desde PhoneRegisterPage de vuelta a RegisterPage con efecto circular
-  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  /// Navega hacia atrás desde la página de phone register a la página de registro
+  /// Originalmente usaba una transición circular desde la esquina inferior derecha
+  /// Modificado para usar Navigator.pop() para compatibilidad con GoRouter
   static void goBackToRegister(BuildContext context) {
-    context.popCircle(const RegisterPage());
+    Navigator.of(context).pop();
   }
   
-  /// Navega desde GoogleRegisterAdditionalInfoPage de vuelta a RegisterPage con efecto circular
-  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  /// Navega hacia atrás desde la página de información adicional de Google a la página de registro
+  /// Originalmente usaba una transición circular desde la esquina inferior derecha
+  /// Modificado para usar Navigator.pop() para compatibilidad con GoRouter
   static void goBackFromGoogleAdditionalInfo(BuildContext context) {
-    context.popCircle(const RegisterPage());
+    Navigator.of(context).pop();
   }
   
-  /// Navega desde PhoneRegisterAdditionalInfoPage de vuelta a PhoneRegisterPage con efecto circular
-  /// El círculo se expande desde la esquina inferior derecha (navegación hacia atrás)
+  /// Navega hacia atrás desde la página de información adicional de registro telefónico
+  /// Originalmente usaba una transición circular desde la esquina inferior derecha
+  /// Modificado para usar Navigator.pop() para compatibilidad con GoRouter
   static void goBackFromPhoneAdditionalInfo(BuildContext context) {
-    context.popCircle(const PhoneRegisterPage());
+    Navigator.of(context).pop();
   }
   
   /// Navega a la página de inicio con el router estándar
   /// Se utiliza el router estándar para la navegación a la página principal
   /// ya que es una transición especial que marca el ingreso a la aplicación
   static void goToHome(BuildContext context) {
-    context.go(AppRouter.home);
+    context.go(AppRoutes.home);
   }
   
   /// Navega a la página de exploración sin registro con efecto circular

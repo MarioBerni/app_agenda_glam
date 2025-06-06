@@ -1,88 +1,171 @@
-# Guía de Navegación: Agenda Glam
+# Guía de Navegación: Agenda Glam - Sistema Modular
 
-**Propósito**: Esta guía explica el sistema de navegación de Agenda Glam, con enfoque en las transiciones circulares y patrones de implementación. Proporciona instrucciones paso a paso para implementar correctamente la navegación entre pantallas.
+**Propósito**: Esta guía explica el sistema de navegación modular de Agenda Glam, basado en GoRouter con transiciones estandarizadas y una arquitectura modular por funcionalidades. Proporciona instrucciones para implementar correctamente la navegación entre pantallas y mantener un sistema coherente y escalable.
 
 ## Índice
-1. [Introducción al Sistema de Navegación](#introducción-al-sistema-de-navegación)
-2. [Componentes Clave](#componentes-clave)
-3. [Implementación Paso a Paso](#implementación-paso-a-paso)
-4. [Patrones y Casos de Uso](#patrones-y-casos-de-uso)
-5. [Solución de Problemas](#solución-de-problemas)
+1. [Introducción al Sistema de Navegación Modular](#introducción-al-sistema-de-navegación-modular)
+2. [Estructura y Componentes](#estructura-y-componentes)
+3. [Implementación de Nuevas Rutas](#implementación-de-nuevas-rutas)
+4. [Transiciones de Página](#transiciones-de-página)
+5. [Navegación en la Aplicación](#navegación-en-la-aplicación)
+6. [Solución de Problemas](#solución-de-problemas)
 
-## Introducción al Sistema de Navegación
+## Introducción al Sistema de Navegación Modular
 
-Agenda Glam utiliza un sistema de navegación personalizado basado en `go_router` con transiciones circulares para proporcionar una experiencia de usuario fluida, coherente y visualmente atractiva. El sistema está diseñado con tres capas:
+Agenda Glam utiliza un sistema de navegación modular basado en `go_router` con transiciones estandarizadas para proporcionar una experiencia de usuario coherente, mantenible y escalable. El sistema está diseñado siguiendo principios de modularidad y Clean Architecture:
 
-1. **Capa Base**: Utiliza `go_router` como framework de navegación declarativa
-2. **Capa de Personalización**: Implementa `CirclePageRoute` para transiciones circulares
-3. **Capa de Abstracción**: Proporciona `CircleNavigation` como punto centralizado para todas las navegaciones
+1. **Centralización de Constantes**: Todas las rutas se definen como constantes en `app_routes.dart`
+2. **Modularización por Características**: Las rutas se agrupan según su funcionalidad (auth, main, splash, etc.)
+3. **Transiciones Estandarizadas**: Implementadas en `transitions_helpers.dart` para mantener consistencia
+4. **Integración Central**: `app_router.dart` integra todas las rutas modularizadas
 
-Este enfoque por capas permite:
-- **Coherencia visual** en toda la aplicación
-- **Simplificación del código** de navegación para los desarrolladores
-- **Mantenibilidad mejorada** al centralizar la lógica de navegación
+Este enfoque modular permite:
+- **Mantenibilidad mejorada** al separar las rutas por funcionalidad
+- **Cumplimiento del límite de 300 líneas** por archivo
+- **Coherencia visual** gracias a transiciones estandarizadas
+- **Escalabilidad** facilitando la adición de nuevas rutas
 
-## Componentes Clave
+## Estructura y Componentes
 
-### CirclePageRoute
+El sistema de navegación modular se organiza siguiendo una estructura clara y modular:
 
-`CirclePageRoute` es una implementación personalizada de `PageRouteBuilder` que crea una transición circular expandiéndose desde un punto específico.
+```
+lib/core/routes/
+├── app_router.dart                # Integrador principal de todas las rutas
+└── routes/
+    ├── app_routes.dart          # Constantes de rutas centralizadas
+    ├── transitions_helpers.dart  # Helpers para transiciones estandarizadas
+    ├── auth_routes.dart         # Rutas de autenticación
+    ├── main_routes.dart         # Rutas principales con barra de navegación
+    └── splash_route.dart        # Ruta de splash screen
+```
+
+### app_routes.dart
+
+`app_routes.dart` centraliza todas las constantes de rutas, evitando la duplicación de strings y facilitando el mantenimiento.
 
 ```dart
-// lib/core/routes/circle_page_route.dart
-class CirclePageRoute extends PageRouteBuilder {
-  final Widget page;
-  final Alignment alignment;
-  final Color circleColor;
-
-  CirclePageRoute({
-    required this.page,
-    required this.alignment,
-    this.circleColor = Colors.black,
-  }) : super(
-          pageBuilder: (context, animation, secondaryAnimation) => page,
-          transitionsBuilder: (context, animation, secondaryAnimation, child) {
-            // Implementación de la transición circular
-            return _buildTransition(context, animation, child, alignment, circleColor);
-          },
-          transitionDuration: const Duration(milliseconds: 1100),
-        );
-        
-  // Resto de la implementación...
+// lib/core/routes/routes/app_routes.dart
+class AppRoutes {
+  // Rutas de autenticación
+  static const String splash = '/splash';
+  static const String welcome = '/welcome';
+  static const String login = '/login';
+  static const String register = '/register';
+  static const String recovery = '/recovery';
+  
+  // Rutas principales con barra de navegación
+  static const String home = '/home';
+  static const String explore = '/explore';
+  static const String benefits = '/benefits';
+  static const String profile = '/profile';
 }
 ```
 
-### CircleNavigation
+### transitions_helpers.dart
 
-`CircleNavigation` es una clase utilitaria que proporciona métodos estáticos para todas las navegaciones comunes en la aplicación.
+`transitions_helpers.dart` contiene implementaciones reutilizables de transiciones de página para mantener la coherencia visual en toda la aplicación.
 
 ```dart
-// lib/core/routes/circle_navigation.dart
-class CircleNavigation {
-  // Navegación hacia adelante (bottomLeft)
-  static void goToLogin(BuildContext context) {
-    context.pushCircle(const LoginPage());
+// lib/core/routes/routes/transitions_helpers.dart
+class TransitionsHelpers {
+  // Transiciones estandarizadas como fade, fadeScale, slide
+  static CustomTransitionPage buildFadeTransition({
+    required BuildContext context,
+    required GoRouterState state,
+    required Widget child,
+    Duration duration = const Duration(milliseconds: 300),
+  }) {
+    return CustomTransitionPage(
+      key: state.pageKey,
+      child: child,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+      transitionDuration: duration,
+    );
   }
   
-  static void goToRegister(BuildContext context) {
-    context.pushCircle(const RegisterPage());
+  // Otras transiciones...
+}
+```
+
+### auth_routes.dart
+
+`auth_routes.dart` contiene todas las rutas relacionadas con la autenticación, agrupadas lógicamente.
+
+```dart
+// lib/core/routes/routes/auth_routes.dart
+class AuthRoutes {
+  /// Obtener todas las rutas de autenticación en una lista
+  static List<RouteBase> getRoutes() {
+    return [
+      // Ruta de welcome (pantalla de inicio/bienvenida)
+      GoRoute(
+        path: AppRoutes.welcome,
+        pageBuilder: (context, state) => TransitionsHelpers.buildFadeScaleTransition(
+          context: context,
+          state: state,
+          child: const WelcomePage(),
+        ),
+      ),
+      // Rutas de login, registro, recuperación...
+    ];
   }
-  
-  static void goToPhoneRegister(BuildContext context) {
-    context.pushCircle(const PhoneRegisterPage());
+}
+```
+
+### main_routes.dart
+
+`main_routes.dart` implementa un ShellRoute para manejar la navegación con tabs en la parte inferior:
+
+```dart
+// lib/core/routes/routes/main_routes.dart
+class MainRoutes {
+  /// Obtener el ShellRoute con todas las rutas principales
+  static ShellRoute getShellRoute() {
+    return ShellRoute(
+      builder: (context, state, child) {
+        return MainNavigator(child: child);
+      },
+      routes: [
+        // Rutas dentro del shell (home, explore, benefits, profile)
+        GoRoute(
+          path: AppRoutes.home,
+          pageBuilder: (context, state) => TransitionsHelpers.buildFadeTransition(
+            context: context,
+            state: state,
+            child: const HomePage(),
+          ),
+        ),
+        // Otras rutas...
+      ],
+    );
   }
-  
-  // Nota: La navegación a ExplorePage desde WelcomePage ha sido eliminada
-  // debido a la integración de elementos de exploración en la página de bienvenida
-  
-  // Navegación hacia atrás (bottomRight)
-  static void goToWelcome(BuildContext context) {
-    context.popCircle(const WelcomePage());
-  }
-  
-  static void goBackToRegister(BuildContext context) {
-    context.popCircle(const RegisterPage());
-  }
+}
+```
+
+### app_router.dart
+
+`app_router.dart` actúa como el integrador principal de todas las rutas modulares:
+
+```dart
+// lib/core/routes/app_router.dart
+class AppRouter {
+  static final GoRouter router = GoRouter(
+    initialLocation: AppRoutes.splash,
+    debugLogDiagnostics: true,
+    routes: [
+      // Integra todas las rutas de módulos separados
+      
+      // 1. Ruta de splash screen (fuera del shell y auth)
+      SplashRoute.getRoute(),
+      
+      // 2. Rutas de autenticación
+      ...AuthRoutes.getRoutes(),
   
   static void goBackFromGoogleAdditionalInfo(BuildContext context) {
     context.popCircle(const RegisterPage());

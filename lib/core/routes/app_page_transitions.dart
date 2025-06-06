@@ -29,6 +29,9 @@ enum TransitionType {
   
   /// Transición circular expandiéndose desde la esquina inferior derecha (retroceder)
   circleBackward,
+
+  /// Transición de Fade con Scale elegante (efecto de burbuja creciente)
+  fadeScale,
 }
 
 /// Define las transiciones personalizadas para las páginas de la aplicación
@@ -40,25 +43,25 @@ class AppPageTransitions {
   /// Mapa de transiciones predefinidas (se puede expandir según necesidad)
   static final Map<String, TransitionType> _routeTransitions = {
     // Autenticación
-    '/welcome': TransitionType.circleForward,
-    '/login': TransitionType.circleForward,
-    '/register': TransitionType.circleForward,
-    '/recovery': TransitionType.circleForward,
+    '/welcome': TransitionType.fadeScale,
+    '/login': TransitionType.fadeScale,
+    '/register': TransitionType.fadeScale,
+    '/recovery': TransitionType.fadeScale,
 
     // Confirmaciones
     '/recovery/confirmation': TransitionType.confirmation,
 
     // Principal
-    '/': TransitionType.circleForward,
+    '/': TransitionType.fadeScale,
   };
   
   /// Mapa que define las transiciones para navegación hacia atrás
   static final Map<String, TransitionType> _reverseTransitions = {
-    // Usar transición circular hacia atrás al regresar de estas rutas
-    '/login': TransitionType.circleBackward,
-    '/register': TransitionType.circleBackward,
-    '/recovery': TransitionType.circleBackward,
-    '/': TransitionType.circleBackward,
+    // Usar transición fadeScale hacia atrás al regresar de estas rutas
+    '/login': TransitionType.fadeScale,
+    '/register': TransitionType.fadeScale,
+    '/recovery': TransitionType.fadeScale,
+    '/': TransitionType.fadeScale,
   };
 
   /// Obtiene el tipo de transición para una ruta específica
@@ -196,6 +199,21 @@ class AppPageTransitions {
           child: child,
           alignment: Alignment.bottomRight,
         );
+        
+      case TransitionType.fadeScale:
+        // Transición Fade con Scale elegante (efecto de burbuja creciente)
+        return FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: Tween<double>(begin: 0.88, end: 1.0).animate(
+              CurvedAnimation(
+                parent: animation,
+                curve: Curves.easeOutCubic,
+              ),
+            ),
+            child: child,
+          ),
+        );
     }
   }
 
@@ -215,6 +233,8 @@ class AppPageTransitions {
       case TransitionType.circleForward:
       case TransitionType.circleBackward:
         return const Duration(milliseconds: 1200);
+      case TransitionType.fadeScale:
+        return const Duration(milliseconds: 300);
     }
   }
   

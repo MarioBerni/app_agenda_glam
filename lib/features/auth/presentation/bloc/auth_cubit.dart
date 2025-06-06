@@ -1,7 +1,10 @@
+import 'package:app_agenda_glam/core/routes/routes/app_routes.dart';
 import 'package:app_agenda_glam/features/auth/domain/entities/credentials.dart';
 import 'package:app_agenda_glam/features/auth/domain/repositories/auth_repository.dart';
 import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_state.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 /// Cubit que gestiona el estado de autenticación
 /// Orquesta las operaciones de autenticación utilizando el repositorio
@@ -197,5 +200,62 @@ class AuthCubit extends Cubit<AuthState> {
   /// Valida el formato del email utilizando una expresión regular
   bool _isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
+  }
+  
+  /// Verifica si una funcionalidad específica requiere autenticación
+  /// y redirige al usuario apropiadamente
+  ///
+  /// Retorna true si el usuario está autenticado y puede acceder a la funcionalidad
+  /// o false si el usuario no está autenticado y debe ser redirigido
+  bool handleAuthRequiredFeature(BuildContext context, {bool showDialog = true}) {
+    final currentState = state;
+    
+    if (currentState.status == AuthStatus.authenticated) {
+      return true; // Usuario autenticado, puede acceder
+    }
+    
+    // Usuario no autenticado, mostrar diálogo si se requiere
+    if (showDialog) {
+      _showAuthRequiredDialog(context);
+    }
+    
+    return false; // No autenticado
+  }
+  
+  /// Muestra un diálogo informando que la funcionalidad requiere autenticación
+  /// y ofrece opciones para iniciar sesión o registrarse
+  void _showAuthRequiredDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Autenticación requerida'),
+        content: const Text(
+          'Esta funcionalidad requiere que inicies sesión o te registres para continuar.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go(AppRoutes.login);
+            },
+            child: const Text('Iniciar Sesión'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              context.go(AppRoutes.register);
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: Theme.of(context).colorScheme.secondary,
+            ),
+            child: const Text('Registrarse'),
+          ),
+        ],
+      ),
+    );
   }
 }

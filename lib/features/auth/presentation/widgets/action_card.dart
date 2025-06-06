@@ -5,16 +5,55 @@ import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_button.d
 import 'package:flutter/material.dart';
 
 /// Widget que muestra el texto informativo y los botones de inicio de sesión y registro
+/// o una tarjeta de acción personalizada con gradiente de colores
 class ActionCard extends StatelessWidget {
-  final ParallaxController parallaxController;
+  final ParallaxController? parallaxController;
   
+  // Propiedades para el constructor fromColor
+  final IconData? icon;
+  final String? title;
+  final String? subtitle;
+  final VoidCallback? onTap;
+  final List<Color>? gradientColors;
+  final Alignment? gradientBegin;
+  final Alignment? gradientEnd;
+  final bool isColorVariant;
+  
+  /// Constructor estándar para la tarjeta de acción de login/registro
   const ActionCard({
     super.key,
     required this.parallaxController,
-  });
+  }) : icon = null,
+       title = null,
+       subtitle = null,
+       onTap = null,
+       gradientColors = null,
+       gradientBegin = null,
+       gradientEnd = null,
+       isColorVariant = false;
+       
+  /// Constructor para crear una tarjeta de acción con colores personalizados
+  /// Útil para páginas de bienvenida y navegación principal
+  const ActionCard.fromColor({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+    required this.gradientColors,
+    this.gradientBegin = Alignment.topLeft,
+    this.gradientEnd = Alignment.bottomRight,
+  }) : parallaxController = null,
+       isColorVariant = true;
 
   @override
   Widget build(BuildContext context) {
+    // Renderizar tarjeta de acción con colores personalizados
+    if (isColorVariant) {
+      return _buildColorCard();
+    }
+    
+    // Renderizar tarjeta de login/registro estándar
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -65,7 +104,7 @@ class ActionCard extends StatelessWidget {
         child: GlamButton(
           text: 'Iniciar Sesión',
           onPressed: () async {
-            parallaxController.animateForward();
+            parallaxController?.animateForward();
             final navigatorState = Navigator.of(context);
             final themeData = Theme.of(context);
             
@@ -91,7 +130,7 @@ class ActionCard extends StatelessWidget {
         child: GlamButton(
           text: 'Registrarse',
           onPressed: () async {
-            parallaxController.animateForward();
+            parallaxController?.animateForward();
             final navigatorState = Navigator.of(context);
             final themeData = Theme.of(context);
             
@@ -106,6 +145,66 @@ class ActionCard extends StatelessWidget {
         ),
       ),
       slideDistance: 0.25,
+    );
+  }
+  
+  /// Construye una tarjeta de acción con colores personalizados según los parámetros
+  Widget _buildColorCard() {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          gradient: LinearGradient(
+            colors: gradientColors ?? [Colors.purple, Colors.deepPurple],
+            begin: gradientBegin ?? Alignment.topLeft,
+            end: gradientEnd ?? Alignment.bottomRight,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: (gradientColors?.first ?? Colors.purple).withValues(alpha: 0.3),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Icono
+            Icon(
+              icon ?? Icons.star,
+              color: Colors.white,
+              size: 32,
+            ),
+            
+            const SizedBox(height: 16),
+            
+            // Título
+            Text(
+              title ?? '',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                letterSpacing: 1.0,
+              ),
+            ),
+            
+            const SizedBox(height: 4),
+            
+            // Subtítulo
+            Text(
+              subtitle ?? '',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.white.withValues(alpha: 0.8),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

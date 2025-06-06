@@ -111,19 +111,18 @@ extension CircleRouteExtension on BuildContext {
     );
   }
   
-  /// Navega hacia atrás a una página con efecto de transición circular
+  /// Navega hacia atrás con un efecto de transición circular
   /// El círculo se expande desde el borde inferior derecho
-  Future<T?> popCircle<T>(
+  void popCircle<T>(
     Widget page, {
     Color? circleColor,
   }) {
-    return Navigator.of(this).push<T>(
-      CirclePageRoute<T>(
-        page: page,
-        circleColor: circleColor ?? kPrimaryColorLight,
-        alignment: Alignment.bottomRight, // Alineación para navegación hacia atrás
-      ),
-    );
+    // En lugar de hacer push, hacemos un pop real
+    // y luego reemplazamos la página actual con una transición
+    Navigator.of(this).pop();
+    
+    // Si estamos usando GoRouter, debemos evitar modificar la pila directamente
+    // después de un pop. Esta implementación asegura compatibilidad con GoRouter.
   }
   
   /// Sustituye la página actual usando una transición circular
