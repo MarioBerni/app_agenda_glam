@@ -1,19 +1,16 @@
 import 'package:app_agenda_glam/core/animations/animation_presets.dart';
-import 'package:app_agenda_glam/core/routes/routes/app_routes.dart';
-import 'package:app_agenda_glam/core/widgets/main_scaffold.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/glam_video_background.dart';
+import 'package:app_agenda_glam/core/routes/circle_navigation.dart';
+import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
+import 'package:app_agenda_glam/core/widgets/glam_gradient_background.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/welcome_components/featured_partners_section.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/welcome_components/parallax_background.dart';
-import 'package:app_agenda_glam/features/auth/presentation/widgets/welcome_components/welcome_actions.dart';
 import 'package:app_agenda_glam/features/auth/presentation/widgets/welcome_components/welcome_header.dart';
-import 'package:app_agenda_glam/features/auth/presentation/bloc/auth_cubit.dart';
+import 'package:app_agenda_glam/core/widgets/glam_icon_container.dart';
+import 'package:app_agenda_glam/core/widgets/glam_emoji_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-/// Página de bienvenida refactorizada que muestra opciones para login o registro
-/// con diseño visual mejorado y animaciones fluidas, siguiendo los principios
-/// de Clean Architecture y modularización.
+/// Página de bienvenida con diseño minimalista y elegante
+/// que elimina botones tradicionales por áreas interactivas sutiles
+/// y un enfoque visual sofisticado
 class WelcomePage extends StatefulWidget {
   const WelcomePage({super.key});
 
@@ -21,163 +18,309 @@ class WelcomePage extends StatefulWidget {
   State<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
-  // Controlador para animación del fondo parallax
-  final _parallaxController = ParallaxController();
+class _WelcomePageState extends State<WelcomePage> with SingleTickerProviderStateMixin {
+  // Controller para animaciones
+  late AnimationController _animationController;
   
-  // Variables para detectar movimiento y activar efecto parallax
-  final ValueNotifier<Offset> _pointerPosition = ValueNotifier<Offset>(Offset.zero);
-  
+  // Estado para efectos visuales
+  bool _isExploreHovered = false;
+  bool _isLoginHovered = false;
+  bool _isRegisterHovered = false;
+
   @override
   void initState() {
     super.initState();
-    // Iniciar escucha de posición del puntero para efecto parallax
-    _pointerPosition.addListener(_updateParallaxEffect);
-  }
-  
-  @override
-  void dispose() {
-    // Limpiar recursos al salir
-    _pointerPosition.removeListener(_updateParallaxEffect);
-    _pointerPosition.dispose();
-    _parallaxController.dispose();
-    super.dispose();
-  }
-  
-  // Actualizar efecto parallax basado en la posición del puntero
-  void _updateParallaxEffect() {
-    // Normalizar valores entre -1 y 1 para efecto sutil
-    _parallaxController.updateOffset(
-      (_pointerPosition.value.dx / MediaQuery.of(context).size.width - 0.5) * 2,
-      (_pointerPosition.value.dy / MediaQuery.of(context).size.height - 0.5) * 2,
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
     );
+    _animationController.forward();
   }
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  // Manejar la navegación con efecto visual
+  void _handleNavigation(NavigationType type) {
+    // Pequeña animación de feedback visual
+    _animationController.reverse().then((_) {
+      if (!mounted) return;
+      
+      switch(type) {
+        case NavigationType.explore:
+          CircleNavigation.goToExplore(context);
+          break;
+        case NavigationType.login:
+          CircleNavigation.goToLogin(context);
+          break;
+        case NavigationType.register:
+          CircleNavigation.goToRegister(context);
+          break;
+      }
+    });
+  }
+  
+  @override
   Widget build(BuildContext context) {
-    // Obtenemos el tamaño de la pantalla para cálculos responsivos
-    final Size screenSize = MediaQuery.of(context).size;
-    final double topPadding = screenSize.height * 0.08; // 8% del alto de la pantalla
+    final size = MediaQuery.of(context).size;
     
-    // Verificamos en qué ruta estamos para determinar el índice de la navegación
-    String currentLocation = GoRouterState.of(context).uri.path;
-    int currentIndex = 0; // Por defecto, estamos en Home/Welcome
-    
-    if (currentLocation.startsWith('/explore')) {
-      currentIndex = 1;
-    } else if (currentLocation.startsWith('/benefits')) {
-      currentIndex = 2;
-    } else if (currentLocation.startsWith('/profile')) {
-      currentIndex = 3;
-    }
-    
-    return MainScaffold(
-      currentIndex: currentIndex,
-      onTabChanged: _handleTabChanged,
-      body: MouseRegion(
-        onHover: (event) {
-          // Actualizar posición del puntero para efecto parallax
-          _pointerPosition.value = event.position;
-        },
-        child: Stack(
-          children: [
-            // Fondo con efecto parallax mejorado
-            ParallaxBackground(
-              controller: _parallaxController,
-              child: const GlamVideoBackground(
-                videoAsset: 'assets/videos/welcome_background.mp4',
-                gradientOpacity: 0.85, // Ligero ajuste para mayor contraste
-              ),
-            ),
-            
-            // Overlay con degradado radial para efecto spotlight
-            Positioned.fill(
-              child: GlamAnimations.applyEntryEffect(
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: RadialGradient(
-                      center: const Alignment(0.0, -0.3), // Centrado hacia arriba
-                      radius: 1.5,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: 0.7),
-                      ],
-                      stops: const [0.1, 1.0],
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        children: [
+          // Fondo con gradiente elegante
+          const GlamGradientBackground(
+            primaryColor: kPrimaryColor,
+            opacity: 0.95,
+          ),
+          
+          // Contenido principal con diseño minimalista
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Header con logo
+                  const SizedBox(height: 30),
+                  const WelcomeHeader(),
+                  const SizedBox(height: 40),
+                  
+                  // Mensaje de bienvenida elegante
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                    child: GlamAnimations.applyEntryEffect(
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Estilo que define ',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w300,
+                                color: Colors.white.withOpacity(0.95),
+                                height: 1.4,
+                              ),
+                            ),
+                            const TextSpan(
+                              text: 'personalidad',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: kAccentColor,
+                                height: 1.4,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      slideDistance: 0.3,
                     ),
                   ),
-                ),
-                slideDistance: 0.2,
-                duration: const Duration(seconds: 1),
-              ),
-            ),
-            
-            // Contenido principal con scroll
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: topPadding,
-                  bottom: MediaQuery.of(context).padding.bottom + 20,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    // Encabezado con logo y título
-                    const WelcomeHeader(),
-                    
-                    const SizedBox(height: 40),
-                    
-                    // Acciones y llamadas a la acción
-                    WelcomeActions(
-                      onExplorePressed: () {
-                        context.go(AppRoutes.explore);
-                      },
-                      onProfileOrAuthPressed: () {
-                        final String currentPath = GoRouterState.of(context).uri.path;
-                        // Si ya estamos autenticados, ir al perfil, sino iniciar proceso de auth
-                        if (currentPath.startsWith('/profile')) {
-                          // Ya estamos en profile, no necesitamos hacer nada
-                          return;
-                        }
-                        
-                        // Utilizar el AuthCubit para manejar el flujo de autenticación
-                        // Este ya tiene la lógica para redireccionar según estado actual
-                        final authCubit = context.read<AuthCubit>();
-                        authCubit.handleAuthRequiredFeature(context);
-                      },
-                      onBenefitsPressed: () {
-                        context.go(AppRoutes.benefits);
-                      },
+                  
+                  const SizedBox(height: 10),
+                  
+                  // Tagline sutil
+                  GlamAnimations.applyEntryEffect(
+                    Text(
+                      'Experiencia personalizada para el cuidado masculino',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w300,
+                        color: Colors.white.withOpacity(0.7),
+                        letterSpacing: 0.5,
+                      ),
                     ),
-                    
-                    const SizedBox(height: 24),
-                    
-                    // Sección de socios destacados
-                    const FeaturedPartnersSection(),
-                    
-                    // Espacio para evitar que el contenido quede debajo de la barra de navegación
-                    SizedBox(height: MediaQuery.of(context).padding.bottom + 60),
-                  ],
-                ),
+                    slideDistance: 0.2,
+                    duration: const Duration(milliseconds: 800),
+                  ),
+                  
+                  const SizedBox(height: 60),
+                  
+                  // Área principal con opciones de navegación elegantes
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Opción: Explorar
+                        _buildNavigationOption(
+                          icon: '🧭',
+                          title: 'Descubrir tendencias',
+                          subtitle: 'Explorar servicios y profesionales',
+                          isActive: _isExploreHovered,
+                          onHover: (value) => setState(() => _isExploreHovered = value),
+                          onTap: () => _handleNavigation(NavigationType.explore),
+                          delay: const Duration(milliseconds: 0),
+                        ),
+                        
+                        const SizedBox(height: 20),
+                        
+                        // Opción: Iniciar Sesión
+                        _buildNavigationOption(
+                          icon: '🔑',
+                          title: 'Iniciar sesión',
+                          subtitle: 'Accede a tu cuenta personal',
+                          isActive: _isLoginHovered,
+                          onHover: (value) => setState(() => _isLoginHovered = value),
+                          onTap: () => _handleNavigation(NavigationType.login),
+                          delay: const Duration(milliseconds: 100),
+                        ),
+                        
+                        const SizedBox(height: 20),
+                        
+                        // Opción: Registrarse
+                        _buildNavigationOption(
+                          icon: '👤',
+                          title: 'Crear cuenta',
+                          subtitle: 'Únete a la experiencia Glam',
+                          isActive: _isRegisterHovered,
+                          onHover: (value) => setState(() => _isRegisterHovered = value),
+                          onTap: () => _handleNavigation(NavigationType.register),
+                          delay: const Duration(milliseconds: 200),
+                        ),
+                      ],
+                    ),
+                  ),
+                  
+                  // Socios destacados con estilo minimalista
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+                    child: GlamAnimations.applyEntryEffect(
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'COLABORADORES PREMIUM',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.85),
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          const FeaturedPartnersSection(),
+                        ],
+                      ),
+                      slideDistance: 0.15,
+                      duration: const Duration(milliseconds: 1000),
+                    ),
+                  ),
+                  
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
   
-  // Manejar cambios de tab en la navegación inferior
-  void _handleTabChanged(int index) {
-    final List<String> routes = [
-      AppRoutes.home,
-      AppRoutes.explore,
-      AppRoutes.benefits,
-      AppRoutes.profile,
-    ];
-    
-    if (index >= 0 && index < routes.length) {
-      context.go(routes[index]);
-    }
+  // Construye una opción de navegación elegante con efecto glassmorphism
+  Widget _buildNavigationOption({
+    required dynamic icon,
+    required String title,
+    required String subtitle,
+    required bool isActive,
+    required Function(bool) onHover,
+    required VoidCallback onTap,
+    required Duration delay,
+  }) {
+    return GlamAnimations.applyEntryEffect(
+      MouseRegion(
+        onEnter: (_) => onHover(true),
+        onExit: (_) => onHover(false),
+        child: GestureDetector(
+          onTap: onTap,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 200),
+            padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+            decoration: BoxDecoration(
+              color: isActive 
+                ? Colors.black.withOpacity(0.6) 
+                : Colors.black.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: isActive 
+                  ? kAccentColor.withOpacity(0.8) 
+                  : Colors.white.withOpacity(0.1),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                // Icono o emoji con estilo consistente
+                icon is IconData
+                ? GlamIconContainer(
+                  icon: icon,
+                  size: 50,
+                  backgroundColor: isActive 
+                    ? Colors.black.withOpacity(0.7) 
+                    : Colors.black.withOpacity(0.4),
+                  enableShimmer: isActive,
+                )
+                : GlamEmojiContainer(
+                  emoji: icon,
+                  size: 50,
+                  backgroundColor: isActive 
+                    ? Colors.black.withOpacity(0.7) 
+                    : Colors.black.withOpacity(0.4),
+                  enableShimmer: isActive,
+                ),
+                const SizedBox(width: 16),
+                
+                // Textos informativos
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          color: isActive ? kAccentColor : Colors.white.withOpacity(0.9),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.6),
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                
+                // Indicador visual de acción
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: isActive ? kAccentColor : Colors.white.withOpacity(0.3),
+                  size: 16,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      slideDistance: 0.25,
+      duration: delay,
+    );
   }
+}
+
+// Enum para los tipos de navegación
+enum NavigationType {
+  explore,
+  login,
+  register,
 }

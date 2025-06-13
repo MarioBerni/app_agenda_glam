@@ -12,34 +12,15 @@ class WelcomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // Efecto de entrada del logo con brillo
+        // Icono principal con efecto shimmer mejorado
         GlamAnimations.applyEntryEffect(
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              // Efecto de resplandor detrás del icono
-              Container(
-                width: 110,
-                height: 110,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: kAccentColor.withValues(alpha: 0.5),
-                      blurRadius: 30,
-                      spreadRadius: 10,
-                    ),
-                  ],
-                ),
-              ),
-              // Icono principal con efecto shimmer
-              const GlamIconContainer(
-                icon: Icons.content_cut_rounded,
-                size: 90,
-                enableShimmer: true,
-                animateEntry: true,
-              ),
-            ],
+          const GlamIconContainer(
+            icon: Icons.content_cut_outlined, // Cambiado a outlined para un aspecto más elegante
+            size: 95, // Ligeramente más grande para mejor visibilidad
+            backgroundColor: Color(0xFF0A2040), // Azul oscuro más rico
+            iconColor: Color(0xFFFFDA00), // Amarillo dorado más brillante
+            enableShimmer: true,
+            animateEntry: true,
           ),
           slideDistance: 0.3,
           duration: const Duration(milliseconds: 1200),

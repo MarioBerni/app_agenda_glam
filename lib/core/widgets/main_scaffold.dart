@@ -41,7 +41,8 @@ class MainScaffold extends StatelessWidget {
   final List<String> labels;
   
   /// Lista de iconos para los ítems de la barra de navegación
-  final List<IconData> icons;
+  /// Pueden ser objetos IconData tradicionales o emojis como String
+  final List<dynamic> icons;
   
   /// Constructor del scaffold principal
   const MainScaffold({
@@ -50,7 +51,7 @@ class MainScaffold extends StatelessWidget {
     required this.currentIndex,
     required this.onTabChanged,
     this.labels = const ['Inicio', 'Explorar', 'Beneficios', 'Perfil'],
-    this.icons = const [Icons.home_rounded, Icons.explore_rounded, Icons.star_rounded, Icons.person_rounded],
+    this.icons = const ['🏠', '🔍', '✨', '👤'],
     this.primaryColor,
     this.backgroundIntensity = 0.8,
     this.showAppBar = false,
@@ -190,10 +191,10 @@ class _MainNavigatorState extends State<MainNavigator> {
         ];
         
         final customIcons = const [
-          Icons.home_rounded, 
-          Icons.explore_rounded, 
-          Icons.star_rounded, 
-          Icons.person_rounded
+          '🏠', 
+          '🔍', 
+          '✨', 
+          '👤'
         ];
         
         // Crear el scaffold principal con la barra de navegación

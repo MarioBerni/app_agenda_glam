@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
-import 'package:app_agenda_glam/core/utils/color_utils.dart';
+import 'package:app_agenda_glam/core/widgets/glam_emoji_icon.dart';
 
 /// Widget personalizado para la barra de navegación inferior que mantiene
 /// la coherencia visual con el resto de la aplicación Agenda Glam.
@@ -18,7 +18,8 @@ class GlamBottomNavigationBar extends StatelessWidget {
   final List<String> labels;
   
   /// Lista de iconos para los ítems (debe coincidir con la cantidad de ítems)
-  final List<IconData> icons;
+  /// Pueden ser iconos tradicionales (IconData) o emojis (String)
+  final List<dynamic> icons;
   
   /// Color de fondo de la barra (por defecto, azul oscuro de la app)
   final Color backgroundColor;
@@ -85,11 +86,19 @@ class GlamBottomNavigationBar extends StatelessWidget {
           elevation: 0,
           items: List.generate(
             labels.length,
-            (index) => _buildNavigationBarItem(
-              icon: icons[index],
-              label: labels[index],
-              isSelected: index == currentIndex,
-            ),
+            (index) => icons[index] is String
+              ? GlamEmojiBottomNavigationBarItem(
+                  emoji: icons[index],
+                  label: labels[index],
+                  isSelected: index == currentIndex,
+                  selectedColor: selectedItemColor,
+                  unselectedColor: unselectedItemColor,
+                )
+              : _buildNavigationBarItem(
+                  icon: icons[index],
+                  label: labels[index],
+                  isSelected: index == currentIndex,
+                ),
           ),
         ),
       ),
@@ -98,32 +107,49 @@ class GlamBottomNavigationBar extends StatelessWidget {
   
   /// Construye un ítem individual de la barra con efectos visuales mejorados
   BottomNavigationBarItem _buildNavigationBarItem({
-    required IconData icon,
+    required dynamic icon,
     required String label,
     required bool isSelected,
   }) {
     return BottomNavigationBarItem(
-      icon: _buildIcon(icon, isSelected),
+      icon: AnimatedContainer(
+        duration: animationDuration,
+        padding: EdgeInsets.all(isSelected ? 8.0 : 0.0),
+        decoration: BoxDecoration(
+          color: isSelected ? selectedItemColor.withOpacity(0.15) : Colors.transparent,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: _buildIconWidget(icon, isSelected),
+      ),
       label: label,
+      tooltip: label,
     );
   }
   
-  /// Construye un ícono con efecto de selección y animación
-  Widget _buildIcon(IconData icon, bool isSelected) {
-    return AnimatedContainer(
-      duration: animationDuration,
-      padding: EdgeInsets.all(isSelected ? 12 : 8),
-      decoration: BoxDecoration(
-        color: isSelected 
-            ? ColorUtils.withOpacityValue(selectedItemColor, 0.15) 
-            : Colors.transparent,
-        shape: BoxShape.circle,
-      ),
-      child: Icon(
+  /// Construye el widget de icono correcto basado en el tipo (IconData o emoji String)
+  Widget _buildIconWidget(dynamic icon, bool isSelected) {
+    if (icon is IconData) {
+      return Icon(
         icon,
-        size: isSelected ? 26 : 22,
-      ),
-    );
+        color: isSelected ? selectedItemColor : unselectedItemColor,
+        size: 24,
+      );
+    } else if (icon is String) {
+      // Asumimos que es un emoji
+      return GlamEmojiIcon(
+        emoji: icon,
+        size: 24,
+        color: isSelected ? selectedItemColor : unselectedItemColor,
+        isSelected: isSelected,
+      );
+    } else {
+      // Fallback a un icono genérico
+      return Icon(
+        Icons.circle,
+        color: isSelected ? selectedItemColor : unselectedItemColor,
+        size: 24,
+      );
+    }
   }
 }
 

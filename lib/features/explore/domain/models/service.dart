@@ -138,7 +138,7 @@ class Service {
         price: 500,
         durationMinutes: 40,
         categoryId: 'styling',
-        imageUrl: 'assets/images/services/event_styling.jpg',
+        imageUrl: 'https://images.unsplash.com/photo-1621607512214-68297480165e?q=80&w=300', // Imagen de respaldo en lugar del asset local
         providerId: 'provider_004',
         providerName: 'Style Masters',
         availableWithoutRegistration: true,
@@ -151,7 +151,7 @@ class Service {
         price: 400,
         durationMinutes: 30,
         categoryId: 'manicure',
-        imageUrl: 'assets/images/services/executive_manicure.jpg',
+        imageUrl: 'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?q=80&w=300', // Imagen de respaldo en lugar del asset local
         providerId: 'provider_004',
         providerName: 'Style Masters',
         availableWithoutRegistration: false,

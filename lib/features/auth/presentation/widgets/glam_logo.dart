@@ -23,20 +23,22 @@ class GlamLogo extends StatelessWidget {
   Widget _buildStaticScissors(double size) {
     return Icon(
       Icons.content_cut,  // Ícono de tijera
-      size: size * 0.6,    // Ajustamos el tamaño para que quede proporcional
+      size: size * 0.65,    // Aumentamos ligeramente el tamaño para mejor visibilidad
       color: const Color(0xFFFFD700), // Color dorado/amarillo para mantener coherencia
+      semanticLabel: 'Tijeras de Agenda Glam',
     );
   }
 
   // Construye el ícono de tijera con animaciones
   Widget _buildAnimatedScissors(double size) {
-    // Color dorado para el ícono (igual que los demás íconos de la app)
-    const Color goldColor = Color(0xFFFFD700);
+    // Color dorado para el ícono con ligero ajuste para mayor brillo
+    const Color goldColor = Color(0xFFFFDA00);
     
     return Icon(
-      Icons.content_cut, // Ícono de tijera
-      size: size * 0.6,   // Proporcional al tamaño del logo (ajustado para mantener coherencia)
-      color: goldColor,   // Color dorado para mantener coherencia visual
+      Icons.content_cut_outlined, // Cambiamos a la versión outlined para un aspecto más refinado
+      size: size * 0.65,   // Aumentamos ligeramente el tamaño para mejor visibilidad
+      color: goldColor,   // Color dorado mejorado
+      semanticLabel: 'Tijeras de Agenda Glam',
     )
     .animate(onPlay: (controller) => controller.repeat()) // Repetir la animación indefinidamente
     // Efecto principal: rotación sutil de tijeras que simula el corte
@@ -86,16 +88,23 @@ class GlamLogo extends StatelessWidget {
           children: [
             // Círculo de fondo azul oscuro (como los otros íconos)
             Container(
-              width: size * 1.2,
-              height: size * 1.2,
+              width: size * 1.25,
+              height: size * 1.25,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF0A1835), // Color azul oscuro para el fondo
+                color: const Color(0xFF0A2040), // Color azul oscuro ligeramente ajustado
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 51), // 0.2 * 255 = 51
-                    blurRadius: 8,
+                    color: Colors.black.withValues(alpha: 60), // Aumentamos ligeramente la opacidad
+                    blurRadius: 10,
                     spreadRadius: 2,
+                  ),
+                  // Añadimos un sutil brillo interior
+                  BoxShadow(
+                    color: const Color(0xFF1E3A6A).withValues(alpha: 120),
+                    blurRadius: 15,
+                    spreadRadius: -2,
+                    offset: const Offset(0, -2),
                   ),
                 ],
               ),

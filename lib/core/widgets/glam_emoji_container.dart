@@ -1,16 +1,15 @@
-// No necesitamos importar animation_presets directamente ya que usamos Flutter Animate
 import 'package:app_agenda_glam/core/theme/app_theme_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
-/// Contenedor circular para iconos con estilo visual unificado
+/// Contenedor circular para emojis con estilo visual unificado
 ///
 /// Proporciona un contenedor circular con colores y efectos visuales consistentes
-/// para los iconos en las diferentes pantallas de la aplicación.
-/// Incluye opciones para efectos visuales como iluminación dorada y animaciones.
-class GlamIconContainer extends StatelessWidget {
-  /// Icono a mostrar en el contenedor
-  final IconData icon;
+/// para mostrar emojis en las diferentes pantallas de la aplicación.
+/// Mantiene la misma apariencia que GlamIconContainer para una experiencia visual coherente.
+class GlamEmojiContainer extends StatelessWidget {
+  /// Emoji a mostrar en el contenedor (como String)
+  final String emoji;
 
   /// Tamaño del contenedor (diámetro)
   final double size;
@@ -18,8 +17,8 @@ class GlamIconContainer extends StatelessWidget {
   /// Color de fondo del contenedor
   final Color? backgroundColor;
 
-  /// Color del icono
-  final Color? iconColor;
+  /// Color del texto emoji (aplicado como filtro)
+  final Color? emojiColor;
 
   /// Efecto de brillo (shimmer) periódico
   final bool enableShimmer;
@@ -28,12 +27,12 @@ class GlamIconContainer extends StatelessWidget {
   final bool animateEntry;
 
   /// Constructor
-  const GlamIconContainer({
+  const GlamEmojiContainer({
     super.key,
-    required this.icon,
+    required this.emoji,
     this.size = 100.0,
     this.backgroundColor,
-    this.iconColor,
+    this.emojiColor,
     this.enableShimmer = true,
     this.animateEntry = true,
   });
@@ -50,14 +49,20 @@ class GlamIconContainer extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.2),
+              color: Colors.black.withOpacity(0.2),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
           ],
         ),
         child: Center(
-          child: Icon(icon, size: size * 0.5, color: iconColor ?? kAccentColor),
+          child: Text(
+            emoji,
+            style: TextStyle(
+              fontSize: size * 0.5,
+              color: emojiColor ?? kAccentColor,
+            ),
+          ),
         ),
       ),
     );
@@ -85,7 +90,7 @@ class GlamIconContainer extends StatelessWidget {
           .shimmer(
             delay: const Duration(milliseconds: 2000),
             duration: const Duration(milliseconds: 1800),
-            color: kAccentColor.withValues(alpha: 0.3),
+            color: kAccentColor.withOpacity(0.3),
           );
     }
 

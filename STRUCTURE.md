@@ -10,6 +10,7 @@ Directory structure:
     ├── README.md
     ├── analysis_options.yaml
     ├── ARCHITECTURE.MD
+    ├── NAVIGATION_GUIDE.md
     ├── PLANNING.MD
     ├── pubspec.lock
     ├── pubspec.yaml
@@ -100,7 +101,8 @@ Directory structure:
     │   ├── main.dart
     │   ├── core/
     │   │   ├── animations/
-    │   │   │   └── animation_presets.dart
+    │   │   │   ├── animation_presets.dart
+    │   │   │   └── glam_animations.dart
     │   │   ├── di/
     │   │   │   └── service_locator.dart
     │   │   ├── routes/
@@ -108,87 +110,144 @@ Directory structure:
     │   │   │   ├── app_router.dart
     │   │   │   ├── bubble_page_route.dart
     │   │   │   ├── circle_navigation.dart
-    │   │   │   └── circle_page_route.dart
+    │   │   │   ├── circle_page_route.dart
+    │   │   │   └── routes/
+    │   │   │       ├── app_routes.dart
+    │   │   │       ├── auth_routes.dart
+    │   │   │       ├── main_routes.dart
+    │   │   │       ├── splash_route.dart
+    │   │   │       └── transitions_helpers.dart
     │   │   ├── theme/
     │   │   │   ├── app_theme.dart
-    │   │   │   └── app_theme_constants.dart
+    │   │   │   ├── app_theme_constants.dart
+    │   │   │   └── colors.dart
     │   │   ├── utils/
     │   │   │   ├── color_extensions.dart
+    │   │   │   ├── color_utils.dart
     │   │   │   └── responsive_utils.dart
     │   │   └── widgets/
+    │   │       ├── glam_bottom_navigation_bar.dart
     │   │       ├── glam_divider.dart
     │   │       ├── glam_gradient_background.dart
     │   │       ├── glam_icon_container.dart
     │   │       ├── glam_scaffold.dart
     │   │       ├── glam_text_field.dart
-    │   │       └── glam_ui.dart
+    │   │       ├── glam_ui.dart
+    │   │       └── main_scaffold.dart
     │   └── features/
-    │       └── auth/
-    │           ├── data/
-    │           │   ├── datasources/
-    │           │   │   └── auth_mock_datasource.dart
-    │           │   ├── models/
-    │           │   │   └── user_model.dart
-    │           │   └── repositories/
-    │           │       └── auth_repository_impl.dart
-    │           ├── domain/
-    │           │   ├── entities/
-    │           │   │   ├── credentials.dart
-    │           │   │   └── user.dart
-    │           │   ├── repositories/
-    │           │   │   └── auth_repository.dart
-    │           │   └── validators/
-    │           │       ├── recovery_validator.dart
-    │           │       └── register_validator.dart
+    │       ├── auth/
+    │       │   ├── data/
+    │       │   │   ├── datasources/
+    │       │   │   │   └── auth_mock_datasource.dart
+    │       │   │   ├── models/
+    │       │   │   │   └── user_model.dart
+    │       │   │   └── repositories/
+    │       │   │       └── auth_repository_impl.dart
+    │       │   ├── domain/
+    │       │   │   ├── entities/
+    │       │   │   │   ├── credentials.dart
+    │       │   │   │   └── user.dart
+    │       │   │   ├── repositories/
+    │       │   │   │   └── auth_repository.dart
+    │       │   │   └── validators/
+    │       │   │       ├── recovery_validator.dart
+    │       │   │       └── register_validator.dart
+    │       │   └── presentation/
+    │       │       ├── bloc/
+    │       │       │   ├── auth_cubit.dart
+    │       │       │   └── auth_state.dart
+    │       │       ├── controllers/
+    │       │       │   ├── google_register_controller.dart
+    │       │       │   ├── recovery_controller.dart
+    │       │       │   ├── register_controller.dart
+    │       │       │   └── register_google_handler.dart
+    │       │       ├── helpers/
+    │       │       │   ├── verification_service.dart
+    │       │       │   └── verification_timer_helper.dart
+    │       │       ├── pages/
+    │       │       │   ├── google_register_additional_info_page.dart
+    │       │       │   ├── login_page.dart
+    │       │       │   ├── phone_register_additional_info_page.dart
+    │       │       │   ├── phone_register_page.dart
+    │       │       │   ├── phone_verification_page.dart
+    │       │       │   ├── recovery_page.dart
+    │       │       │   ├── register_page.dart
+    │       │       │   ├── sms_code_verification_page.dart
+    │       │       │   ├── welcome_page.dart
+    │       │       │   ├── welcome_page_refactored.dart
+    │       │       │   └── welcome_page_updated.dart
+    │       │       └── widgets/
+    │       │           ├── action_buttons_widget.dart
+    │       │           ├── action_card.dart
+    │       │           ├── featured_partners_section.dart
+    │       │           ├── glam_button.dart
+    │       │           ├── glam_google_button.dart
+    │       │           ├── glam_logo.dart
+    │       │           ├── glam_password_field.dart
+    │       │           ├── glam_scissors_icon.dart
+    │       │           ├── glam_terms_dialog.dart
+    │       │           ├── glam_text_field.dart
+    │       │           ├── glam_video_background.dart
+    │       │           ├── google_register_header_widget.dart
+    │       │           ├── google_register_info_form.dart
+    │       │           ├── login_form.dart
+    │       │           ├── login_header.dart
+    │       │           ├── password_strength_indicator.dart
+    │       │           ├── phone_input_widget.dart
+    │       │           ├── popular_services_section.dart
+    │       │           ├── recovery_confirmation.dart
+    │       │           ├── recovery_content.dart
+    │       │           ├── recovery_header.dart
+    │       │           ├── register_auth_method_step.dart
+    │       │           ├── register_content.dart
+    │       │           ├── register_footer.dart
+    │       │           ├── register_header.dart
+    │       │           ├── register_password_step.dart
+    │       │           ├── register_personal_info_step.dart
+    │       │           ├── register_step_indicator.dart
+    │       │           ├── terms_checkbox.dart
+    │       │           ├── user_type_selector_widget.dart
+    │       │           ├── verification_code_input_widget.dart
+    │       │           ├── welcome_header.dart
+    │       │           └── welcome_components/
+    │       │               ├── featured_partners_section.dart
+    │       │               ├── parallax_background.dart
+    │       │               ├── welcome_actions.dart
+    │       │               └── welcome_header.dart
+    │       ├── benefits/
+    │       │   └── presentation/
+    │       │       └── pages/
+    │       │           └── benefits_page.dart
+    │       ├── explore/
+    │       │   ├── domain/
+    │       │   │   └── models/
+    │       │   │       ├── service.dart
+    │       │   │       ├── service_category.dart
+    │       │   │       └── service_item.dart
+    │       │   └── presentation/
+    │       │       ├── cubit/
+    │       │       │   ├── explore_cubit.dart
+    │       │       │   └── explore_state.dart
+    │       │       ├── pages/
+    │       │       │   └── explore_page.dart
+    │       │       └── widgets/
+    │       │           ├── category_filter.dart
+    │       │           ├── service_card.dart
+    │       │           └── service_list.dart
+    │       ├── partners/
+    │       │   ├── data/
+    │       │   │   └── models/
+    │       │   │       └── partner_data.dart
+    │       │   ├── domain/
+    │       │   │   └── entities/
+    │       │   │       └── partner.dart
+    │       │   └── presentation/
+    │       │       └── widgets/
+    │       │           └── partners_carousel.dart
+    │       └── profile/
     │           └── presentation/
-    │               ├── bloc/
-    │               │   ├── auth_cubit.dart
-    │               │   └── auth_state.dart
-    │               ├── controllers/
-    │               │   ├── google_register_controller.dart
-    │               │   ├── recovery_controller.dart
-    │               │   ├── register_controller.dart
-    │               │   └── register_google_handler.dart
-    │               ├── helpers/
-    │               │   ├── verification_service.dart
-    │               │   └── verification_timer_helper.dart
-    │               ├── pages/
-    │               │   ├── google_register_additional_info_page.dart
-    │               │   ├── login_page.dart
-    │               │   ├── phone_register_additional_info_page.dart
-    │               │   ├── phone_register_page.dart
-    │               │   ├── phone_verification_page.dart
-    │               │   ├── recovery_page.dart
-    │               │   ├── register_page.dart
-    │               │   ├── sms_code_verification_page.dart
-    │               │   └── welcome_page.dart
-    │               └── widgets/
-    │                   ├── action_buttons_widget.dart
-    │                   ├── glam_button.dart
-    │                   ├── glam_google_button.dart
-    │                   ├── glam_logo.dart
-    │                   ├── glam_password_field.dart
-    │                   ├── glam_scissors_icon.dart
-    │                   ├── glam_text_field.dart
-    │                   ├── glam_video_background.dart
-    │                   ├── google_register_header_widget.dart
-    │                   ├── google_register_info_form.dart
-    │                   ├── login_form.dart
-    │                   ├── login_header.dart
-    │                   ├── password_strength_indicator.dart
-    │                   ├── phone_input_widget.dart
-    │                   ├── recovery_confirmation.dart
-    │                   ├── recovery_content.dart
-    │                   ├── recovery_header.dart
-    │                   ├── register_auth_method_step.dart
-    │                   ├── register_content.dart
-    │                   ├── register_footer.dart
-    │                   ├── register_header.dart
-    │                   ├── register_password_step.dart
-    │                   ├── register_personal_info_step.dart
-    │                   ├── register_step_indicator.dart
-    │                   ├── user_type_selector_widget.dart
-    │                   └── verification_code_input_widget.dart
+    │               └── pages/
+    │                   └── profile_page.dart
     ├── linux/
     │   ├── CMakeLists.txt
     │   ├── .gitignore
@@ -239,11 +298,15 @@ Directory structure:
     │   └── RunnerTests/
     │       └── RunnerTests.swift
     ├── tasks/
+    │   ├── TASK_ActualizacionAPIColor.MD
+    │   ├── TASK_CarouselYExploraciónSinRegistro.MD
     │   ├── TASK_ConfiguracionInicial.MD
     │   ├── TASK_DiseñoAutenticacionUI.MD
     │   ├── TASK_FlujoAutenticacionUI.MD
+    │   ├── TASK_ImplementacionBarraNavegacionInferior.MD
     │   ├── TASK_OptimizacionComponentesVisuales.MD
-    │   └── TASK_RegistroGoogleMejorado.MD
+    │   ├── TASK_RegistroGoogleMejorado.MD
+    │   └── TASK_TerminosCondicionesRegistro.MD
     ├── web/
     │   ├── index.html
     │   ├── manifest.json
@@ -269,3 +332,4 @@ Directory structure:
             ├── win32_window.cpp
             ├── win32_window.h
             └── resources/
+
